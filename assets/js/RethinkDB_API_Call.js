@@ -585,7 +585,7 @@ function initializeApp(data) {
   
           <div class="pt-2">
             <div id="obj-desc-container" style="flex-flow: column;" class="flex justify-between mb-4">
-              <span class="text-default-800 text-xl font-semibold line-clamp-2 after:absolute after:inset-0">${oggetto.name}</span>
+              <span class="text-default-800 text-xl font-semibold line-clamp-1 after:absolute after:inset-0">${oggetto.name}</span>
               <i class="text-m text-default-500">${oggetto.desc}</i>
               <div class="border border-default-200 inline-flex justify-between mt-2 p-1 relative rounded-full z-10 truncate overflow-auto">
               <input id="input_${menuId}" type="text" placeholder="Inserisci modifiche" class="bg-white border-none dark:bg-default-50 h-3 overflow-auto truncate w-full" />
