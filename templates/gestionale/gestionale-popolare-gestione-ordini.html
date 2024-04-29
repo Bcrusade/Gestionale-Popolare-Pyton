@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+  <!-- Mirrored from coderthemes.com/yum/admin-order-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 13:21:49 GMT -->
+  <head>
+    <meta charset="utf-8" />
+    <title>Parrocchia SS Nabore e Felice - Festa parrocchiale</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="" name="description" />
+    <meta content="coderthemes" name="author" />
+
+    <!-- Theme favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.ico" />
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!--  Head js -->
+    <script
+      type="module"
+      crossorigin
+      src="assets/js/admin-order-list-7159724c.js"
+    ></script>
+
+    <link rel="modulepreload" crossorigin href="assets/js/theme-b118ffc1.js" />
+    <link rel="modulepreload" crossorigin href="assets/js/index-a4e39586.js" />
+    <link rel="stylesheet" href="assets/css/theme-c9540983.css" />
+    <link rel="stylesheet" href="assets/css/custom.css" />
+
+    <!-- Toaster CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  </head>
+
+  <body>
+    <!-- Preloader -->
+    <div
+      id="preloader"
+      class="fixed inset-0 z-70 bg-default-50 transition-all visible opacity-100 h-screen w-screen flex items-center justify-center"
+    >
+      <div
+        class="animate-spin inline-block w-10 h-10 border-4 border-t-transparent border-primary rounded-full"
+        role="status"
+        aria-label="loading"
+      >
+        <span class="sr-only">Loading...</span>
+      </div>
+    </div>
+
+    <!-- End Header -->
+    <header
+      id="navbar"
+      class="sticky top-0 z-20 border-b border-default-200 bg-transparent transition-all"
+    >
+      <div class="lg:h-20 h-14 flex items-center">
+        <div class="container">
+          <div class="grid lg:grid-cols-3 grid-cols-2 items-center gap-4">
+            <div class="flex">
+              <!-- Mobile Menu Toggle Button -->
+              <button
+                style="display: none"
+                class="lg:hidden block"
+                data-hs-overlay="#mobile-menu"
+              >
+                <i
+                  data-lucide="menu"
+                  class="w-7 h-7 text-default-600 me-4 hover:text-primary"
+                ></i>
+              </button>
+
+              <!-- Navbar Brand Logo -->
+              <a href="home.html">
+                <img
+                  src="assets/img/Logo_popolare_2024x500_trasparente.png"
+                  alt="logo"
+                  class="h-18 mh-12 flex dark:hidden"
+                />
+                <img
+                  src="assets/img/Logo_popolare_2024x500_trasparente.png"
+                  alt="logo"
+                  class="h-18 mh-12 hidden dark:flex"
+                />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <!-- End Header -->
+    <!-- Start Sidebar -->
+    <!-- End Sidebar -->
+    <!-- Start Content -->
+    <div class=" border border-default-200 c rounded-lg  shadow-lg" style="overflow:auto; max-height: 90%" id="popup-container">
+      <span style="right: 10px" class="font-semibold text-lg text-primary" id="close-button" onclick="closePopup()">X</span>
+    </div>
+	<div class="w-full container">
+      <div class="p-6 page-content">
+        <div class="grid gap-6">
+          <div class="xl:col-span-9">
+            <div class="space-y-6">
+              <div class="grid grid-cols-1">
+                <div class="border rounded-lg border-default-200">
+                  <div class="p-6 overflow-hidden">
+                    <div
+                      class="flex flex-wrap md:flex-nowrap items-center justify-between gap-4"
+                    >
+                      <h2 class="text-xl text-default-800 font-semibold">
+                        Lista Ordini
+                      </h2>
+                      <div>
+                        <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="completed-order-checkbox">Visualizza ordini evasi:</label>
+                        <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="completed-order-checkbox" type="checkbox" onclick="fetchAndDisplayOrders()">
+                      </div>
+                      <div class="flex items-center">
+                        <span class="text-base text-default-950 me-3"
+                          >Sort By :</span
+                        >
+                        <div
+                          class="hs-dropdown relative inline-flex [--placement:bottom-right]"
+                        >
+						<div>
+                          <button
+						    id="sort"
+                            type="button"
+                            class="hs-dropdown-toggle flex items-center gap-2 font-medium text-default-950 text-sm py-2.5 px-4 xl:px-5 rounded-full border border-default-200 transition-all"
+                          >
+                            DataOra
+							<i
+                              data-lucide="chevron-down"
+                              class="h-4 w-4"
+                            ></i>
+						  </button>
+						</div>
+                            
+                          <!-- end dropdown button -->
+						
+
+                          <div
+                            class="hs-dropdown-menu hs-dropdown-open:opacity-100 min-w-[200px] transition-[opacity,margin] mt-4 opacity-0 hidden z-20 bg-white dark:bg-default-50 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-lg border border-default-100 p-1.5"
+                          >
+                            <ul class="flex flex-col gap-1">
+                              <li>
+                                <a
+                                  class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
+                                  href="javascript:SetSortType('DataOra')"
+                                  >DataOra</a
+                                >
+                              </li>
+                              <li>
+                                <a
+                                  class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
+                                  href="javascript:SetSortType('NumeroOrdine')"
+                                  >NumeroOrdine</a
+                                >
+                              </li>
+                              <li>
+                                <a
+                                  class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
+                                  href="javascript:SetSortType('Tavolo')"
+                                  >Tavolo</a
+                                >
+                              </li>
+                              <li>
+                                <a
+                                  class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
+                                  href="javascript:SetSortType('Stato')"
+                                  >Stato</a
+                                >
+                              </li>
+                            </ul>
+                            <!-- end dropdown items -->
+                          </div>
+                          <!-- end dropdown menu -->
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="relative overflow-x-auto">
+                    <div class="min-w-full inline-block align-middle">
+                      <div class="overflow-hidden">
+                        <table class="min-w-full divide-y divide-default-200">
+                          <thead class="bg-default-100">
+                            <tr class="text-start">
+                              <th
+                                class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800"
+                              >
+                                Data Ora
+                              </th>
+                              <th
+                                class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800"
+                              >
+                                Numero Ordine
+                              </th>
+                              <th
+                                class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800"
+                              >
+                                Tipologia
+                              </th>
+                              <th
+                                class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 min-w"
+                              >
+                                Tavolo
+                              </th>
+                              <th
+                                class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800"
+                              >
+                                Stato
+                              </th>
+                            </tr>
+                            <!-- end table-head-row -->
+                          </thead>
+                          <!-- end t-head -->
+                          <tbody
+                            id="orders-table-body"
+                            class="divide-y divide-default-200"
+                          >
+                            <!-- Elenco ordini -->
+                            <!-- end table-row -->
+                          </tbody>
+                          <!-- end t-body -->
+                        </table>
+                        <!-- end table -->
+                      </div>
+                      <!-- end overflo-hidden -->
+                    </div>
+                    <!-- end table-responsive -->
+                  </div>
+                </div>
+              </div>
+              <!-- end grid -->
+            </div>
+          </div>
+          <!-- end grid-cols -->
+
+          <!-- end grid-cols -->
+        </div>
+        <!-- end grid -->
+      </div>
+    </div>
+    <!-- End Content -->
+
+
+
+    <style>
+      /* Aggiungi stili CSS per il pop-up */
+      #popup-container {
+          display: none;
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          padding: 20px;
+          background-color: #fff;
+          z-index: 1000;
+      }
+
+      /* Aggiungi stili CSS per il pulsante di chiusura */
+      #close-button {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          cursor: pointer;
+      }
+      #close-button {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          cursor: pointer;
+      }
+
+      /* Dropdown Button */
+.dropbtn {
+  background-color: #3498DB;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+  background-color: #2980B9;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+  </style>
+
+    <script>
+      // Dichiarazione delle variabili globali
+      let OrderItemList = [];
+      let orderData = [];
+      let loadedOrderIds = [];
+
+      let orderStatusMap = {
+      "0": "Non Assegnato",
+      "1": "In preparazione",
+      "2": "Parzialmente evaso",
+      "3": "Evaso"
+      }
+
+      toastr.options = {
+         "timeOut": "2500"
+      }
+
+      // Assicurati che questo script venga eseguito dopo il caricamento completo dell'HTML
+      document.addEventListener("DOMContentLoaded", function () {
+        fetchAndDisplayOrders();
+        // Aggiorna i valori e la tabella ogni 5 secondi
+        setInterval(fetchAndDisplayOrders, 5000);
+      });
+
+      // Formatta il valore come valuta (ad esempio, aggiungi il simbolo €)
+      function formatCurrency(value) {
+        return new Intl.NumberFormat("it-IT", {
+          style: "currency",
+          currency: "EUR",
+        }).format(value);
+      }
+
+      // Funzione per caricare i dati dal server e aggiornare la tabella
+      async function fetchAndDisplayOrders() {
+        try {
+          let response = ""
+          const viewCheckbox = document.getElementById("completed-order-checkbox");
+          if (viewCheckbox.checked == false) {
+          response = await fetch("http://"+ self.location.host +"/api/ordersList");
+          } else {
+          response = await fetch("http://"+ self.location.host +"/api/completedOrdersList");
+          }
+          const newOrderData = await response.json();
+          console.log(newOrderData)
+          // Aggiungi solo i nuovi ordini alla tabella
+          displayOrdersTable(newOrderData);
+        }
+         catch (error) {
+          console.error("Errore nella richiesta API:", error);
+        }
+      }
+
+      // Funzione per visualizzare gli ordini nella tabella
+      function displayOrdersTable(newOrderData) {
+        // Ordina gli ordini in base alla data e all'ora (dalla più recente alla più vecchia)
+        //const newOrderData = JSON.parse(json);
+        //console.log(newOrderData)
+        switch (SortType) {
+		      case "DataOra": 
+			        newOrderData.sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+					break;
+			  
+		      case "NumeroOrdine": 
+			        newOrderData.sort((a, b) => new Date(a.orderId) - new Date(b.orderId));
+					break;
+			  
+		      case "Tavolo": 
+			        newOrderData.sort((a, b) => new Date(a.tableId) - new Date(b.tableId));
+					break;
+			      
+		      case "Stato": 
+			        newOrderData.sort((a, b) => new Date(a.orderStatus) - new Date(b.orderStatus));
+					break;
+			 	      		
+		}
+		
+		
+
+        const tableBody = document.getElementById("orders-table-body");
+			tableBody.innerHTML = "";
+			
+        newOrderData.forEach((order) => {
+
+            // Formattare la data e l'ora dell'ordine
+            const formattedDate = order.datetime.substring(0, 10); // Ottieni i primi 10 caratteri come data (YYYY-MM-DD)
+            const formattedTime = order.datetime.substring(11, 19); // Ottieni i successivi 8 caratteri come ora (HH:mm:ss)
+
+            // Creare la riga della tabella
+            const row = document.createElement("tr");
+            let tableId = ""
+            if (order.tableId){
+            tableId = order.tableId
+            }
+            if (order.tableId === 0){
+            tableId = "---"
+            }
+            row.id = `order-row-${order.orderId}-${order.orderType}`;
+			let buttonId1 = "1button" + order.orderId + "-" + order.orderType
+			let buttonId2 = "2button" + order.orderId + "-" + order.orderType
+            row.innerHTML = `
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${formattedDate} ${formattedTime}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${order.orderId}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${order.orderType}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${tableId}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${orderStatusMap[order.orderStatus]}</td>
+         <button id="${buttonId1}" style="float: right;" class="font-bold text-default-950">X</button></h4>
+         <button id="${buttonId2}" style="float: right;" class="font-bold text-default-950">O</button></h4>`;
+           
+		   // Aggiungere la riga alla tabella
+            tableBody.appendChild(row);
+           
+	   // Aggiungere il listener di evento al pulsante "X"
+      const ChangeButton1 = document.getElementById(buttonId1);
+      ChangeButton1.addEventListener("click", () => {
+        // Chiamare la funzione di modifica dati dell'ordine passando l'indice corrente
+        console.log(order.orderId)
+        //funzione per riempire popup
+        showPopupEditDataOrder(order.orderId, order.orderStatus, order.tableId, order.orderType)
+      });
+    
+	   // Aggiungere il listener di evento al pulsante "O"
+      const ChangeButton2 = document.getElementById(buttonId2);
+      ChangeButton2.addEventListener("click", () => {
+        console.log(order.orderId)
+        //funzione per riempire popup
+        showPopupViewOrderItem(order.orderId)
+      });	
+
+        });
+      }
+
+      function showPopupEditDataOrder(orderID, stato, tavolo, orderType) {
+      const popupContainer = document.getElementById("popup-container");
+      let htmlContent = `<h4 class="text-base text-default-700 font-bold">Ordine N.${orderID}</h4>`;
+      var statoOrdine = stato;
+      if (!tavolo) {
+      tavolo = ""
+      }
+
+      popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" onclick="closePopup()">X</span>${htmlContent}
+       <label for="tavolo">Tavolo:</label>
+      <input type="text" id="tavoloID" name="tavolo" value=${tavolo}><br>
+      <div class="dropdown">
+      <button onclick="showDropdownOrderStatus()" class="dropbtn">Stato</button>
+      <div id="myDropdown" class="dropdown-content">
+        <a id="stato1" href="#stato1">In preparazione</a>
+        <a id="stato2" href="#stato2">Parzialmente evaso</a>
+        <a id="stato3" href="#stato3">Evaso</a>
+      </div>
+    </div>
+     <div id="stato-ordine">
+        <h4 class="text-base text-default-700 font-bold">Stato: ${orderStatusMap[statoOrdine]}</h4>
+   </div>
+    <a id="update-order" class="relative w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="#">Aggiorna</a>
+
+
+
+      `;
+
+
+    const stato1Button = popupContainer.querySelector("#stato1");
+ stato1Button.addEventListener("click", function (event) {
+            // Previeni il comportamento di default del link
+            event.preventDefault();
+            console.log("In preparazione")
+            statoOrdine = 1
+            const htmlToUpdate = document.getElementById("stato-ordine");
+            htmlToUpdate.innerHTML = ` <h4  class="text-base text-default-700 font-bold">Stato: ${orderStatusMap[statoOrdine]}</h4>`
+
+})
+const stato2Button = popupContainer.querySelector("#stato2");
+ stato2Button.addEventListener("click", function (event) {
+            // Previeni il comportamento di default del link
+            event.preventDefault();
+            statoOrdine = 2
+            const htmlToUpdate = document.getElementById("stato-ordine");
+            htmlToUpdate.innerHTML = ` <h4 class="text-base text-default-700 font-bold">Stato: ${orderStatusMap[statoOrdine]}</h4>`
+})
+const stato3Button = popupContainer.querySelector("#stato3");
+ stato3Button.addEventListener("click", function (event) {
+            // Previeni il comportamento di default del link
+            event.preventDefault();
+            statoOrdine = 3
+            const htmlToUpdate = document.getElementById("stato-ordine");
+            htmlToUpdate.innerHTML = ` <h4 class="text-base text-default-700 font-bold">Stato: ${orderStatusMap[statoOrdine]}</h4>`
+})
+const updateButton = popupContainer.querySelector("#update-order");
+ updateButton.addEventListener("click", function (event) {
+            // Previeni il comportamento di default del link
+            event.preventDefault();
+            var tavoloID = document.getElementById("tavoloID").value;
+            if (!tavoloID){
+            tavoloID = 0;
+            }
+            updateOrderData(orderID, statoOrdine, tavoloID, orderType)
+            closePopup()
+            //refresh order data
+            fetchAndDisplayOrders()
+
+})
+
+    // Mostra il pop-up
+     popupContainer.style.display = "block";
+      }
+
+ async function showPopupViewOrderItem(orderID) {
+	   const popupContainer = document.getElementById("popup-container");
+       let htmlContent = `<h4 class="text-base text-default-700 font-bold">Ordine N.${orderID}</h4>`;
+	   popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" onclick="closePopup()">X</span>${htmlContent}`;
+	   tableHtml = `<div style="overflow:auto;">
+	                    <table class="min-w-full divide-y divide-default-200">
+                          <thead class="bg-default-100">
+                            <tr class="text-start">
+                              <th
+                                class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800"
+                              >
+                                Nome prodotto
+                              </th>
+                              <th
+                                class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 min-w"
+                              >
+                                Quantità
+                              </th>
+                              <th
+                                class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800"
+                              >
+                                Note
+                              </th>
+                            </tr>
+                            <!-- end table-head-row -->
+                          </thead>
+                          <!-- end t-head -->
+                          <tbody
+                            id="items-table-body"
+                            class="divide-y divide-default-200"
+                          >
+                            <!-- Elenco items -->
+                            <!-- end table-row -->
+                          </tbody>
+                          <!-- end t-body -->
+                        </table>
+                        </div>`
+
+       popupContainer.innerHTML += tableHtml
+
+       try {
+    const response = await fetch("http://" + self.location.host +"/api/getItemsByOrderId?orderId=" + orderID); // Esegui la chiamata API
+
+    data = await response.json(); // Estrai i dati JSON dalla risposta
+    orderItems = data.items
+    } catch (error) {
+         console.error("Errore nel caricamento dei dati dall'API:", error);
+  }
+       const tableBody = document.getElementById("items-table-body");
+	   tableBody.innerHTML = "";
+	   let rowID = 0
+       orderItems.forEach((item) => {
+       // Creare la riga della tabella
+       const row = document.createElement("tr");
+       row.id = `item-row-` + rowID;
+       rowID += 1
+       row.innerHTML = `
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${item.name}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${item.quantity}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${item.notes}</td>
+        `
+
+	   // Aggiungere la riga alla tabella
+       tableBody.appendChild(row);
+       })
+	   // Mostra il pop-up
+       popupContainer.style.display = "block";
+	 }
+
+     function closePopup() {
+        const popupContainer = document.getElementById("popup-container");
+        popupContainer.style.display = 'none';
+    }
+
+    function showDropdownOrderStatus() {
+     document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+function updateOrderData(orderID, statoOrdine, tavoloID, orderType) {
+
+const orderDataUpdated = {
+orderId: orderID,
+orderStatus: statoOrdine,
+tableId: tavoloID,
+orderType: orderType
+}
+
+fetch("http://" + self.location.host + "/api/orderDataUpdate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(orderDataUpdated),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error("Errore:", error));
+
+    toastr.success(
+          "<b>Ordine Nr." + orderID + " " + orderType +"</b> <br> stato/tavolo aggiornato!" );
+}
+
+
+// Close the dropdown menu if the user clicks outside of it
+   window.onclick = function(event) {
+    if (!event.target.matches('.dropbtn')) {
+    var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+      var openDropdown = dropdowns[i];
+      if (openDropdown.classList.contains('show')) {
+        openDropdown.classList.remove('show');
+      }
+    }
+  }
+}
+
+let SortType = "DataOra";
+
+    function SetSortType(Type) {
+	
+	SortType = Type;
+	const SortButton = document.getElementById("sort");
+	SortButton.innerHTML=`${SortType} <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-down" class="lucide lucide-chevron-down h-4 w-4"><path d="m6 9 6 6 6-6"></path></svg>
+	                      `
+	fetchAndDisplayOrders()
+	}
+    </script>
+    <!-- Back to Top & Light/Dark Toggle -->
+    <div
+      class="fixed lg:bottom-5 end-5 bottom-18 flex flex-col items-center bg-primary/25 rounded-full z-10"
+    >
+      <button
+        class="h-0 w-8 opacity-0 flex justify-center items-center transition-all duration-500 translate-y-5 z-10"
+        data-toggle="back-to-top"
+      >
+        <i class="h-5 w-5 text-primary-500 mt-1" data-lucide="chevron-up"></i>
+      </button>
+      <button
+        class="rounded-full h-10 w-10 bg-primary text-white flex justify-center items-center z-20"
+      >
+        <i class="h-5 w-5" data-lucide="sun" id="light-theme"></i>
+        <i class="h-5 w-5" data-lucide="moon" id="dark-theme"></i>
+      </button>
+    </div>
+  </body>
+
+  <!-- Mirrored from coderthemes.com/yum/admin-order-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 13:21:50 GMT -->
+</html>
