@@ -328,11 +328,10 @@ function initializeApp(data) {
                 ` }
     htmlContent += `
     <a id="send-order" class="relative w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="#">INVIA</a>
-    <button id="btn-confirm-order" onclick="confirmPopup()" class="w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-10 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500">Stampa</button>
+    <button id="btn-confirm-order" class="w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-10 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500">Stampa</button>
     `
     // Assegna l'HTML al contenitore del pop-up
     popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" >X</span>${htmlContent}`;
-
 
     // Mostra il pop-up
     popupContainer.style.display = "flex";
@@ -357,14 +356,18 @@ function initializeApp(data) {
     }
     )
     const closePopupButton = popupContainer.querySelector("#close-button");
-      closePopupButton.addEventListener("click", function () {
+    closePopupButton.addEventListener("click", function () {
         // Svuotare le variabile dopo l'invio dell'ordine
 
         closePopup()
         clearDataState()
     }
-  )
-
+    )
+    const printButton = popupContainer.querySelector("#btn-confirm-order");
+    printButton.addEventListener("click", function () {
+        printOrderData(transformedDataJson, grandTotal, orderNumber)
+    }
+    )
 
     // Funzione per chiudere il pop-up
     function closePopup() {
@@ -376,6 +379,56 @@ function initializeApp(data) {
         const MenuContainer3 = document.getElementById("right-panel").style.pointerEvents = ""
     }
 
+}
+
+function printOrderData(transformedDataJson, grandTotal, idOrdineCreato) {
+    // JSON da parsare
+    const jsonData = transformedDataJson;
+    // Converti la stringa JSON in un oggetto JavaScript
+    const orderItems = JSON.parse(jsonData);
+    console.log(transformedDataJson)
+    // Ottieni il totale
+    const GragrandTotal = grandTotal;
+
+    // Creare HTML dinamico con i dati mappati
+    let htmlContent = `<div id="print-content">`;
+    htmlContent += `<h4 class="text-base text-default-700 font-bold">Ordine N.${idOrdineCreato}</h4>`;
+    orderItems.forEach((item) => {
+      htmlContent += `
+         <div>
+            <span>${item.quantity}x</span>
+            <span>${item.name}</span><br>
+            <span style="margin-left:20px">      ${item.price} €</span>
+         </div>
+     `;
+    });
+    htmlContent += `
+     <div>
+         <h4 class="mt-1.5 mb-1.5 text-default-600 text-sm text-primary">TOTALE: <span class="px-5 py-3 whitespace-nowrap text-sm text-default-800 text-primary">${GragrandTotal} €</span></h4>
+     </div>
+ `;
+    htmlContent += `</div>`;
+
+    // Chiamata alla funzione per inviare i dati al server
+    //sendDataToServer();
+    // Creazione di un elemento div temporaneo nel DOM
+    const printContainer = document.createElement("div");
+    printContainer.innerHTML = htmlContent;
+    document.body.appendChild(printContainer);
+
+    // Chiamata alla funzione per inviare l'HTML  Comanda al server
+    //sendHTMLToServer(htmlContent);
+
+    // Stampare l'elemento HTML utilizzando Print.js con la stampante specificata
+    printJS({
+      printable: "print-content", // Utilizza l'ID del div come riferimento
+      type: "html",
+      showModal: false, // Impedisci l'apertura della finestra di dialogo di stampa del browser
+      printer: "POS-58", // Specifica il nome della stampante di rete desiderata
+    });
+
+    // Rimuovere l'elemento div temporaneo dal DOM dopo la stampa
+    document.body.removeChild(printContainer);
 }
 
 function clearDataState() {

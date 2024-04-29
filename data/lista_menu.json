@@ -45,56 +45,56 @@
   ],
   "menu birra": [
     {
-      "name": "Hamburger",
+      "name": "Menu Birra - Hamburger",
       "desc": "Pomodori e insalata",
       "img": "assets/img/burger-dee4db61.png",
       "price": "9.50",
       "productId": 7
     },
     {
-      "name": "Cheeseburger",
+      "name": "Menu Birra - Cheeseburger",
       "desc": "Formaggio, pomodori e insalata",
       "img": "assets/img/burger-dee4db61.png",
       "price": "9.50",
       "productId": 8
     },
     {
-      "name": "Baconburger",
+      "name": "Menu Birra - Baconburger",
       "desc": "Formaggio, bacon, pomodori e insalata",
       "img": "assets/img/burger-dee4db61.png",
       "price": "9.50",
       "productId": 9
     },
     {
-      "name": "Wurstel",
+      "name": "Menu Birra - Wurstel",
       "desc": "",
       "img": "assets/img/burger-dee4db61.png",
       "price": "9.50",
       "productId": 10
     },
     {
-      "name": "Wurstel e Crauti",
+      "name": "Menu Birra - Wurstel e Crauti",
       "desc": "",
       "img": "assets/img/burger-dee4db61.png",
       "price": "9.50",
       "productId": 11
     },
     {
-      "name": "Salamella",
+      "name": "Menu Birra - Salamella",
       "desc": "",
       "img": "assets/img/burger-dee4db61.png",
       "price": "9.50",
       "productId": 12
     },
     {
-      "name": "Salamella con Cipolle",
+      "name": "Menu Birra - Salamella con Cipolle",
       "desc": "",
       "img": "assets/img/burger-dee4db61.png",
       "price": "9.50",
       "productId": 13
     },
     {
-      "name": "Vegetariano",
+      "name": "Menu Birra - Vegetariano",
       "desc": "Mozzarella, pomodori e insalata",
       "img": "assets/img/burger-dee4db61.png",
       "price": "9.50",
@@ -103,56 +103,56 @@
   ],
   "menu bibita": [
     {
-      "name": "Hamburger",
+      "name": "Menu Bibita - Hamburger",
       "desc": "Pomodori e insalata",
       "img": "assets/img/burger-dee4db61.png",
       "price": "8.50",
       "productId": 15
     },
     {
-      "name": "Cheeseburger",
+      "name": "Menu Bibita - Cheeseburger",
       "desc": "Formaggio, pomodori e insalata",
       "img": "assets/img/burger-dee4db61.png",
       "price": "8.50",
       "productId": 16
     },
     {
-      "name": "Baconburger",
+      "name": "Menu Bibita - Baconburger",
       "desc": "Formaggio, bacon, pomodori e insalata",
       "img": "assets/img/burger-dee4db61.png",
       "price": "8.50",
       "productId": 17
     },
     {
-      "name": "Wurstel",
+      "name": "Menu Bibita - Wurstel",
       "desc": "",
       "img": "assets/img/burger-dee4db61.png",
       "price": "8.50",
       "productId": 18
     },
     {
-      "name": "Wurstel e Crauti",
+      "name": "Menu Bibita - Wurstel e Crauti",
       "desc": "",
       "img": "assets/img/burger-dee4db61.png",
       "price": "8.50",
       "productId": 19
     },
     {
-      "name": "Salamella",
+      "name": "Menu Bibita - Salamella",
       "desc": "",
       "img": "assets/img/burger-dee4db61.png",
       "price": "8.50",
       "productId": 20
     },
     {
-      "name": "Salamella con Cipolle",
+      "name": "Menu Bibita - Salamella con Cipolle",
       "desc": "",
       "img": "assets/img/burger-dee4db61.png",
       "price": "8.50",
       "productId": 21
     },
     {
-      "name": "Vegetariano",
+      "name": "Menu Bibita - Vegetariano",
       "desc": "Mozzarella, pomodori e insalata",
       "img": "assets/img/burger-dee4db61.png",
       "price": "8.50",
