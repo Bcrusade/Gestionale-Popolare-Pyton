@@ -228,7 +228,7 @@ function initializeApp(data) {
   }
 
   // Funzione per inviare i dati dell'ordine al database
-  function inviaDatiOrdine(cleanedOrderData) {
+  async function inviaDatiOrdine(cleanedOrderData) {
     // Crea un oggetto con i dati dell'ordine da mandare al server
     const datiOrdine = {
       customerType: GuestTypeSelectedInput,
@@ -240,18 +240,25 @@ function initializeApp(data) {
 
     console.log("Dati dell'ordine:", datiOrdine);
 
-    fetch("http://" + self.location.host + "/api/orders", {
+    let response = await fetch("http://" + self.location.host + "/api/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(datiOrdine),
     })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error("Errore:", error));
+    let data = await response.json()
+    if(data.status == "success") {
+      // Svuotare le variabile dopo l'invio dell'ordine
+      closePopup()
+      clearDataState()
+      location.reload() //reload the page after submitting the order to the server
+    }
+    else {
+    toastr.error("Errore nell'invio dell'ordine. Riprovare:");
+    }
 
-    location.reload() //reload the page after submitting the order to the server
+
   }
 
   // Aggiungi un listener per l'evento beforeunload per assicurarti che i dati vengano salvati prima di lasciare la pagina
@@ -424,10 +431,6 @@ function initializeApp(data) {
       // Chiama la funzione per inviare i dati dell'ordine al database
       let cleanedData = cleanOrderData(orderData)
       inviaDatiOrdine(cleanedData);
-      console.log(paymentType)
-      // Svuotare le variabile dopo l'invio dell'ordine
-      closePopup()
-      clearDataState()
     }
     )
     const closePopupButton = popupContainer.querySelector("#close-button");
@@ -444,8 +447,10 @@ function initializeApp(data) {
     }
     )
 
-    // Funzione per chiudere il pop-up
-    function closePopup() {
+  }
+
+// Funzione per chiudere il pop-up
+function closePopup() {
       const popupContainer = document.getElementById('popup-container');
       const overlay = document.getElementById("overlay");
       popupContainer.style.display = 'none';
@@ -456,9 +461,7 @@ function initializeApp(data) {
       // Nascondi il popup e l'overlay
       popupContainer.style.display = "none";
       overlay.style.display = "none";
-    }
-
-  }
+}
 
   function printOrderData(transformedDataJson, grandTotal, idOrdineCreato) {
     // JSON da parsare
