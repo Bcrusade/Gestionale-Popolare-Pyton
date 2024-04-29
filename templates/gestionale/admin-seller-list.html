@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from coderthemes.com/yum/admin-seller-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 13:21:48 GMT -->
+<head>
+    <meta charset="utf-8" />
+    <title>Yum - Multipurpose Food Tailwind CSS Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="" name="description" />
+    <meta content="coderthemes" name="author" />
+    
+    <!-- Theme favicon -->
+    <link rel="shortcut icon" href="assets/favicon-c43f27ef.ico">
+
+    <!--  Head js -->
+      <script type="module" crossorigin src="assets/admin-seller-list-13df649b.js"></script>
+      <link rel="modulepreload" crossorigin href="assets/theme-b118ffc1.js">
+      <link rel="modulepreload" crossorigin href="assets/index-a4e39586.js">
+      <link rel="stylesheet" href="assets/theme-c9540983.css">
+    </head>
+
+<body>
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-70 bg-default-50 transition-all visible opacity-100 h-screen w-screen flex items-center justify-center">
+        <div class="animate-spin inline-block w-10 h-10 border-4 border-t-transparent border-primary rounded-full" role="status" aria-label="loading">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    
+    <!-- End Header -->
+    <header class="sticky top-0 h-18 flex z-40 w-full border-b border-default-200 bg-white dark:bg-default-50 lg:ps-64">
+        <nav class="flex items-center gap-4 w-full px-6">
+            <!-- Navigation Toggle (in Small Screen) -->
+            <div class="lg:hidden flex">
+                <button type="button" class="text-default-500 hover:text-default-600" data-hs-overlay="#application-sidebar" aria-controls="application-sidebar" aria-label="Toggle navigation">
+                    <i data-lucide="align-justify" class="w-6 h-6"></i>
+                </button>
+            </div>
+    
+            <!-- Logo -->
+            <div class="lg:hidden flex">
+                <a href="admin-dashboard.html">
+                    <img src="assets/logo-dark-6dbab3e1.png" alt="logo" class="h-10 w-full flex dark:hidden">
+                    <img src="assets/logo-light-35c89c2c.png" alt="logo" class="h-10 w-full hidden dark:flex">
+                </a>
+            </div>
+    
+            <!-- Search Input -->
+            <div class="lg:flex hidden">
+                <label for="icon" class="sr-only">Search</label>
+                <div class="relative lg:flex hidden">
+                    <input type="search" class="ps-12 pe-4 py-2.5 block w-64 bg-default-50 text-default-600 border-default-200 rounded-full text-sm focus:border-primary focus:ring-primary" placeholder="Search for items...">
+                    <span class="absolute start-4 top-2.5">
+                        <i data-lucide="search" class="w-5 h-5 text-default-600"></i>
+                    </span>
+                </div>
+            </div>
+    
+            <!-- Topbar Link and Dropdown Button -->
+            <div class="flex items-center gap-4 ms-auto">
+                <!-- Language -->
+                <div class="lg:flex hidden">
+                    <div class="hs-dropdown relative inline-flex [--placement:bottom-right]">
+                        <button id="hs-dropdown-with-header" type="button" class="hs-dropdown-toggle inline-flex flex-shrink-0 justify-center items-center gap-2 h-10 w-10 rounded-full font-medium text-default-700 align-middle bg-default-100 hover:text-primary transition-all text-xs">
+                            <i data-lucide="globe" class="w-6 h-6"></i>
+                        </button>
+    
+                        <div class="hs-dropdown-menu mt-2 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[12rem] shadow-md rounded-lg border border-default-200 bg-white dark:bg-default-50 p-2">
+                            <a class="flex items-center gap-x-3.5 py-2 px-3 text-sm rounded transition-all hover:bg-default-100" href="javascript:void(0)">
+                                <img src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAA8AAD/4QMpaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjAtYzA2MCA2MS4xMzQ3NzcsIDIwMTAvMDIvMTItMTc6MzI6MDAgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgV2luZG93cyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpENEQyQjUxRTYxM0IxMUU3QThGRDlFNzgyMDM4RjBCQyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpENEQyQjUxRjYxM0IxMUU3QThGRDlFNzgyMDM4RjBCQyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkQ0RDJCNTFDNjEzQjExRTdBOEZEOUU3ODIwMzhGMEJDIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkQ0RDJCNTFENjEzQjExRTdBOEZEOUU3ODIwMzhGMEJDIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoKDBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgAKgBAAwERAAIRAQMRAf/EAHkAAQEBAAMAAAAAAAAAAAAAAAABBgIFBwEBAAIDAQAAAAAAAAAAAAAAAAEFAgQGBxAAAQIBDQADAQAAAAAAAAAAAAECAzFRkRKi0qPjVAVVFhchQYEyEQEAAAMHBQEAAAAAAAAAAAAA4WKiUaGx0QJSFgEDBBQVMf/aAAwDAQACEQMRAD8A82fFive573uc9yqrnKqqqqvyqqqmwhKzp1JCs6dQFZ06gKzp1AVnTqArOnUCsixWPa9j3Ne1UVrkVUVFT5RUVCB2XWd701uHeNb3O1biuePebsq05nWd701uHeHudq3E495uyrTmdZ3vTW4d4e52rcTj3m7KtOZ1ne9Nbh3h7natxOPebsq05nWd701uHeHudq3E495uyrTmdZ3vTW4d4e52rcTj3m7KtOZ1ne9Nbh3h7natxOPebsq05nWd701uHeHudq3E495uyrTm3RRvTgAAAAAAADd+XpyeBmFJ9iS+Dm+QyVQPL05PAzB9iS+ByGSqB5enJ4GYPsSXwOQyVQPL05PAzB9iS+ByGSqB5enJ4GYPsSXwOQyVQPL05PAzB9iS+ByGSqB5enJ4GYPsSXwOQyVQPL05PAzB9iS+ByGSqDdlI5sAAAAAAAA5O/pZJfqT8M9f71/EdEoMQoAUAKAFACgCt/pJJfuT9MtH70/Dq//Z" alt="user-image" class="h-4">
+                                <span class="align-middle">German</span>
+                            </a>
+                            <a class="flex items-center gap-x-3.5 py-2 px-3 text-sm rounded transition-all hover:bg-default-100" href="javascript:void(0)">
+                                <img src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAA8AAD/4QMpaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjAtYzA2MCA2MS4xMzQ3NzcsIDIwMTAvMDIvMTItMTc6MzI6MDAgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgV2luZG93cyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowMUM1QUQyRDYxM0MxMUU3QTE2RkM2RkVEMTY1NUZGQiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDowMUM1QUQyRTYxM0MxMUU3QTE2RkM2RkVEMTY1NUZGQiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjAxQzVBRDJCNjEzQzExRTdBMTZGQzZGRUQxNjU1RkZCIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjAxQzVBRDJDNjEzQzExRTdBMTZGQzZGRUQxNjU1RkZCIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoKDBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgAKgBAAwERAAIRAQMRAf/EAHsAAAMBAQEBAAAAAAAAAAAAAAAGBwQBAgMBAAIDAQEBAAAAAAAAAAAAAAAGBAUHAwECEAABAwEGBAYDAAAAAAAAAAAAAQIDBxExsTN0NiFRMrJhQpI0RBZxcgQRAQABAwUBAAMAAAAAAAAAAAABwTI0coIDBAYxEYEC/9oADAMBAAIRAxEAPwDc573OVznKrlW1VVbVVVMnmZlWuWrzAHKlKr9mk4/Fk72F/wCcyJ0zR24LldHlMABGqsqv2pOPxo8XFZ272ieYxd00Jdq8yKYvw6172uRzXK1zVtRUWxUVAeTES0CIwgADnSnc0mlk72F95zInTNHbguV0ekwAEZqzutNNHi4rO3e0TzGLumhMIpiABpERg4AHOlO5pNLJ3sL7zmROmaO3Bcro9JgAIzVndaaaPFxWdu9onmMXdNCYRTEADSIjBwAOdKdzSaWTvYX3nMidM0duC5XR6TAARmrO6000eLis7d7RPMYu6aEwimIAGkRGDgAc6U7mk0snewvvOZE6Zo7cFyuj0mAAjNWd1ppo8XFZ272ieYxd00JhFMQAN8+fJl9S5fRf5fDkI/8Af2fjB5ePSfIONKtzSXe2ku/ZhfecyJ0zR24LldHlMABGqsbqS720d/5cVnbvaH5jF3TQmekimF9P58+PL6m5nRf5vDmew+f7tn7+vr//2Q==" alt="user-image" class="h-4">
+                                <span class="align-middle">Italian</span>
+                            </a>
+                            <a class="flex items-center gap-x-3.5 py-2 px-3 text-sm rounded transition-all hover:bg-default-100" href="javascript:void(0)">
+                                <img src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAA8AAD/4QMpaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjAtYzA2MCA2MS4xMzQ3NzcsIDIwMTAvMDIvMTItMTc6MzI6MDAgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgV2luZG93cyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoyODQ3Mjc2MTYxM0MxMUU3ODJENDgwMDE3MDIxNjRGOCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoyODQ3Mjc2MjYxM0MxMUU3ODJENDgwMDE3MDIxNjRGOCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjI4NDcyNzVGNjEzQzExRTc4MkQ0ODAwMTcwMjE2NEY4IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjI4NDcyNzYwNjEzQzExRTc4MkQ0ODAwMTcwMjE2NEY4Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoKDBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgAKgBAAwERAAIRAQMRAf/EAI4AAQACAgMAAAAAAAAAAAAAAAAEBQEDAgYHAQEAAgMBAQAAAAAAAAAAAAAAAgYDBAUBBxAAAQMBBgMFCAMAAAAAAAAAAQIDBAAREpMFVQZR0RYyktIzFTFBIkJiExQ0YXGREQACAQEGBQMDBQAAAAAAAAAAAQIDETGRUhMUIUFREgRxoSJhgTLwscHRBf/aAAwDAQACEQMRAD8ApFOOLUVKUVKUbVKJJJJ95rln0xIxeVxNALyuJoBeVxNALyuJoBeVxNALyuJoDKXHEKCkqKVJNqVAkEEe8UDR7x6BkWnRcFvw1R9zVzSxZXdafV4nFeS7babW7Ihw2GGkqW46tlsJSlItJPw1m8edarNRU2rfqzx1qnJybKyBL2JNnrhNxGmXb9xhciGGkOKtu3bxT8JvggBVnD2105+FUsfbVeN/D1/SJz14xUndzslbYWvoGRadFwW/DXG3NXNLFkdafV4j0DItOi4LfhpuauaWLGtPq8R6BkWnRcFvw03NXNLFjWn1eI9AyLTouC34abmrmlixrT6vEegZFp0XBb8NNzVzSxY1p9XiT6wGM6vuF8QkFMWJLiflvoVmMlX47iS2oFF5KG1POAKCRZeb/wAqwLxYqEJW2vstSfX6Xe7Njxvm+Li+26/+bFgzOxsz2q4p9qQuL+XFlqBelXY6xHKQEFJIZBVeCrRZaKsFD/LhoRlWj+azP+zR8rynOpKFNy+KuSt+XuXMERVyHpbUKQw7IN2Q+6uOptZaN1ASGnHFAhJ+YCqr53jqnRptO3jL0v5cLfW37Gbul+LaaXrbx9V+xOrkgUAoBQCgKSREczGG9CGVpyq8QtUkfaV91YcCiVhtRUSeJrt1/JppU7JqXarOCljxSRHx6s1NuSl92vYhP7FQiOlMaW0VvtluaS0oG0qcsWiwi8brtnxe8A/xWat51Hsj8pSceXLl1uuNil5Vkm3CzD3LmKsmXc9ITF+2lSDmFrRW6kKF0KuEr/q2tTy6sJUIRU4uUeSUrePHmrOF15pwlPudttnqrPtx5k+uSZhQCgFAeFdUbj1OVjL51dtnRyRwLDoU8qHVG49TlYy+dNnRyRwGhTyodUbj1OVjL502dHJHAaFPKh1RuPU5WMvnTZ0ckcBoU8qHVG49TlYy+dNnRyRwGhTyodUbj1OVjL502dHJHAaFPKh1RuPU5WMvnTZ0ckcBoU8qHVG49TlYy+dNnRyRwGhTyohyf2XfK7avK7Ht+T6eFbTJRuV5r7teEh3aAd2gHdoB3aAd2gNkb9lryu2nzex7fn+njXqIyud5/9k=" alt="user-image" class="h-4">
+                                <span class="align-middle">Spanish</span>
+                            </a>
+                            <a class="flex items-center gap-x-3.5 py-2 px-3 text-sm rounded transition-all hover:bg-default-100" href="javascript:void(0)">
+                                <img src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAA8AAD/4QMpaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjAtYzA2MCA2MS4xMzQ3NzcsIDIwMTAvMDIvMTItMTc6MzI6MDAgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgV2luZG93cyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo0MjI1RDJEQjYxM0MxMUU3ODE3M0YwMkM1MjgyRTVFMiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo0MjI1RDJEQzYxM0MxMUU3ODE3M0YwMkM1MjgyRTVFMiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjQyMjVEMkQ5NjEzQzExRTc4MTczRjAyQzUyODJFNUUyIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjQyMjVEMkRBNjEzQzExRTc4MTczRjAyQzUyODJFNUUyIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoKDBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgAKgBAAwERAAIRAQMRAf/EAHUAAQEBAQAAAAAAAAAAAAAAAAADBggBAQADAQEAAAAAAAAAAAAAAAABAgYEAxAAAQAHBwUBAAAAAAAAAAAAAAHio9MEVKQykjNVFgcXMVFhAkIDEQEAAAQHAQADAAAAAAAAAAAAAaLiY6HRUgMTFRYxgQIy/9oADAMBAAIRAxEAPwDpwAAAAAAAABiOats85pop0dnX72nGGanJA5q2zzmminQ6/e04wzOSBzVtnnNNFOh1+9pxhmckDmrbPOaaKdDr97TjDM5IHNW2ec00U6HX72nGGZyQOats85pop0Ov3tOMMzkgc1bZ5zTRTodfvacYZnJA5q2zzmminQ6/e04wzOSDlg0rnAAAAAAAANHpFE0zWMx6O3NS3HjLslRpFE0zWHo7c1J4y7JUaRRNM1h6O3NSeMuyVGkUTTNYejtzUnjLslRpFE0zWHo7c1J4y7JUaRRNM1h6O3NSeMuyVGkUTTNYejtzUnjLslRpFE0zWHo7c1J4y7JU0RmG5AAAAAAAALRGP+mHa9sOx1+fHYmLz/T+Yffz9TukLF0BdAXQF0BdApD4/wCeHa9cSx1+vHcmCv7/AMx+/j6//9k=" alt="user-image" class="h-4">
+                                <span class="align-middle">Russian</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Fullscreen Button -->
+                <div class="lg:flex hidden">
+                    <button data-toggle="fullscreen" class="inline-flex flex-shrink-0 justify-center items-center gap-2 h-10 w-10 rounded-full font-medium text-default-700 align-middle bg-default-100 hover:text-primary transition-all text-xs">
+                        <i data-lucide="maximize" class="w-6 h-6"></i>
+                    </button>
+                </div>
+    
+                <!-- Setting Button -->
+                <div class="md:flex hidden">
+                    <a href="admin-settings.html" class="inline-flex flex-shrink-0 justify-center items-center gap-2 h-10 w-10 rounded-full font-medium text-default-700 align-middle bg-default-100 hover:text-primary transition-all text-xs">
+                        <i data-lucide="settings" class="w-6 h-6"></i>
+                    </a>
+                </div>
+    
+                <!-- Notification Dropdown -->
+                <div class="md:flex hidden">
+                    <div class="hs-dropdown relative inline-flex [--placement:bottom-right]">
+                        <button id="hs-dropdown-with-header" type="button" class="hs-dropdown-toggle inline-flex flex-shrink-0 justify-center items-center gap-2 h-10 w-10 rounded-full font-medium text-default-700 align-middle bg-default-100 hover:text-primary transition-all text-xs">
+                            <i data-lucide="bell" class="w-6 h-6"></i>
+                            <span class="absolute top-0 end-1 h-4 w-4 bg-yellow-500 rounded-full animate-ping"></span>
+                            <span class="absolute top-0 end-1 h-4 w-4 bg-yellow-500 text-xs font-medium text-white rounded-full">2</span>
+                        </button>
+    
+                        <div class="hs-dropdown-menu mt-2 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[20rem] shadow-md rounded-lg border border-default-200 bg-white dark:bg-default-50">
+                            <div class="px-4 py-2 flex items-center justify-between">
+                                <h6 class="text-sm font-medium"> Notification</h6>
+                                <a href="javascript: void(0);" class="text-default-500">
+                                    <small>Clear All</small>
+                                </a>
+                            </div>
+    
+                            <div class="p-4 h-80 border-y border-dashed border-default-200" data-simplebar>
+                                <h5 class="text-xs text-default-700 mb-2">Today</h5>
+    
+                                <a href="javascript:void(0);" class="flex items-center mb-4">
+                                    <img src="assets/avatar1-25906796.png" class="rounded-full h-10 w-10">
+                                    <div class="flex-grow truncate ms-2">
+                                        <div class="flex items-center justify-between">
+                                            <h5 class="text-sm font-medium text-default-800">Datacorp </h5>
+                                            <small class="inline-flex text-xs text-default-500">1 min ago</small>
+                                        </div>
+                                        <small class="text-default-400">Caleb Flakelar commented on Admin</small>
+                                    </div>
+                                </a>
+    
+                                <a href="javascript:void(0);" class="flex items-center mb-4">
+                                    <div class="flex-shrink-0">
+                                        <img src="assets/avatar2-189b0d01.png" class="rounded-full h-10 w-10">
+                                    </div>
+                                    <div class="flex-grow truncate ms-2">
+                                        <div class="flex items-center justify-between">
+                                            <h5 class="text-sm font-medium text-default-800">Admin </h5>
+                                            <small class="inline-flex text-xs text-default-500">1 hr ago</small>
+                                        </div>
+                                        <small class="text-default-400">New user registered</small>
+                                    </div>
+                                </a>
+    
+                                <a href="javascript:void(0);" class="flex items-center mb-4">
+                                    <div class="flex-shrink-0">
+                                        <img src="assets/avatar3-2bbdc0fd.png" class="rounded-full h-10 w-10">
+                                    </div>
+                                    <div class="flex-grow truncate ms-2">
+                                        <div class="flex items-center justify-between">
+                                            <h5 class="text-sm font-medium text-default-800">Cristina Pride </h5>
+                                            <small class="inline-flex text-xs text-default-500">1 day ago</small>
+                                        </div>
+                                        <small class="text-default-400">Hi, How are you? What about our next meeting</small>
+                                    </div>
+                                </a>
+    
+                                <h5 class="text-xs text-default-700 mb-2">Yesterday</h5>
+    
+                                <a href="javascript:void(0);" class="flex items-center mb-4">
+                                    <div class="flex-shrink-0">
+                                        <img src="assets/avatar4-85475652.png" class="rounded-full h-10 w-10">
+                                    </div>
+                                    <div class="flex-grow truncate ms-2">
+                                        <h5 class="text-sm font-semibold mb-1">Datacorp</h5>
+                                        <small class="text-default-400">Caleb Flakelar commented on Admin</small>
+                                    </div>
+                                </a>
+    
+                                <a href="javascript:void(0);" class="flex">
+                                    <div class="flex-shrink-0">
+                                        <img src="assets/avatar5-504b77fd.png" class="rounded-full h-10 w-10">
+                                    </div>
+                                    <div class="flex-grow truncate ms-2">
+                                        <h5 class="text-sm font-semibold mb-1">Karen Robinson</h5>
+                                        <small class="text-default-400">Wow ! this admin looks good and awesome design</small>
+                                    </div>
+                                </a>
+                            </div>
+    
+                            <a href="javascript:void(0);" class="px-4 py-2 block text-center text-primary font-medium text-sm">
+                                View All
+                            </a>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Profile Dropdown -->
+                <div class="flex">
+                    <div class="hs-dropdown relative inline-flex ">
+                        <button id="hs-dropdown-with-header" type="button" class="hs-dropdown-toggle inline-flex flex-shrink-0 justify-center items-center gap-2 rounded-full font-medium text-default-700 align-middle transition-all text-xs">
+                            <img class="inline-block h-10 w-10 rounded-full" src="assets/avatar1-25906796.png">
+                            <div class="lg:block text-start hidden">
+                                <p class="text-sm font-medium text-default-700">Kaiya Botosh</p>
+                                <p class="text-xs text-default-500 mt-1">Admin</p>
+                            </div>
+                        </button>
+    
+                        <div class="hs-dropdown-menu mt-2 transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 hidden min-w-[12rem] shadow-md rounded-lg p-2 border border-default-200 bg-white dark:bg-default-50">
+                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-default-800 transition-all hover:bg-default-100" href="admin-settings.html">
+                                <i class="w-4 h-4" data-lucide="user"></i>
+                                My Profile
+                            </a>
+                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-default-800 transition-all hover:bg-default-100" href="home.html" target="_blank">
+                                <i class="w-4 h-4" data-lucide="newspaper"></i>
+                                Landing
+                            </a>
+                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-default-800 transition-all hover:bg-default-100" href="admin-settings.html">
+                                <i class="w-4 h-4" data-lucide="settings"></i>
+                                Setting
+                            </a>
+                            
+                            <hr class="my-2 border-default-200 -mx-2">
+    
+                            <a class="flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-red-400 hover:bg-red-400/10" href="javascript:void(0)">
+                                <i class="w-4 h-4" data-lucide="log-out"></i>
+                                Log out
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <!-- End Header -->
+    <!-- Start Sidebar -->
+    <div id="application-sidebar" class="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed inset-y-0 start-0 z-60 w-64 bg-white border-e border-default-200 overflow-y-auto lg:block lg:translate-x-0 lg:right-auto lg:bottom-0 dark:bg-default-50">
+        <div class="flex sticky top-0 items-center justify-center px-6 h-18 border-b border-dashed border-default-200">
+            <a href="admin-dashboard.html">
+                <img src="assets/logo-dark-6dbab3e1.png" alt="logo" class="h-10 flex dark:hidden">
+                <img src="assets/logo-light-35c89c2c.png" alt="logo" class="h-10 hidden dark:flex">
+            </a>
+        </div>
+    
+        <div class="h-[calc(100%-390px)]" data-simplebar>
+            <ul class="admin-menu p-4 w-full flex flex-col gap-1.5">
+                <li class="menu-item">
+                    <a class="flex items-center gap-x-3.5 py-3 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-dashboard.html">
+                        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                        Dashboard
+                    </a>
+                </li>
+    
+                <li class="menu-item">
+                    <a class="flex items-center gap-x-3.5 py-3 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-manage.html">
+                        <i data-lucide="settings-2" class="w-5 h-5"></i>
+                        Manage
+                    </a>
+                </li>
+    
+                <li class="menu-item">
+                    <a href="javascript:void(0)" data-hs-collapse="#menuOrders" class="hs-collapse-toggle flex items-center gap-x-3.5 py-3 px-4 text-sm text-default-700 rounded-md hover:bg-default-100">
+                        <i data-lucide="list-ordered" class="w-5 h-5"></i>
+                        Orders
+                        <i data-lucide="chevron-down" class="w-4 h-4 ms-auto transition-all hs-collapse-open:rotate-180"></i>
+                    </a>
+    
+                    <div id="menuOrders" class="hs-collapse w-full overflow-hidden transition-[height] duration-300 hidden">
+                        <ul class="space-y-2 mt-2">
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-order-list.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Order List
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-order-details.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Order Details
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+    
+                <li class="menu-item">
+                    <a href="javascript:void(0)" data-hs-collapse="#menuCustomers" class="hs-collapse-toggle flex items-center gap-x-3.5 py-3 px-4 text-sm text-default-700 rounded-md hover:bg-default-100">
+                        <i data-lucide="users" class="w-5 h-5"></i>
+                        Customers
+                        <i data-lucide="chevron-down" class="w-4 h-4 ms-auto transition-all hs-collapse-open:rotate-180"></i>
+                    </a>
+    
+                    <div id="menuCustomers" class="hs-collapse w-full overflow-hidden transition-[height] duration-300 hidden">
+                        <ul class="space-y-2 mt-2">
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-customers-list.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Customers List
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-customers-details.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Customers Details
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-customers-add.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Customers Add
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-customers-edit.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Customers Edit
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+    
+                <li class="menu-item">
+                    <a href="javascript:void(0)" data-hs-collapse="#menuRestaurants" class="hs-collapse-toggle flex items-center gap-x-3.5 py-3 px-4 text-sm text-default-700 rounded-md hover:bg-default-100">
+                        <i data-lucide="hotel" class="w-5 h-5"></i>
+                        Restaurants
+                        <i data-lucide="chevron-down" class="w-4 h-4 ms-auto transition-all hs-collapse-open:rotate-180"></i>
+                    </a>
+    
+                    <div id="menuRestaurants" class="hs-collapse w-full overflow-hidden transition-[height] duration-300 hidden">
+                        <ul class="space-y-2 mt-2">
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-restaurants-list.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Restaurants List
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-restaurants-details.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Restaurants Details
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-restaurants-add.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Restaurants Add
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-restaurants-edit.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Restaurants Edit
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+    
+                <li class="menu-item">
+                    <a href="javascript:void(0)" data-hs-collapse="#menuProduct" class="hs-collapse-toggle flex items-center gap-x-3.5 py-3 px-4 text-sm text-default-700 rounded-md hover:bg-default-100">
+                        <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+                        Product
+                        <i data-lucide="chevron-down" class="w-4 h-4 ms-auto transition-all hs-collapse-open:rotate-180"></i>
+                    </a>
+    
+                    <div id="menuProduct" class="hs-collapse w-full overflow-hidden transition-[height] duration-300 hidden">
+                        <ul class="space-y-2 mt-2">
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-product-list.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Product List
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-product-details.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Product Details
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-product-add.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Product Add
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-product-edit.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Product Edit
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+    
+                <li class="menu-item">
+                    <a href="javascript:void(0)" data-hs-collapse="#menuSeller" class="hs-collapse-toggle flex items-center gap-x-3.5 py-3 px-4 text-sm text-default-700 rounded-md hover:bg-default-100">
+                        <i data-lucide="user-cog" class="w-5 h-5"></i>
+                        Seller
+                        <i data-lucide="chevron-down" class="w-4 h-4 ms-auto transition-all hs-collapse-open:rotate-180"></i>
+                    </a>
+    
+                    <div id="menuSeller" class="hs-collapse w-full overflow-hidden transition-[height] duration-300 hidden">
+                        <ul class="space-y-2 mt-2">
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-seller-list.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Seller List
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-seller-details.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Seller Details
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-seller-add.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Seller Add
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a class="flex items-center gap-x-2.5 py-2 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-seller-edit.html">
+                                    <i data-lucide="dot" class="w-6 h-6"></i>
+                                    Seller Edit
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+    
+                <li class="menu-item">
+                    <a class="flex items-center gap-x-3.5 py-3 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-wallet.html">
+                        <i data-lucide="wallet" class="w-5 h-5"></i>
+                        Wallet
+                    </a>
+                </li>
+            </ul>
+        </div>
+    
+        <ul class="admin-menu px-4 pt-10 flex flex-col gap-2">
+            <li class="menu-item">
+                <div class="flex flex-col items-center text-center p-4 text-sm text-default-700 rounded-md bg-no-repeat bg-cover bg-[url(../images/other/offer-bg.png)] bg-primary/5" href="javascript:void(0)">
+                    <div class="h-16 w-16 border border-default-100 bg-white dark:bg-default-50 text-primary shadow-lg rounded-full flex items-center justify-center -mt-10 mb-4">
+                        <i data-lucide="headphones" class="w-6 h-6"></i>
+                    </div>
+                    <p class="text-sm text-default-700 mb-4">🔥 Upgrade Your Plan. Find Out here</p>
+                    <button class="px-4 py-2 bg-primary/10 text-primary text-sm font-medium rounded transition-all hover:bg-primary hover:text-white">Contact Support</button>
+                </div>
+            </li>
+    
+            <li class="menu-item">
+                <a class="flex items-center gap-x-3.5 py-3 px-4 text-sm text-default-700 rounded-md hover:bg-default-100" href="admin-settings.html">
+                    <i data-lucide="settings" class="w-5 h-5"></i>
+                    Settings
+                </a>
+            </li>
+    
+            <li class="menu-item">
+                <a class="flex items-center gap-x-3.5 py-3 px-4 text-sm text-red-700 rounded-md hover:bg-red-400/10 hover:text-red-800" href="auth-login.html">
+                    <i data-lucide="log-out" class="w-5 h-5"></i>
+                    Logout
+                </a>
+            </li>
+        </ul>
+    </div>
+    <!-- End Sidebar -->
+    <!-- Start Content -->
+    <div class="w-full lg:ps-64">
+        <div class="p-6 page-content">
+
+            <div class="flex items-center justify-between w-full mb-6">
+                <h4 class="text-xl font-medium">
+                    Sellers List
+                </h4>
+            
+                <ol aria-label="Breadcrumb" class="hidden md:flex items-center whitespace-nowrap min-w-0 gap-2">
+                    <li class="text-sm">
+                        <a class="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500" href="javascript:void(0)">
+                            Sellers
+                            <i class="w-4 h-4" data-lucide="chevron-right"></i>
+                        </a>
+                    </li>
+            
+                    <li aria-current="page" class="text-sm font-medium text-primary truncate leading-none hover:text-primary-500">
+                        Sellers List
+                    </li>
+                </ol>
+            </div>            
+            <div class="rounded-lg border border-default-200">
+                <div class="px-6 py-4 border-b border-b-default-200">
+                    <div class="flex flex-wrap justify-between items-center gap-6">
+                        <h4 class="text-xl font-medium text-default-900">Sellers</h4>
+
+                        <a href="admin-seller-add.html" class="px-6 py-2.5 inline-flex text-white text-sm rounded-md bg-primary ">
+                            <i data-lucide="plus" class="w-5 h-5 inline-flex align-middle me-2"></i>
+                            Add a New Sellers
+                        </a>
+                    </div>
+                </div>
+
+                <div class="p-6">
+                    <div class="flex flex-wrap justify-between items-center gap-4">
+                        <div class="relative lg:flex hidden">
+                            <input type="search" class="ps-12 pe-4 py-2.5 block w-64 bg-default-50/0 text-default-600 border-default-200 rounded-lg text-sm focus:border-primary focus:ring-primary" placeholder="Search...">
+                            <span class="absolute start-4 top-2.5">
+                                <i data-lucide="search" class="w-5 h-5 text-default-600"></i>
+                            </span>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2">
+
+                            <div class="hs-dropdown relative inline-flex">
+                                <button type="button" class="hs-dropdown-toggle flex items-center gap-2 font-medium text-default-700 text-sm py-2.5 px-4 xl:px-5 rounded-md bg-default-100 transition-all">
+                                    Filter <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                                </button><!-- end dropdown button -->
+
+                                <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 min-w-[200px] transition-[opacity,margin] mt-4 opacity-0 hidden z-20 bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-lg border border-default-100 p-1.5 dark:bg-default-50">
+                                    <ul class="flex flex-col gap-1">
+                                        <li><a class="flex items-center gap-3 font-normal py-2 px-3 transition-all text-default-700 bg-default-100 rounded" href="javascript:void(0)">All</a></li>
+                                        <li><a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="javascript:void(0)">Refund</a></li>
+                                        <li><a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="javascript:void(0)">Paid</a></li>
+                                        <li><a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="javascript:void(0)">Cancel</a></li>
+                                    </ul><!-- end dropdown items -->
+                                </div><!-- end dropdown menu -->
+                            </div>
+
+                            <div class="relative">
+                                <span class="absolute top-1/2 start-2.5 -translate-y-1/2"><i data-lucide="calendar-days" class="h-4 w-4 text-default-700"></i></span>
+                                <span class="absolute top-1/2 end-2.5 -translate-y-1/2"><i data-lucide="chevron-down" class="h-4 w-4 text-default-700"></i></span>
+                                <input type="text" class="py-2.5 w-40 px-9 block bg-default-100 rounded-md border-0 text-sm text-default-700 font-medium focus:border-default-200 focus:ring-0" id="datepicker-basic">
+                            </div><!-- end relative -->
+
+                            <div class="hs-dropdown relative inline-flex">
+                                <button type="button" class="hs-dropdown-toggle flex items-center gap-2 font-medium text-default-700 text-sm py-2.5 px-4 xl:px-5 rounded-md bg-default-100 transition-all">
+                                    All Action <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                                </button><!-- end dropdown button -->
+
+                                <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 min-w-[200px] transition-[opacity,margin] mt-4 opacity-0 hidden z-20 bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-lg border border-default-100 p-1.5 dark:bg-default-50">
+                                    <ul class="flex flex-col gap-1">
+                                        <li><a class="flex items-center gap-3 font-normal py-2 px-3 transition-all text-default-700 bg-default-100 rounded" href="javascript:void(0)">All</a></li>
+                                        <li><a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="javascript:void(0)">Active</a></li>
+                                        <li><a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="javascript:void(0)">Block</a></li>
+                                    </ul><!-- end dropdown items -->
+                                </div><!-- end dropdown menu -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative overflow-x-auto border-t border-default-200">
+                    <div class="min-w-full inline-block align-middle">
+                        <div class="overflow-hidden">
+                            <table class="min-w-full divide-y divide-default-200">
+                                <thead class="bg-default-100">
+                                    <tr>
+                                        <th scope="col" class="px-6 py-4 max-w-[1rem]">
+                                            <div class="flex items-center h-5">
+                                                <input id="hs-table-search-checkbox-all" type="checkbox" class="form-checkbox h-5 w-5 border border-default-300 text-primary rounded bg-transparent focus:border-primary-300 focus:ring focus:ring-offset-0 focus:ring-primary-200 focus:ring-opacity-50">
+                                                <label for="hs-table-search-checkbox-all" class="sr-only">Checkbox</label>
+                                            </div>
+                                        </th>
+                                        <th scope="col" class="px-6 py-4 text-start whitespace-nowrap text-sm font-medium text-default-500">Customer Name</th>
+                                        <th scope="col" class="px-6 py-4 text-start whitespace-nowrap text-sm font-medium text-default-500">Email</th>
+                                        <th scope="col" class="px-6 py-4 text-start whitespace-nowrap text-sm font-medium text-default-500">Phone</th>
+                                        <th scope="col" class="px-6 py-4 text-start whitespace-nowrap text-sm font-medium text-default-500">Orders</th>
+                                        <th scope="col" class="px-6 py-4 text-start whitespace-nowrap text-sm font-medium text-default-500">Order Total</th>
+                                        <th scope="col" class="px-6 py-4 text-start whitespace-nowrap text-sm font-medium text-default-500">Customer Since</th>
+                                        <th scope="col" class="px-6 py-4 text-start whitespace-nowrap text-sm font-medium text-default-500">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-default-200">
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center h-5">
+                                                <input id="hs-table-search-checkbox-1" type="checkbox" class="form-checkbox h-5 w-5 border border-default-300 rounded text-primary bg-transparent focus:border-primary-300 focus:ring focus:ring-offset-0 focus:ring-primary-200 focus:ring-opacity-50">
+                                                <label for="hs-table-search-checkbox-1" class="sr-only">Checkbox</label>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Paityn Herwitz</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">wlopez@outlook.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">739-813-1211</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">17</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">$ 662.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Apr 02 2023 | <span class="text-xs">02:05:36</span> </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 text-xs font-medium rounded-md bg-green-500/10 text-green-500">Active</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center h-5">
+                                                <input id="hs-table-search-checkbox-1" type="checkbox" class="form-checkbox h-5 w-5 border border-default-300 text-primary rounded bg-transparent focus:border-primary-300 focus:ring focus:ring-offset-0 focus:ring-primary-200 focus:ring-opacity-50">
+                                                <label for="hs-table-search-checkbox-1" class="sr-only">Checkbox</label>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Randy Siphron</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">lwhite@icloud.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">895-528-6760</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">03</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">$ 448.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Jan 17 2023 | <span class="text-xs">06:35:32</span> </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 text-xs font-medium rounded-md bg-red-500/10 text-red-500">Block</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center h-5">
+                                                <input id="hs-table-search-checkbox-1" type="checkbox" class="form-checkbox h-5 w-5 border border-default-300 text-primary rounded bg-transparent focus:border-primary-300 focus:ring focus:ring-offset-0 focus:ring-primary-200 focus:ring-opacity-50">
+                                                <label for="hs-table-search-checkbox-1" class="sr-only">Checkbox</label>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Livia Kenter</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">cbaker@hotmail.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">759-215-8839</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">07</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">$ 941.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Dec 29 2020 | <span class="text-xs">13:09:57</span> </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 text-xs font-medium rounded-md bg-green-500/10 text-green-500">Active</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center h-5">
+                                                <input id="hs-table-search-checkbox-1" type="checkbox" class="form-checkbox h-5 w-5 border border-default-300 text-primary rounded bg-transparent focus:border-primary-300 focus:ring focus:ring-offset-0 focus:ring-primary-200 focus:ring-opacity-50">
+                                                <label for="hs-table-search-checkbox-1" class="sr-only">Checkbox</label>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Ann Vetrovs</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">htaylor@aol.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">801-740-7902</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">06</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">$ 133.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Dec 16 2016 | <span class="text-xs">20:14:39</span> </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 text-xs font-medium rounded-md bg-green-500/10 text-green-500">Active</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center h-5">
+                                                <input id="hs-table-search-checkbox-1" type="checkbox" class="form-checkbox h-5 w-5 border border-default-300 text-primary rounded bg-transparent focus:border-primary-300 focus:ring focus:ring-offset-0 focus:ring-primary-200 focus:ring-opacity-50">
+                                                <label for="hs-table-search-checkbox-1" class="sr-only">Checkbox</label>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Roger Korsgaard</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">ksmith@yahoo.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">705-498-5991</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">02</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">$ 824.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Aug 26 2023 | <span class="text-xs">10:34:09</span> </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 text-xs font-medium rounded-md bg-green-500/10 text-green-500">Active</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center h-5">
+                                                <input id="hs-table-search-checkbox-1" type="checkbox" class="form-checkbox h-5 w-5 border border-default-300 text-primary rounded bg-transparent focus:border-primary-300 focus:ring focus:ring-offset-0 focus:ring-primary-200 focus:ring-opacity-50">
+                                                <label for="hs-table-search-checkbox-1" class="sr-only">Checkbox</label>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Ruben Calzoni</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">qdavis@mail.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">855-338-4990</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">13</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">$ 238.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Jul 19 2023 | <span class="text-xs">16:48:10</span> </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 text-xs font-medium rounded-md bg-red-500/10 text-red-500">Block</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center h-5">
+                                                <input id="hs-table-search-checkbox-1" type="checkbox" class="form-checkbox h-5 w-5 border border-default-300 text-primary rounded bg-transparent focus:border-primary-300 focus:ring focus:ring-offset-0 focus:ring-primary-200 focus:ring-opacity-50">
+                                                <label for="hs-table-search-checkbox-1" class="sr-only">Checkbox</label>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Talan Dokidis</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">rgarcia@hotmail.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">348-508-9895</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">14</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">$ 679.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Sep 14 2021 | <span class="text-xs">20:24:37</span> </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 text-xs font-medium rounded-md bg-red-500/10 text-red-500">Block</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center h-5">
+                                                <input id="hs-table-search-checkbox-1" type="checkbox" class="form-checkbox h-5 w-5 border border-default-300 text-primary rounded bg-transparent focus:border-primary-300 focus:ring focus:ring-offset-0 focus:ring-primary-200 focus:ring-opacity-50">
+                                                <label for="hs-table-search-checkbox-1" class="sr-only">Checkbox</label>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Carter George</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">bwhite@mail.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">422-949-1555</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">06</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">$ 979.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Oct 09 2019 | <span class="text-xs">10:16:48</span> </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 text-xs font-medium rounded-md bg-green-500/10 text-green-500">Active</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center h-5">
+                                                <input id="hs-table-search-checkbox-1" type="checkbox" class="form-checkbox h-5 w-5 border border-default-300 text-primary rounded bg-transparent focus:border-primary-300 focus:ring focus:ring-offset-0 focus:ring-primary-200 focus:ring-opacity-50">
+                                                <label for="hs-table-search-checkbox-1" class="sr-only">Checkbox</label>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Marilyn Stanton</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">ngeorge@aol.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">516-243-5018</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">15</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">$ 959.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Oct 16 2023 | <span class="text-xs">03:49:38</span> </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 text-xs font-medium rounded-md bg-red-500/10 text-red-500">Block</span>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="flex items-center h-5">
+                                                <input id="hs-table-search-checkbox-1" type="checkbox" class="form-checkbox h-5 w-5 border border-default-300 text-primary rounded bg-transparent focus:border-primary-300 focus:ring focus:ring-offset-0 focus:ring-primary-200 focus:ring-opacity-50">
+                                                <label for="hs-table-search-checkbox-1" class="sr-only">Checkbox</label>
+                                            </div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Emerson Dokidis</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">hscott@mail.com</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">575-541-4842</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">14</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">$ 948.00</td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-base text-default-800">Apr 10 2018 | <span class="text-xs">13:51:30</span> </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <span class="px-3 py-1 text-xs font-medium rounded-md bg-green-500/10 text-green-500">Active</span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div><!-- end overflo-hidden -->
+                    </div><!-- end table-responsive -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Content -->
+
+    <footer class="p-6 border-t border-default-200 w-full absolute lg:ms-64">
+        <div class="grid lg:grid-cols-2 items-center gap-6">
+            <p class="text-default-600 lg:text-start text-center">
+                <script>document.write(new Date().getFullYear())</script> Design & Crafted With ❤️  by Coderthemes
+            </p>
+    
+            <div class="lg:flex hidden lg:justify-end text-center justify-center gap-6">
+                <a href="javascript:void(0)" class="text-default-500 font-medium">
+                    Terms
+                </a>
+                <a href="javascript:void(0)" class="text-default-500 font-medium">
+                    Privacy
+                </a>
+                <a href="javascript:void(0)" class="text-default-500 font-medium">
+                    Cookies
+                </a>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Back to Top & Light/Dark Toggle -->
+    <div class="fixed lg:bottom-5 end-5 bottom-18 flex flex-col items-center bg-primary/25 rounded-full z-10">
+        <button class="h-0 w-8 opacity-0 flex justify-center items-center transition-all duration-500 translate-y-5 z-10" data-toggle="back-to-top">
+            <i class="h-5 w-5 text-primary-500 mt-1" data-lucide="chevron-up"></i>
+        </button>
+        <button class="rounded-full h-10 w-10 bg-primary text-white flex justify-center items-center z-20">
+            <i class="h-5 w-5" data-lucide="sun" id="light-theme"></i>
+            <i class="h-5 w-5" data-lucide="moon" id="dark-theme"></i>
+        </button>
+    </div>
+
+    
+    
+
+</body>
+
+
+<!-- Mirrored from coderthemes.com/yum/admin-seller-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 13:21:49 GMT -->
+</html>

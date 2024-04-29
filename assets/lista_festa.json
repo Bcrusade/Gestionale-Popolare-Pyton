@@ -1,0 +1,248 @@
+{
+  "cucina": [
+    {
+      "name": "Pasta Primavera",
+      "desc": "Pomodoro e Mozzarella",
+      "img": "",
+      "price": "4.50"
+    },
+    {
+      "name": "Primo del Giorno",
+      "desc": "",
+      "img": "",
+      "price": "8.00"
+    },
+    {
+      "name": "Fritto Misto",
+      "desc": "",
+      "img": "",
+      "price": "12.00"
+    },
+    {
+      "name": "Grigliata di Carne",
+      "desc": "",
+      "img": "",
+      "price": "10.00"
+    },
+    {
+      "name": "Contorno del Giorno",
+      "desc": "",
+      "img": "",
+      "price": "3.50"
+    },
+    {
+      "name": "Patatine Fritte",
+      "desc": "",
+      "img": "",
+      "price": "3.00"
+    }
+  ],
+  "menu birra": [
+    {
+      "name": "Hamburger",
+      "desc": "Pomodori e insalata",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "9.50"
+    },
+    {
+      "name": "Cheeseburger",
+      "desc": "Formaggio, pomodori e insalata",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "9.50"
+    },
+    {
+      "name": "Baconburger",
+      "desc": "Formaggio, bacon, pomodori e insalata",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "9.50"
+    },
+    {
+      "name": "Wurstel",
+      "desc": "",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "9.50"
+    },
+    {
+      "name": "Wurstel e Crauti",
+      "desc": "",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "9.50"
+    },
+    {
+      "name": "Salamella",
+      "desc": "",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "9.50"
+    },
+    {
+      "name": "Salamella con Cipolle",
+      "desc": "",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "9.50"
+    },
+    {
+      "name": "Vegetariano",
+      "desc": "Mozzarella, pomodori e insalata",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "9.50"
+    }
+  ],
+  "menu bibita": [
+    {
+      "name": "Hamburger",
+      "desc": "Pomodori e insalata",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "8.50"
+    },
+    {
+      "name": "Cheeseburger",
+      "desc": "Formaggio, pomodori e insalata",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "8.50"
+    },
+    {
+      "name": "Baconburger",
+      "desc": "Formaggio, bacon, pomodori e insalata",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "8.50"
+    },
+    {
+      "name": "Wurstel",
+      "desc": "",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "8.50"
+    },
+    {
+      "name": "Wurstel e Crauti",
+      "desc": "",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "8.50"
+    },
+    {
+      "name": "Salamella",
+      "desc": "",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "8.50"
+    },
+    {
+      "name": "Salamella con Cipolle",
+      "desc": "",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "8.50"
+    },
+    {
+      "name": "Vegetariano",
+      "desc": "Mozzarella, pomodori e insalata",
+      "img": "assets/img/burger-dee4db61.png",
+      "price": "8.50"
+    }
+  ],
+  "panini": [
+    {
+      "name": "Hamburger",
+      "desc": "Pomodori e insalata",
+      "img": "",
+      "price": "5.00"
+    },
+    {
+      "name": "Cheeseburger",
+      "desc": "Formaggio, pomodori e insalata",
+      "img": "",
+      "price": "5.00"
+    },
+    {
+      "name": "Baconburger",
+      "desc": "Formaggio, bacon, pomodori e insalata",
+      "img": "",
+      "price": "5.00"
+    },
+    {
+      "name": "Wurstel",
+      "desc": "",
+      "img": "",
+      "price": "5.00"
+    },
+    {
+      "name": "Wurstel e Crauti",
+      "desc": "",
+      "img": "",
+      "price": "5.00"
+    },
+    {
+      "name": "Salamella",
+      "desc": "",
+      "img": "",
+      "price": "5.00"
+    },
+    {
+      "name": "Salamella con Cipolle",
+      "desc": "",
+      "img": "",
+      "price": "5.00"
+    },
+    {
+      "name": "Vegetariano",
+      "desc": "Mozzarella, pomodori e insalata",
+      "img": "",
+      "price": "5.00"
+    }
+  ],
+  "pizza": [
+    {
+      "name": "Pomodoro",
+      "desc": "",
+      "img": "",
+      "price": "4.50"
+    },
+    {
+      "name": "4 Stagioni",
+      "desc": "",
+      "img": "",
+      "price": "4.50"
+    },
+    {
+      "name": "Margherita",
+      "desc": "",
+      "img": "assets/img/pizza-2-3b9c935a.png",
+      "price": "4.50"
+    },
+    {
+      "name": "Diavola",
+      "desc": "",
+      "img": "",
+      "price": "4.50"
+    }
+  ],
+  "bevande": [
+    {
+      "name": "Acqua",
+      "desc": "",
+      "img": "",
+      "price": "1.00"
+    },
+    {
+      "name": "Bibita in Lattina",
+      "desc": "",
+      "img": "",
+      "price": "1.50"
+    },
+    {
+      "name": "Birra 0,4L",
+      "desc": "",
+      "img": "",
+      "price": "5.00"
+    },
+    {
+      "name": "Vina Sfuso 0,5L",
+      "desc": "",
+      "img": "",
+      "price": "3.50"
+    },
+    {
+      "name": "Vino Sfuso 1L",
+      "desc": "",
+      "img": "",
+      "price": "6.00"
+    }
+  ]
+}
