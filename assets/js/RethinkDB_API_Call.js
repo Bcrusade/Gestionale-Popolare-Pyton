@@ -1,8 +1,8 @@
 // Funzione principale che viene eseguita una volta che il DOM è pronto
 document.addEventListener("DOMContentLoaded", function () {
 });
-              toastr.options = {
-"timeOut": "1500"
+toastr.options = {
+  "timeOut": "1500"
 }
 
 // Modifica la funzione loadExternalJsonAndInitialize per utilizzare la chiamata API
@@ -13,7 +13,7 @@ async function loadExternalJsonAndInitialize(apiUrl) {
     const data = await response.json(); // Estrai i dati JSON dalla risposta
     //console.log(data);
 
-    const response2 = await fetch("http://" + self.location.host +"/api/requestOrderNumber"); // Esegui la chiamata API
+    const response2 = await fetch("http://" + self.location.host + "/api/requestOrderNumber"); // Esegui la chiamata API
     console.log("Chiamata API riuscita:", response2);
     responseObject = await response2.json(); // Estrai i dati JSON dalla risposta
     orderNumber = responseObject.orderId
@@ -62,7 +62,7 @@ function initializeApp(data) {
   // Mappa delle categorie ai rispettivi array di menu
   const json = JSON.parse(data);
   console.log(json)
-//key = category, item= list of products
+  //key = category, item= list of products
   const categorieMenuMap = {
     pizza: json["pizza"] || [],
     panini_singoli:
@@ -83,19 +83,19 @@ function initializeApp(data) {
     const objectDetails = itemProperties;
     // Selezionare il container in cui si desidera aggiungere l'HTML (sostituire 'container-id' con il tuo effettivo ID del container)
     const container = document.getElementById("container-riepilogo");
-      // Creare un nuovo div per ogni oggetto
-      const objectDiv = document.createElement("div");
-      // Impostare l'ID univoco
-      objectDiv.id = objectDetails.ID;
-      objectDiv.className = "flex items-center mb-4";
+    // Creare un nuovo div per ogni oggetto
+    const objectDiv = document.createElement("div");
+    // Impostare l'ID univoco
+    objectDiv.id = objectDetails.ID;
+    objectDiv.className = "flex items-center mb-4";
 
-      // Verifica se objectDetails.note è maggiore di 0 prima di aggiungere l'elemento <i>
-      const noteHtml =
-        objectDetails.note && objectDetails.note.trim().length > 0
-          ? `<i class="text-sm text-default-600 font-bold text-primary">- ${objectDetails.note}</i>`
-          : "";
+    // Verifica se objectDetails.note è maggiore di 0 prima di aggiungere l'elemento <i>
+    const noteHtml =
+      objectDetails.note && objectDetails.note.trim().length > 0
+        ? `<i class="text-sm text-default-600 font-bold text-primary">- ${objectDetails.note}</i>`
+        : "";
 
-      objectDiv.innerHTML = `
+    objectDiv.innerHTML = `
         <!-- <img src="${objectDetails.img}" class="h-20 w-20 me-2"> -->
         <div>
           <h4 class="text-sm text-default-600 mb-2 font-bold">${objectDetails.name}</h4>
@@ -105,15 +105,15 @@ function initializeApp(data) {
         </div>
       `;
 
-      // Aggiungere il listener di evento al pulsante "X"
-      const deleteButton = objectDiv.querySelector("button");
-      deleteButton.addEventListener("click", () => {
-        // Chiamare la funzione di eliminazione passando l'indice corrente
-        deleteObject();
-      });
+    // Aggiungere il listener di evento al pulsante "X"
+    const deleteButton = objectDiv.querySelector("button");
+    deleteButton.addEventListener("click", () => {
+      // Chiamare la funzione di eliminazione passando l'indice corrente
+      deleteObject();
+    });
 
-      // Aggiungere il nuovo div al container senza cancellare quello già esistente
-      container.appendChild(objectDiv);
+    // Aggiungere il nuovo div al container senza cancellare quello già esistente
+    container.appendChild(objectDiv);
 
     // Funzione di eliminazione voce
     function deleteObject() {
@@ -127,7 +127,7 @@ function initializeApp(data) {
       // Verificare che l'elemento da rimuovere sia un figlio diretto del contenitore
       if (divToRemove && divToRemove.parentNode === container) {
         // Rimuovere l'elemento corrispondente dall'array di dettagli dell'oggetto
-        orderData = orderData.filter( item => item.ID != objectDetails.ID)
+        orderData = orderData.filter(item => item.ID != objectDetails.ID)
         grandTotal = calculateTotalOrderValue(orderData)
         // Rimuovere il div dal DOM
         container.removeChild(divToRemove);
@@ -138,12 +138,12 @@ function initializeApp(data) {
         console.log("Totale aggiornato dopo l'eliminazione:", grandTotal);
         console.log("ID da eliminare:", objectDetails.ID)
 
-       // Ottieni il riferimento al bottone "check-out"
+        // Ottieni il riferimento al bottone "check-out"
         var checkoutButton = document.getElementById("check-out");
         if (grandTotal == 0) {
           // Toggle della classe opacity-50 sul div del bottone "check-out"
-           checkoutButton.classList.add("opacity-50");
-          }
+          checkoutButton.classList.add("opacity-50");
+        }
 
       } else {
         // Log se l'elemento non è stato trovato o non è un figlio diretto del contenitore
@@ -164,7 +164,7 @@ function initializeApp(data) {
     };
 
     if (itemProperties.note) {
-    orderDetailsObject["notes"] = itemProperties.note
+      orderDetailsObject["notes"] = itemProperties.note
     }
 
     // Aggiungere i dati correnti alla variabile globale orderData
@@ -188,9 +188,9 @@ function initializeApp(data) {
 
     // Aggiornare il contenuto dell'elemento con la somma totale
     totaleElement.textContent = `€ ${grandTotal.toFixed(2)}`;
-      // Ottieni il riferimento al bottone "check-out"
-     var checkoutButton = document.getElementById("check-out");
-     if (grandTotal > 0) {
+    // Ottieni il riferimento al bottone "check-out"
+    var checkoutButton = document.getElementById("check-out");
+    if (grandTotal > 0) {
       // Toggle della classe opacity-50 sul div del bottone "check-out"
       checkoutButton.classList.remove("opacity-50");
     }
@@ -204,9 +204,9 @@ function initializeApp(data) {
         //make screen unclickable
         const MenuContainer1 = document.getElementById("container-menu").style.pointerEvents = "none"
         const MenuContainer2 = document.getElementById("filter_Offcanvas").style.pointerEvents = "none"
-        const MenuContainer3 = document.getElementById("right-panel").style.pointerEvents = "none"			
+        const MenuContainer3 = document.getElementById("right-panel").style.pointerEvents = "none"
         // Chiamare la funzione per pulire il carrello
-		clearContainers();
+        clearContainers();
         // Toggle della classe opacity-50 sul div del bottone "check-out"
         checkoutButton.classList.add("opacity-50");
 
@@ -250,8 +250,8 @@ function initializeApp(data) {
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.error("Errore:", error));
-   
-   location.reload() //reload the page after submitting the order to the server
+
+    location.reload() //reload the page after submitting the order to the server
   }
 
   // Aggiungi un listener per l'evento beforeunload per assicurarti che i dati vengano salvati prima di lasciare la pagina
@@ -279,13 +279,16 @@ function initializeApp(data) {
   }
 
   function cleanOrderData(data) {
-  data.forEach((item) => {
-    delete item["name"]  //remove useless data used only for visualization
-    delete item["price"]
-    delete item["ID"]
-  })
-  return data;
+    data.forEach((item) => {
+      delete item["name"]  //remove useless data used only for visualization
+      delete item["price"]
+      delete item["ID"]
+    })
+    return data;
   }
+
+
+
 
   // Funzione per creare e mostrare il pop-up con i dati trasformati
   function showPopupOrderData(transformedDataJson, grandTotal) {
@@ -294,41 +297,77 @@ function initializeApp(data) {
     // Ottieni il contenitore del pop-up
     const popupContainer = document.getElementById("popup-container");
     // Creare HTML dinamico con i dati mappati
-    let htmlContent = `<h4 class="text-base text-default-700 font-bold">Ordine Nr.${orderNumber}:</h4>
+    let htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-3 text-center">Ordine Nr. ${orderNumber}</h4>
     <div style="overflow:auto;">`;
-    const noteHtml = `
+    let noteHtml = `
     </div>
     <div class="flex justify-between m-3">
-      <p class="text-base text-default-700 font-bold">Totale: </p>
-      <p class="text-base text-default-700 font-medium">${grandTotal} €</p>
+      <div id="grandTotal-container" class="flex gap-3 items-center">
+        <p class="text-base text-default-700 font-bold">Totale: </p>
+        <p class="text-base text-default-700 font-medium">${grandTotal} €</p>
+      </div>
+
+      `;
+    if (GuestTypeSelectedInput === "Client") {
+      noteHtml += `
+      <div id="change-container" class="flex gap-2 items-center">
+        <label for="num1">Contante:</label>
+        <input type="text" id="num1" class="border duration-500 font-medium items-center px-2.5 py-1.5 rounded-full shadow-sm text-center text-sm transition-all w-16" onkeydown="handleKeyPress(event)" />
+        <button class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500  items-center  px-6 py-1.5 relative rounded-full shadow-sm text-center text-sm text-white transition-all" onclick="calcolaSottrazione()">RESTO</button>
+        <h3 id="risultato" class="font-bold mt-2 py-1.5 text-center text-primary"></h3>
+      </div>
     </div>
-  `;
+    `;
+    }
     orderItems.forEach((item) => {
       htmlContent += `
+
       <div>
-          <h4 class="mt-1.5 mb-1.5 text-default-600 text-sm ">Piatto: <span class="px-5 py-3 whitespace-nowrap text-sm text-default-800">${item.name}</span></h4>
-          <h4 class="mt-1.5 mb-1.5 text-default-600 text-sm ">Quantità:<span class="px-5 py-3 whitespace-nowrap text-sm text-default-800">${item.quantity}</span></h4>
-          <h4 class="mt-1.5 mb-1.5 text-default-600 text-sm ">Prezzo: <span class="px-5 py-3 whitespace-nowrap text-sm text-default-800">${item.price} €</span></h4>
-          <h4 class="mt-1.5 mb-1.5 text-default-600 text-sm ">Note: <span class="px-5 py-3 whitespace-nowrap text-sm text-default-800">${item.notes ?? ''}</span></h4>
-      </div>
-      <hr>
+  <div style="
+  display: grid;
+  grid-template-columns: auto auto;
+  column-gap: 40px;
+  padding:0 20px;
+  justify-content: start;
+  ">
+    <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Piatto:</h4>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${item.name}</span>
+    
+    <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Quantità:</h4>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${item.quantity}</span>
+    
+    <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Prezzo:</h4>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${item.price} €</span>
+    
+    <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Note:</h4>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none text-primary">${item.notes ?? ''}</span>
+  </div>
+  <hr class="mb-3 mt-3">
+</div>
+
 
     `;
     });
     htmlContent += noteHtml;
-    if (GuestTypeSelectedInput === "Client"){htmlContent += `
-    <div id="checkbox-pagamento" class="relative flex flex-col space-y-4 mb-6">
-                    <div class="flex items-center">
-                      <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="cash" name="all" type="checkbox" onclick="paymentCheckboxMutex('cash', 'pos')">
-                      <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="cash">Contanti</label>
-                      <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="pos" name="all" type="checkbox" onclick="paymentCheckboxMutex('pos', 'cash')">
-                      <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="pos">POS</label>
-                    </div>
+    if (GuestTypeSelectedInput === "Client") {
+      htmlContent += `
+    <div id="checkbox-paymant" class="flex justify-around m-3">
+                      <div>
+                        <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="cash" name="all" type="checkbox" onclick="paymentCheckboxMutex('cash', 'pos')">
+                        <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="cash">Contanti</label>
+                      </div>
+                      <div>
+                        <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="pos" name="all" type="checkbox" onclick="paymentCheckboxMutex('pos', 'cash')">
+                        <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="pos">POS</label>
+                      </div>
+
                 </div>
                 ` }
     htmlContent += `
-    <a id="send-order" class="relative w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="#">INVIA</a>
-    <button id="btn-confirm-order" class="w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-10 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500">Stampa</button>
+    <div id="button-order-container" class="flex gap-12 justify-around m-3">
+    <a id="send-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full" href="#">INVIA</a>
+    <button id="btn-confirm-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full">Stampa</button>
+    </div>
     `
     // Assegna l'HTML al contenitore del pop-up
     popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" >X</span>${htmlContent}`;
@@ -336,52 +375,92 @@ function initializeApp(data) {
     // Mostra il pop-up
     popupContainer.style.display = "flex";
     if (GuestTypeSelectedInput === "Client") {
-    document.getElementById('cash').checked = true;
-    paymentType = 'cash'
+      document.getElementById('cash').checked = true;
+      paymentType = 'cash'
     } else {
-    paymentType = 'free'
+      paymentType = 'free'
     }
 
+    //Calcolo resto
+    function calcolaSottrazione() {
+      var num1 = parseFloat(document.getElementById("num1").value);
+
+      var risultatoElement = document.getElementById("risultato");
+
+      if (isNaN(num1) || isNaN(GrandTotal)) {
+        risultatoElement.textContent =
+          "Inserisci un numero valido e assicurati che il numero esterno sia definito.";
+        return;
+      }
+
+      if (num1 < GrandTotal) {
+        alert(
+          "C'è un errore sul pagamento. Il numero inserito è inferiore al totale."
+        );
+        return;
+      }
+
+      var risultato = Math.abs(GrandTotal - num1);
+
+      risultatoElement.textContent =
+        "Resto: " + risultato.toFixed(2) + " €";
+    }
+
+    function handleKeyPress(event) {
+      if (event.keyCode === 13) {
+        calcolaSottrazione();
+      }
+    }
+
+
+    // Aggiungi il codice per mostrare l'overlay
+    const overlay = document.getElementById("overlay");
+    overlay.style.display = "block";
+
     const sendOrderButton = popupContainer.querySelector("#send-order");
-  sendOrderButton.addEventListener("click", function (event) {
-            // Previeni il comportamento di default del link
-            event.preventDefault();
-        // Chiama la funzione per inviare i dati dell'ordine al database
-        let cleanedData = cleanOrderData(orderData)
-        inviaDatiOrdine(cleanedData);
-        console.log(paymentType)
-        // Svuotare le variabile dopo l'invio dell'ordine
-        closePopup()
-        clearDataState()
+    sendOrderButton.addEventListener("click", function (event) {
+      // Previeni il comportamento di default del link
+      event.preventDefault();
+      // Chiama la funzione per inviare i dati dell'ordine al database
+      let cleanedData = cleanOrderData(orderData)
+      inviaDatiOrdine(cleanedData);
+      console.log(paymentType)
+      // Svuotare le variabile dopo l'invio dell'ordine
+      closePopup()
+      clearDataState()
     }
     )
     const closePopupButton = popupContainer.querySelector("#close-button");
     closePopupButton.addEventListener("click", function () {
-        // Svuotare le variabile dopo l'invio dell'ordine
+      // Svuotare le variabile dopo l'invio dell'ordine
 
-        closePopup()
-        clearDataState()
+      closePopup()
+      clearDataState()
     }
     )
     const printButton = popupContainer.querySelector("#btn-confirm-order");
     printButton.addEventListener("click", function () {
-        printOrderData(transformedDataJson, grandTotal, orderNumber)
+      printOrderData(transformedDataJson, grandTotal, orderNumber)
     }
     )
 
     // Funzione per chiudere il pop-up
     function closePopup() {
-        const popupContainer = document.getElementById('popup-container');
-        popupContainer.style.display = 'none';
-        //make clickable everything again
-        const MenuContainer1 = document.getElementById("container-menu").style.pointerEvents = ""
-        const MenuContainer2 = document.getElementById("filter_Offcanvas").style.pointerEvents = ""
-        const MenuContainer3 = document.getElementById("right-panel").style.pointerEvents = ""
+      const popupContainer = document.getElementById('popup-container');
+      const overlay = document.getElementById("overlay");
+      popupContainer.style.display = 'none';
+      //make clickable everything again
+      const MenuContainer1 = document.getElementById("container-menu").style.pointerEvents = ""
+      const MenuContainer2 = document.getElementById("filter_Offcanvas").style.pointerEvents = ""
+      const MenuContainer3 = document.getElementById("right-panel").style.pointerEvents = ""
+      // Nascondi il popup e l'overlay
+      popupContainer.style.display = "none";
+      overlay.style.display = "none";
     }
 
-}
+  }
 
-function printOrderData(transformedDataJson, grandTotal, idOrdineCreato) {
+  function printOrderData(transformedDataJson, grandTotal, idOrdineCreato) {
     // JSON da parsare
     const jsonData = transformedDataJson;
     // Converti la stringa JSON in un oggetto JavaScript
@@ -404,7 +483,7 @@ function printOrderData(transformedDataJson, grandTotal, idOrdineCreato) {
     });
     htmlContent += `
      <div>
-         <h4 class="mt-1.5 mb-1.5 text-default-600 text-sm text-primary">TOTALE: <span class="px-5 py-3 whitespace-nowrap text-sm text-default-800 text-primary">${GragrandTotal} €</span></h4>
+         <h4 class="mt-1.5 mb-1.5 text-default-600 text-sm text-primary">TOTALE: <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none text-primary">${GragrandTotal} €</span></h4>
      </div>
  `;
     htmlContent += `</div>`;
@@ -429,13 +508,13 @@ function printOrderData(transformedDataJson, grandTotal, idOrdineCreato) {
 
     // Rimuovere l'elemento div temporaneo dal DOM dopo la stampa
     document.body.removeChild(printContainer);
-}
+  }
 
-function clearDataState() {
-        orderData = [];
-        paymentType = ""
-        grandTotal = 0;
-}
+  function clearDataState() {
+    orderData = [];
+    paymentType = ""
+    grandTotal = 0;
+  }
   // Funzione per gestire il click sulla categoria
   function categoriaClick(event) {
     // Deseleziona la categoria precedentemente selezionata
@@ -509,7 +588,7 @@ function clearDataState() {
               <span class="text-default-800 text-xl font-semibold line-clamp-1 after:absolute after:inset-0">${oggetto.name}</span>
               <i class="text-m text-default-500">${oggetto.desc}</i>
               <div class="border border-default-200 inline-flex justify-between mt-2 p-1 relative rounded-full z-10 truncate overflow-auto">
-              <input id="input_${menuId}" type="text" placeholder="Inserisci modifiche" class="border-none h-3 w-full truncate overflow-auto" />
+              <input id="input_${menuId}" type="text" placeholder="Inserisci modifiche" class="bg-white border-none dark:bg-default-50 h-3 overflow-auto truncate w-full" />
               </div>
             </div>
   
@@ -577,14 +656,14 @@ function clearDataState() {
 
             if (parseInt(quantityInput.value, 10) > 0) {
               let itemProperties = {
-            price: oggetto.price,
-            quantity: Math.max(parseInt(quantityInput.value, 10), 0),
-            image: oggetto.img,
-            name: oggetto.name,
-            ID: menuId + Date.now().toString(36) + Math.random().toString(36).substr(2), //true random id for <div>
-            productId: oggetto.productId,
-            note: ""
-            }
+                price: oggetto.price,
+                quantity: Math.max(parseInt(quantityInput.value, 10), 0),
+                image: oggetto.img,
+                name: oggetto.name,
+                ID: menuId + Date.now().toString(36) + Math.random().toString(36).substr(2), //true random id for <div>
+                productId: oggetto.productId,
+                note: ""
+              }
 
               // Ottieni il valore dall'input solo se la lunghezza è maggiore di 0
               if (noteInput && noteInput.value.trim().length > 0) {
@@ -652,13 +731,13 @@ function clearDataState() {
 
   }
 
-function calculateTotalOrderValue(data){
-     let totalValue = 0
-     data.forEach( item => {
-     totalValue += item.quantity * item.price
-     } )
-     return totalValue
-}
+  function calculateTotalOrderValue(data) {
+    let totalValue = 0
+    data.forEach(item => {
+      totalValue += item.quantity * item.price
+    })
+    return totalValue
+  }
 
   // Your array of categories menu laterale
   const categories = [
