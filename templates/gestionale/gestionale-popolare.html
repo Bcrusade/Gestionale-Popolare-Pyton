@@ -42,6 +42,7 @@
     <!-- <script type="module" crossorigin src="assets/js/chiamata-api.js"></script> -->
     <script type="text/javascript" src="assets/js/RethinkDB_API_Call.js"></script>
     <script src="https://printjs-4de6.kxcdn.com/print.min.js"></script>
+    <link rel="stylesheet" href="assets/css/print.css" />
     <link rel="stylesheet" href="assets/css/theme-c9540983.css" />
     <link rel="stylesheet" href="assets/css/custom.css" />
   </head>
@@ -1730,7 +1731,7 @@
                     </div>
                     <div class="flex items-center">
                       <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="Volounteer" name="all" type="checkbox" onclick="toggleCheck('Volounteer')">
-                      <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="Guest">Volontario/Frate</label>
+                      <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="Volounteer">Volontario/Frate</label>
                     </div>
                     <div class="flex items-center">
                       <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="Guest" name="all" type="checkbox" onclick="toggleCheck('Guest')">
@@ -1970,27 +1971,13 @@ function toggleCheck(checkedId) {
   const checkboxes = document.querySelectorAll(
       '#checkbox-utente input[type="checkbox"]:checked'
     );
-    checkboxes.forEach((customerType) => {
+  checkboxes.forEach((customerType) => {
       customerType.checked = false;
     });
   const selectedType = event.currentTarget
   selectedType.checked = true;
   GuestTypeSelectedInput = checkedId
   console.log(GuestTypeSelectedInput)
-
-  //var checkedCheckbox = document.getElementById(checkedId);
-  //var uncheckedCheckbox = document.getElementById(uncheckedId);
-  //
-  //Verifica se il checkbox "Client" è selezionato
-  //var clientCheckbox = document.getElementById('Client');
-  //
-  //if (checkedCheckbox.checked) {
-  //  uncheckedCheckbox.checked = false;
-  //  GuestTypeSelectedInput = checkedId; // Salva l'id del checkbox selezionato nella variabile globale
-  //} else if (clientCheckbox.checked) {
-  //  // Se il checkbox "Client" è selezionato, imposta GuestTypeSelectedInput su 'Client'
-  //  GuestTypeSelectedInput = 'Client';
-  //}
 }
 
 // Imposta il checkbox "Client" & "cash" come selezionato di default
@@ -2030,7 +2017,8 @@ function init() {
   // Carica i dati JSON dall'API e avvia l'applicazione
   loadExternalJsonAndInitialize(apiUrl);
 };
-  
+
+
 </script>
 
     <!-- Back to Top & Light/Dark Toggle -->

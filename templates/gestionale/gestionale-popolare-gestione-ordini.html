@@ -10,7 +10,8 @@
 
     <!-- Theme favicon -->
     <link rel="shortcut icon" href="assets/img/favicon.ico" />
-
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <!--  Head js -->
     <script
       type="module"
@@ -22,6 +23,13 @@
     <link rel="modulepreload" crossorigin href="assets/js/index-a4e39586.js" />
     <link rel="stylesheet" href="assets/css/theme-c9540983.css" />
     <link rel="stylesheet" href="assets/css/custom.css" />
+
+    <!-- Toaster CDN -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
   </head>
 
   <body>
@@ -82,8 +90,8 @@
     <!-- Start Sidebar -->
     <!-- End Sidebar -->
     <!-- Start Content -->
-    <div class=" border border-default-200 c rounded-lg  shadow-lg" id="popup-container">
-      <span class="font-semibold text-lg text-primary" id="close-button" onclick="closePopup()">X</span>
+    <div class=" border border-default-200 c rounded-lg  shadow-lg" style="overflow:auto; max-height: 90%" id="popup-container">
+      <span style="right: 10px" class="font-semibold text-lg text-primary" id="close-button" onclick="closePopup()">X</span>
     </div>
 	<div class="w-full container">
       <div class="p-6 page-content">
@@ -99,7 +107,10 @@
                       <h2 class="text-xl text-default-800 font-semibold">
                         Lista Ordini
                       </h2>
-
+                      <div>
+                        <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="completed-order-checkbox">Visualizza ordini evasi:</label>
+                        <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="completed-order-checkbox" type="checkbox" onclick="fetchAndDisplayOrders()">
+                      </div>
                       <div class="flex items-center">
                         <span class="text-base text-default-950 me-3"
                           >Sort By :</span
@@ -182,6 +193,11 @@
                                 Numero Ordine
                               </th>
                               <th
+                                class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800"
+                              >
+                                Tipologia
+                              </th>
+                              <th
                                 class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 min-w"
                               >
                                 Tavolo
@@ -240,6 +256,12 @@
       }
 
       /* Aggiungi stili CSS per il pulsante di chiusura */
+      #close-button {
+          position: absolute;
+          top: 10px;
+          right: 10px;
+          cursor: pointer;
+      }
       #close-button {
           position: absolute;
           top: 10px;
@@ -306,68 +328,16 @@
       "3": "Evaso"
       }
 
-      // Funzione per caricare i dati dal localStorage
-      /*
-      function loadFromLocalStorage() {
-        // Carica l'array
-        OrderItemList = JSON.parse(localStorage.getItem("OrderItemList")) || [];
-
-        // Carica la somma totale con decimali
-        OrderTotalSum = parseFloat(localStorage.getItem("OrderTotalSum")) || 0;
-
-        // Carica ordini totali
-        numeroOrdineIncrementale =
-          parseInt(localStorage.getItem("TotalOrder"), 10) || 0;
-
-        // Carica OrderdTotalClient con decimali
-        OrderdTotalClient =
-          parseFloat(localStorage.getItem("OrderdTotalClient")) || 0;
-
-        // Carica OrderdTotalGuest con decimali
-        OrderdTotalGuest =
-          parseFloat(localStorage.getItem("OrderdTotalGuest")) || 0;
-      }*/
+      toastr.options = {
+         "timeOut": "2500"
+      }
 
       // Assicurati che questo script venga eseguito dopo il caricamento completo dell'HTML
       document.addEventListener("DOMContentLoaded", function () {
-        // Chiamata alla funzione per caricare i dati dal localStorage all'inizializzazione
-        //loadFromLocalStorage();
-        //updatePage(); // Chiamata iniziale per visualizzare i valori all'avvio
-        // Chiamata iniziale per caricare i dati dal server
         fetchAndDisplayOrders();
-
-        // Aggiorna i valori e la tabella ogni 20 secondi
+        // Aggiorna i valori e la tabella ogni 5 secondi
         setInterval(fetchAndDisplayOrders, 5000);
-        //fetchAndDisplayOrders()
-        // setInterval(function () {
-        //   // Assicurati di avere i dati necessari per la funzione displayOrdersTable
-        //   if (orderData) {
-        //     displayOrdersTable(orderData);
-        //   }
-        // }, 5000);
       });
-
-      function updatePage() {
-        // Esegui l'aggiornamento dei valori qui
-        loadFromLocalStorage();
-        // Aggiorna il contenuto dell'elemento con l'ID "ordini_totali"
-        const elementoOrdiniTotali = document.getElementById("ordini_totali");
-        elementoOrdiniTotali.innerText = numeroOrdineIncrementale;
-
-        // Aggiorna il contenuto dell'elemento con l'ID "bilancio_totale"
-        const elementoSommaTotali = document.getElementById("bilancio_totale");
-        elementoSommaTotali.innerText = formatCurrency(OrderTotalSum);
-
-        // Aggiorna il contenuto dell'elemento con l'ID "bilancio_clienti"
-        const elementoTotaleCliente =
-          document.getElementById("bilancio_clienti");
-        elementoTotaleCliente.innerText = formatCurrency(OrderdTotalClient);
-
-        // Aggiorna il contenuto dell'elemento con l'ID "bilancio_volontari"
-        const elementoTotaleVolontari =
-          document.getElementById("bilancio_volontari");
-        elementoTotaleVolontari.innerText = formatCurrency(OrderdTotalGuest);
-      }
 
       // Formatta il valore come valuta (ad esempio, aggiungi il simbolo €)
       function formatCurrency(value) {
@@ -380,7 +350,13 @@
       // Funzione per caricare i dati dal server e aggiornare la tabella
       async function fetchAndDisplayOrders() {
         try {
-          const response = await fetch("http://"+ self.location.host +"/api/ordersList");
+          let response = ""
+          const viewCheckbox = document.getElementById("completed-order-checkbox");
+          if (viewCheckbox.checked == false) {
+          response = await fetch("http://"+ self.location.host +"/api/ordersList");
+          } else {
+          response = await fetch("http://"+ self.location.host +"/api/completedOrdersList");
+          }
           const newOrderData = await response.json();
           console.log(newOrderData)
           // Aggiungi solo i nuovi ordini alla tabella
@@ -435,12 +411,13 @@
             if (order.tableId === 0){
             tableId = "---"
             }
-            row.id = `order-row-${order.orderId}`;
-			let buttonId1 = "1button" + order.orderId
-			let buttonId2 = "2button" + order.orderId
+            row.id = `order-row-${order.orderId}-${order.orderType}`;
+			let buttonId1 = "1button" + order.orderId + "-" + order.orderType
+			let buttonId2 = "2button" + order.orderId + "-" + order.orderType
             row.innerHTML = `
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${formattedDate} ${formattedTime}</td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${order.orderId}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${order.orderType}</td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${tableId}</td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${orderStatusMap[order.orderStatus]}</td>
          <button id="${buttonId1}" style="float: right;" class="font-bold text-default-950">X</button></h4>
@@ -455,7 +432,7 @@
         // Chiamare la funzione di modifica dati dell'ordine passando l'indice corrente
         console.log(order.orderId)
         //funzione per riempire popup
-        showPopupEditDataOrder(order.orderId, order.orderStatus, order.tableId)
+        showPopupEditDataOrder(order.orderId, order.orderStatus, order.tableId, order.orderType)
       });
     
 	   // Aggiungere il listener di evento al pulsante "O"
@@ -469,7 +446,7 @@
         });
       }
 
-      function showPopupEditDataOrder(orderID, stato, tavolo) {
+      function showPopupEditDataOrder(orderID, stato, tavolo, orderType) {
       const popupContainer = document.getElementById("popup-container");
       let htmlContent = `<h4 class="text-base text-default-700 font-bold">Ordine N.${orderID}</h4>`;
       var statoOrdine = stato;
@@ -532,10 +509,10 @@ const updateButton = popupContainer.querySelector("#update-order");
             if (!tavoloID){
             tavoloID = 0;
             }
-            updateOrderData(orderID, statoOrdine, tavoloID)
+            updateOrderData(orderID, statoOrdine, tavoloID, orderType)
             closePopup()
             //refresh order data
-            refreshDataAfterUpdate()
+            fetchAndDisplayOrders()
 
 })
 
@@ -546,8 +523,9 @@ const updateButton = popupContainer.querySelector("#update-order");
  async function showPopupViewOrderItem(orderID) {
 	   const popupContainer = document.getElementById("popup-container");
        let htmlContent = `<h4 class="text-base text-default-700 font-bold">Ordine N.${orderID}</h4>`;
-	   popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button2" onclick="closePopup()">X</span>${htmlContent}`;
-	   tableHtml = `<table class="min-w-full divide-y divide-default-200">
+	   popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" onclick="closePopup()">X</span>${htmlContent}`;
+	   tableHtml = `<div style="overflow:auto;">
+	                    <table class="min-w-full divide-y divide-default-200">
                           <thead class="bg-default-100">
                             <tr class="text-start">
                               <th
@@ -577,7 +555,8 @@ const updateButton = popupContainer.querySelector("#update-order");
                             <!-- end table-row -->
                           </tbody>
                           <!-- end t-body -->
-                        </table>`
+                        </table>
+                        </div>`
 
        popupContainer.innerHTML += tableHtml
 
@@ -619,13 +598,15 @@ const updateButton = popupContainer.querySelector("#update-order");
      document.getElementById("myDropdown").classList.toggle("show");
     }
 
-    function updateOrderData(orderID, statoOrdine, tavoloID) {
+function updateOrderData(orderID, statoOrdine, tavoloID, orderType) {
 
 const orderDataUpdated = {
 orderId: orderID,
 orderStatus: statoOrdine,
-tableId: tavoloID
+tableId: tavoloID,
+orderType: orderType
 }
+
 fetch("http://" + self.location.host + "/api/orderDataUpdate", {
       method: "POST",
       headers: {
@@ -636,20 +617,11 @@ fetch("http://" + self.location.host + "/api/orderDataUpdate", {
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.error("Errore:", error));
-    }
 
+    toastr.success(
+          "<b>Ordine Nr." + orderID + " " + orderType +"</b> <br> stato/tavolo aggiornato!" );
+}
 
-    async function refreshDataAfterUpdate() {
-    try {
-          const response = await fetch("http://"+ self.location.host +"/api/ordersList");
-         const newOrderData = await response.json();
-
-           //Aggiungi solo i nuovi ordini alla tabella
-         displayOrdersTable(newOrderData);
-        } catch (error) {
-          console.error("Errore nella richiesta API:", error);
-        }
-    }
 
 // Close the dropdown menu if the user clicks outside of it
    window.onclick = function(event) {
@@ -675,17 +647,6 @@ let SortType = "DataOra";
 	                      `
 	fetchAndDisplayOrders()
 	}
-
-      // function generateStarIcons(rating) {
-      //   const stars = Array.from(
-      //     { length: rating },
-      //     (_, index) => `
-      //                     <button><i data-lucide="star" class="h-5 w-5 text-yellow-400 fill-yellow-400"></i></button>
-      //                   `
-      //   ).join("");
-
-      //   return stars;
-      // }
     </script>
     <!-- Back to Top & Light/Dark Toggle -->
     <div

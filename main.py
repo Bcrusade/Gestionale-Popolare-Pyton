@@ -25,10 +25,13 @@ def menu():
 #send open orders to display
 @app.route("/api/ordersList")
 def orderList():
-    #f = open("data/Test_OrderList_JSON.json", "r")
-    #data = f.read()
-    #f.close()
     data = retrieveOrderList(connection)
+    return jsonify(data)
+
+#send open orders to display
+@app.route("/api/completedOrdersList")
+def completedOrderList():
+    data = retrieveRecentCompletedOrderList(connection)
     return jsonify(data)
 
 #send open orders to display
@@ -137,6 +140,7 @@ if __name__ == '__main__':
   "orderStatus": 2,
   "tableId": 200
 }"""
+
     print(retrieveOrderItems(connection, 84))
     app.run(threaded=True, debug=True, host="0.0.0.0")
 
