@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>JavaScript Ajax GET Demo</title>
+    <script>
+      // Assuming the API endpoint is 'https://example.com/api/menu'
+      const apiUrl = "https://example.com/api/menu";
+
+      // Your JSON data
+      const jsonData = {
+        // ... (your JSON data here)
+      };
+
+      // Make a POST request with JSON data
+      fetch(apiUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(jsonData),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("Network response was not ok");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          // Handle the response data here
+          console.log(data);
+        })
+        .catch((error) => {
+          // Handle errors here
+          console.error("There was a problem with the fetch operation:", error);
+        });
+
+      const jsonString = {
+        categorie: [
+          "Cucina",
+          "Menù panini",
+          "Panini singoli",
+          "Pizza",
+          "Bevande",
+        ],
+        cucina: [
+          {
+            name: "Pasta Primavera",
+            desc: "Pomodoro e Mozzarella",
+            img: "",
+            price: "4,00",
+          },
+          {
+            name: "Primo del Giorno",
+            desc: "",
+            img: "",
+            price: "8,00",
+          },
+          {
+            name: "Fritto Misto",
+            desc: "",
+            img: "",
+            price: "12,00",
+          },
+          {
+            name: "Grigliata di Carne",
+            desc: "",
+            img: "",
+            price: "10,00",
+          },
+          {
+            name: "Contorno del Giorno",
+            desc: "",
+            img: "",
+            price: "3,50",
+          },
+          {
+            name: "Patatine Fritte",
+            desc: "",
+            img: "",
+            price: "3,00",
+          },
+        ],
+        "menu panini": [
+          {
+            "menu birra": [
+              {
+                name: "Hamburger",
+                desc: "Pomodori e insalata",
+                img: "",
+                price: "9,50",
+              },
+              {
+                name: "Cheeseburger",
+                desc: "Formaggio, pomodori e insalata",
+                img: "",
+                price: "9,50",
+              },
+              {
+                name: "Baconburger",
+                desc: "Formaggio, bacon, pomodori e insalata",
+                img: "",
+                price: "9,50",
+              },
+              {
+                name: "Wurstel",
+                desc: "",
+                img: "",
+                price: "9,50",
+              },
+              {
+                name: "Wurstel e Crauti",
+                desc: "",
+                img: "",
+                price: "9,50",
+              },
+              {
+                name: "Salamella",
+                desc: "",
+                img: "",
+                price: "9,50",
+              },
+              {
+                name: "Salamella con Cipolle",
+                desc: "",
+                img: "",
+                price: "9,50",
+              },
+              {
+                name: "Vegetariano",
+                desc: "Mozzarella, pomodori e insalata",
+                img: "",
+                price: "9,50",
+              },
+            ],
+          },
+          {
+            "menu bibita": [
+              {
+                name: "Hamburger",
+                desc: "Pomodori e insalata",
+                img: "",
+                price: "8,50",
+              },
+              {
+                name: "Cheeseburger",
+                desc: "Formaggio, pomodori e insalata",
+                img: "",
+                price: "8,50",
+              },
+              {
+                name: "Baconburger",
+                desc: "Formaggio, bacon, pomodori e insalata",
+                img: "",
+                price: "8,50",
+              },
+              {
+                name: "Wurstel",
+                desc: "",
+                img: "",
+                price: "8,50",
+              },
+              {
+                name: "Wurstel e Crauti",
+                desc: "",
+                img: "",
+                price: "8,50",
+              },
+              {
+                name: "Salamella",
+                desc: "",
+                img: "",
+                price: "8,50",
+              },
+              {
+                name: "Salamella con Cipolle",
+                desc: "",
+                img: "",
+                price: "8,50",
+              },
+              {
+                name: "Vegetariano",
+                desc: "Mozzarella, pomodori e insalata",
+                img: "",
+                price: "8,50",
+              },
+            ],
+          },
+        ],
+        "panini singoli": [
+          {
+            name: "Hamburger",
+            desc: "Pomodori e insalata",
+            img: "",
+            price: "5,00",
+          },
+          {
+            name: "Cheeseburger",
+            desc: "Formaggio, pomodori e insalata",
+            img: "",
+            price: "5,00",
+          },
+          {
+            name: "Baconburger",
+            desc: "Formaggio, bacon, pomodori e insalata",
+            img: "",
+            price: "5,00",
+          },
+          {
+            name: "Wurstel",
+            desc: "",
+            img: "",
+            price: "5,00",
+          },
+          {
+            name: "Wurstel e Crauti",
+            desc: "",
+            img: "",
+            price: "5,00",
+          },
+          {
+            name: "Salamella",
+            desc: "",
+            img: "",
+            price: "5,00",
+          },
+          {
+            name: "Salamella con Cipolle",
+            desc: "",
+            img: "",
+            price: "5,00",
+          },
+          {
+            name: "Vegetariano",
+            desc: "Mozzarella, pomodori e insalata",
+            img: "",
+            price: "5,00",
+          },
+        ],
+        pizza: [
+          {
+            name: "Pomodoro",
+            desc: "",
+            img: "",
+            price: "4,50",
+          },
+          {
+            name: "4 Stagioni",
+            desc: "",
+            img: "",
+            price: "4,50",
+          },
+          {
+            name: "Margherita",
+            desc: "",
+            img: "",
+            price: "4,50",
+          },
+          {
+            name: "Diavola",
+            desc: "",
+            img: "",
+            price: "4,50",
+          },
+        ],
+        bevande: [
+          {
+            name: "Acqua",
+            desc: "",
+            img: "",
+            price: "1,00",
+          },
+          {
+            name: "Bibita in Lattina",
+            desc: "",
+            img: "",
+            price: "1,50",
+          },
+          {
+            name: "Birra 0,4L",
+            desc: "",
+            img: "",
+            price: "5,00",
+          },
+          {
+            name: "Vina Sfuso 0,5L",
+            desc: "",
+            img: "",
+            price: "3,50",
+          },
+          {
+            name: "Vino Sfuso 1L",
+            desc: "",
+            img: "",
+            price: "6,00",
+          },
+        ],
+      };
+      // Parse the JSON string
+      const jsonData = JSON.parse(jsonString);
+
+      // Now you can work with the parsed JSON object
+      console.log(jsonData);
+
+      // Assuming you have an array of items
+      const itemsArray =
+        '{"cucina":[{"name":"Pasta Primavera","desc":"Pomodoro e Mozzarella","img":"","price":"4,00"},{"name":"Primo del Giorno","desc":"","img":"","price":"8,00"},{"name":"Fritto Misto","desc":"","img":"","price":"12,00"},{"name":"Grigliata di Carne","desc":"","img":"","price":"10,00"},{"name":"Contorno del Giorno","desc":"","img":"","price":"3,50"},{"name":"Patatine Fritte","desc":"","img":"","price":"3,00"}],"menu panini":[{"menu birra":[{"name":"Hamburger","desc":"Pomodori e insalata","img":"","price":"9,50"},{"name":"Cheeseburger","desc":"Formaggio, pomodori e insalata","img":"","price":"9,50"},{"name":"Baconburger","desc":"Formaggio, bacon, pomodori e insalata","img":"","price":"9,50"},{"name":"Wurstel","desc":"","img":"","price":"9,50"},{"name":"Wurstel e Crauti","desc":"","img":"","price":"9,50"},{"name":"Salamella","desc":"","img":"","price":"9,50"},{"name":"Salamella con Cipolle","desc":"","img":"","price":"9,50"},{"name":"Vegetariano","desc":"Mozzarella, pomodori e insalata","img":"","price":"9,50"}]},{"menu bibita":[{"name":"Hamburger","desc":"Pomodori e insalata","img":"","price":"8,50"},{"name":"Cheeseburger","desc":"Formaggio, pomodori e insalata","img":"","price":"8,50"},{"name":"Baconburger","desc":"Formaggio, bacon, pomodori e insalata","img":"","price":"8,50"},{"name":"Wurstel","desc":"","img":"","price":"8,50"},{"name":"Wurstel e Crauti","desc":"","img":"","price":"8,50"},{"name":"Salamella","desc":"","img":"","price":"8,50"},{"name":"Salamella con Cipolle","desc":"","img":"","price":"8,50"},{"name":"Vegetariano","desc":"Mozzarella, pomodori e insalata","img":"","price":"8,50"}]}],"panini singoli":[{"name":"Hamburger","desc":"Pomodori e insalata","img":"","price":"5,00"},{"name":"Cheeseburger","desc":"Formaggio, pomodori e insalata","img":"","price":"5,00"},{"name":"Baconburger","desc":"Formaggio, bacon, pomodori e insalata","img":"","price":"5,00"},{"name":"Wurstel","desc":"","img":"","price":"5,00"},{"name":"Wurstel e Crauti","desc":"","img":"","price":"5,00"},{"name":"Salamella","desc":"","img":"","price":"5,00"},{"name":"Salamella con Cipolle","desc":"","img":"","price":"5,00"},{"name":"Vegetariano","desc":"Mozzarella, pomodori e insalata","img":"","price":"5,00"}],"pizza":[{"name":"Pomodoro","desc":"","img":"","price":"4,50"},{"name":"4 Stagioni","desc":"","img":"","price":"4,50"},{"name":"Margherita","desc":"","img":"","price":"4,50"},{"name":"Diavola","desc":"","img":"","price":"4,50"}],"bevande":[{"name":"Acqua","desc":"","img":"","price":"1,00"},{"name":"Bibita in Lattina","desc":"","img":"","price":"1,50"},{"name":"Birra 0,4L","desc":"","img":"","price":"5,00"},{"name":"Vina Sfuso 0,5L","desc":"","img":"","price":"3,50"},{"name":"Vino Sfuso 1L","desc":"","img":"","price":"6,00"}]}';
+
+      // Assuming you have a container element in your HTML where you want to append the generated HTML
+      const containerElement = document.getElementById("your-container-id"); // Replace 'your-container-id' with the actual ID of your container
+
+      // Use forEach to iterate through the array and generate HTML elements
+      itemsArray.forEach((item) => {
+        // Create HTML elements
+        const itemContainer = document.createElement("div");
+        itemContainer.classList.add("flex", "items-center");
+
+        const inputCheckbox = document.createElement("input");
+        inputCheckbox.setAttribute("type", "checkbox");
+        inputCheckbox.setAttribute("id", item.id);
+        inputCheckbox.setAttribute("name", item.id);
+        inputCheckbox.setAttribute("checked", true);
+        inputCheckbox.classList.add(
+          "form-checkbox",
+          "rounded-full",
+          "text-primary",
+          "border-default-400",
+          "bg-transparent",
+          "w-5",
+          "h-5",
+          "focus:ring-0",
+          "focus:ring-transparent",
+          "ring-offset-0",
+          "cursor-pointer"
+        );
+
+        const label = document.createElement("label");
+        label.setAttribute("for", item.id);
+        label.classList.add(
+          "ps-3",
+          "inline-flex",
+          "items-center",
+          "text-default-600",
+          "text-sm",
+          "select-none"
+        );
+        label.textContent = item.label;
+
+        // Append elements to the container
+        itemContainer.appendChild(inputCheckbox);
+        itemContainer.appendChild(label);
+
+        // Append the container to the main container in your HTML
+        containerElement.appendChild(itemContainer);
+      });
+    </script>
+  </head>
+  <body></body>
+</html>
+
+<div class="flex items-center">
+  <input
+    class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer"
+    id="all"
+    name="all"
+    type="checkbox"
+    checked
+  />
+  <label
+    class="ps-3 inline-flex items-center text-default-600 text-sm select-none"
+    for="all"
+    >All</label
+  >
+</div>

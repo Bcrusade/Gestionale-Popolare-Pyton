@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!-- Mirrored from coderthemes.com/yum/product-grid.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 13:21:22 GMT -->
+<head>
+    <meta charset="utf-8" />
+    <title>Yum - Multipurpose Food Tailwind CSS Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="" name="description" />
+    <meta content="coderthemes" name="author" />
+    
+    <!-- Theme favicon -->
+    <link rel="shortcut icon" href="assets/favicon-c43f27ef.ico">
+
+    <!--  Head js -->
+      <script type="module" crossorigin src="assets/theme-b118ffc1.js"></script>
+      <script type="module" crossorigin src="assets/product-range-2302f40f.js"></script>
+      <script type="module" crossorigin src="assets/form-input-spin-59c6a334.js"></script>
+      <link rel="stylesheet" href="assets/theme-c9540983.css">
+    </head>
+
+<body>
+
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-70 bg-default-50 transition-all visible opacity-100 h-screen w-screen flex items-center justify-center">
+        <div class="animate-spin inline-block w-10 h-10 border-4 border-t-transparent border-primary rounded-full" role="status" aria-label="loading">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    
+    <!-- Offer/Help Menu -->
+    <div class="h-8 lg:flex items-center hidden bg-primary-950 text-white z-20">
+        <div class="container">
+            <nav class="grid lg:grid-cols-3 items-center gap-4">
+                <!-- Language Dropdown -->
+                <div class="flex relative">
+                    <div class="hs-dropdown relative inline-flex [--trigger:hover] [--placement:bottom]">
+                        <a class="hs-dropdown-toggle after:absolute hover:after:-bottom-10 after:inset-0 relative flex items-center text-base" href="javascript:void(0)">
+                            <img alt="Image" class="h-3.5 me-3" src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAA8AAD/4QMpaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjAtYzA2MCA2MS4xMzQ3NzcsIDIwMTAvMDIvMTItMTc6MzI6MDAgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgV2luZG93cyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo5NTM4RDUxQjYxM0IxMUU3ODM5NTg5Qjc3NkUwNEZFMSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo5NTM4RDUxQzYxM0IxMUU3ODM5NTg5Qjc3NkUwNEZFMSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjk1MzhENTE5NjEzQjExRTc4Mzk1ODlCNzc2RTA0RkUxIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjk1MzhENTFBNjEzQjExRTc4Mzk1ODlCNzc2RTA0RkUxIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoKDBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgAKgBAAwERAAIRAQMRAf/EAJkAAQABBQEAAAAAAAAAAAAAAAAHAgMEBQYBAQEAAgMBAQAAAAAAAAAAAAAAAgYBBAUDBxAAAAQBBwkHBAMBAAAAAAAAAQIDBAAREhMFBhYHMaHRkpPTFVVWIUGRIjIzFFFhQtKCIyVFEQAAAgMQAgIBBQAAAAAAAAAAAfACAxEhMVGBoRJSghNTBBRUBRVBcZHRMmHhIkJD/9oADAMBAAIRAxEAPwDlhqtFarm7o4qNFlE3Cx3LoRonRkzgAJthKQRE/b2zhyxa6ThuQwQePY1hmjZ9nxYyXx3cwFDJ8G/6QACFJSiFHMmTs0RvDo+PfiEHBjN6jaGamEywqz/iDxFKcLVr8gRA5HUpJwGCT8YkbQ3fl7yfoBubIVNU94KpSrBVdk0cJuqesREKBaiE4EM3ESAM3ygAy98c7lHFmC1I3nvZDp8O2as8wqbJWku+9G8JNuvhv1Ep4l/SKpdMqwufZcjgFP8AYXXw36iU8S/pC6ZVg7LkcAp/sLr4b9RKeJf0hdMqwdlyOAU/2PS2Zw5KYDFtGoBgGUBASgICH8IXTKsMHyPIn/gSSiHmhQQqZFU4fFBw1dkKu7AF0nAgoUJjYkwaFQMk+XL3hF6WfWjfKDx7jHzobIW3+gNX/GXpQcnPwmcXiRQ+JLSfMo5BT75mbvjzdedd8Q/1hiAWG5iHTSdgoRQjYtXFO/RSAjVsM4fK8b0f95gk9XfJ3xI4o6T3k/R+AGdZo9UNLRVO8rZis4q5Ur0xjJmCgX8yhSnbJf1URSmylljR5JZUmC1J8v4vefEI6fDs2y+YVJidFd9w5PRiR7w4V8iceAb6KreMaqfIueg5TGVSyF4cK+ROPAN9C8Y1U+Q0HKYyqWQvDhXyJx4BvoXjGqnyGg5TGVSyF4cK+ROPAN9C8Y1U+Q0HKYyqWRGhLF2+aNSt2lnHiLgyazd8vNFUqyahgEAKUQEpJACScUe2LrqGRm6axfoPndAxfGylsxcCldR7walFctXeeeCgpUc75E2ky+aTJEb9m5+ZUo/2CgcQoTsviKBSrK2eeKVi2BuWr3YJzQRK2ERApkwLMVl7O02eMm3Y1icfdlCgsNvZCobb1XaJhWwWXcA6blcC7UVA1GsdedIYCSABJANJIWNPkMwrcmSp0jecIb3HZdRdsRNFqCj7piSr0W96YLqH0xXL1pVFk63I7icgvRb3pguofTC9aVQ63I7icgvRb3pguofTC9aVQ63I7icgvRb3pguofTC9aVQ63I7ichXwTFnnTXNuIUG0ZJII6zisJdLYcExZ501zbiFBtGSSBrOKwl0thwTFnnTXNuIUG0ZJIGs4rCXS2HBMWedNc24hQbRkkgazisJdLYcExZ501zbiFBtGSSBrOKwl0thwTFnnTXNuIUG0ZJIGs4rCXS2HBMWedNc24hQbRkkgazisJdLYcExZ501zbiFBtGSSBrOKwl0tjT3Xsd1aO0JpjzulKw6HZZzbTGF17HdWjtCaYXSlYOyzm2mMLr2O6tHaE0wulKwdlnNtMYXXsd1aO0JphdKVg7LObaYwuvY7q0doTTC6UrB2Wc20xhdex3Vo7QmmF0pWDss5tpjC69jurR2hNMLpSsHZZzbTGF17HdWjtCaYXSlYOyzm2mMcE499T2/Ub2/Rl/H7fSNMxaVPxKGWEW9WMCQasADVgAasADVgAasAFxv76ft+ovuejL+X2+sZIRX/ABOGSEf/2Q==">
+                            <span class="font-medium text-xs">English (USA)</span>
+                        </a>
+    
+                        <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 min-w-[140px] transition-[opacity,margin] mt-4 opacity-0 hidden z-50 bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-lg border border-default-100 p-1.5 dark:bg-default-50">
+                            <ul class="flex flex-col gap-1">
+                                <li>
+                                    <a class="flex items-center gap-2 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="javascript:void(0)"><img alt="flag" class="h-4" src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAA8AAD/4QMpaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjAtYzA2MCA2MS4xMzQ3NzcsIDIwMTAvMDIvMTItMTc6MzI6MDAgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgV2luZG93cyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo5NTM4RDUxQjYxM0IxMUU3ODM5NTg5Qjc3NkUwNEZFMSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo5NTM4RDUxQzYxM0IxMUU3ODM5NTg5Qjc3NkUwNEZFMSI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjk1MzhENTE5NjEzQjExRTc4Mzk1ODlCNzc2RTA0RkUxIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjk1MzhENTFBNjEzQjExRTc4Mzk1ODlCNzc2RTA0RkUxIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoKDBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgAKgBAAwERAAIRAQMRAf/EAJkAAQABBQEAAAAAAAAAAAAAAAAHAgMEBQYBAQEAAgMBAQAAAAAAAAAAAAAAAgYBBAUDBxAAAAQBBwkHBAMBAAAAAAAAAQIDBAAREhMFBhYHMaHRkpPTFVVWIUGRIjIzFFFhQtKCIyVFEQAAAgMQAgIBBQAAAAAAAAAAAfACAxEhMVGBoRJSghNTBBRUBRVBcZHRMmHhIkJD/9oADAMBAAIRAxEAPwDlhqtFarm7o4qNFlE3Cx3LoRonRkzgAJthKQRE/b2zhyxa6ThuQwQePY1hmjZ9nxYyXx3cwFDJ8G/6QACFJSiFHMmTs0RvDo+PfiEHBjN6jaGamEywqz/iDxFKcLVr8gRA5HUpJwGCT8YkbQ3fl7yfoBubIVNU94KpSrBVdk0cJuqesREKBaiE4EM3ESAM3ygAy98c7lHFmC1I3nvZDp8O2as8wqbJWku+9G8JNuvhv1Ep4l/SKpdMqwufZcjgFP8AYXXw36iU8S/pC6ZVg7LkcAp/sLr4b9RKeJf0hdMqwdlyOAU/2PS2Zw5KYDFtGoBgGUBASgICH8IXTKsMHyPIn/gSSiHmhQQqZFU4fFBw1dkKu7AF0nAgoUJjYkwaFQMk+XL3hF6WfWjfKDx7jHzobIW3+gNX/GXpQcnPwmcXiRQ+JLSfMo5BT75mbvjzdedd8Q/1hiAWG5iHTSdgoRQjYtXFO/RSAjVsM4fK8b0f95gk9XfJ3xI4o6T3k/R+AGdZo9UNLRVO8rZis4q5Ur0xjJmCgX8yhSnbJf1URSmylljR5JZUmC1J8v4vefEI6fDs2y+YVJidFd9w5PRiR7w4V8iceAb6KreMaqfIueg5TGVSyF4cK+ROPAN9C8Y1U+Q0HKYyqWQvDhXyJx4BvoXjGqnyGg5TGVSyF4cK+ROPAN9C8Y1U+Q0HKYyqWRGhLF2+aNSt2lnHiLgyazd8vNFUqyahgEAKUQEpJACScUe2LrqGRm6axfoPndAxfGylsxcCldR7walFctXeeeCgpUc75E2ky+aTJEb9m5+ZUo/2CgcQoTsviKBSrK2eeKVi2BuWr3YJzQRK2ERApkwLMVl7O02eMm3Y1icfdlCgsNvZCobb1XaJhWwWXcA6blcC7UVA1GsdedIYCSABJANJIWNPkMwrcmSp0jecIb3HZdRdsRNFqCj7piSr0W96YLqH0xXL1pVFk63I7icgvRb3pguofTC9aVQ63I7icgvRb3pguofTC9aVQ63I7icgvRb3pguofTC9aVQ63I7ichXwTFnnTXNuIUG0ZJII6zisJdLYcExZ501zbiFBtGSSBrOKwl0thwTFnnTXNuIUG0ZJIGs4rCXS2HBMWedNc24hQbRkkgazisJdLYcExZ501zbiFBtGSSBrOKwl0thwTFnnTXNuIUG0ZJIGs4rCXS2HBMWedNc24hQbRkkgazisJdLYcExZ501zbiFBtGSSBrOKwl0tjT3Xsd1aO0JpjzulKw6HZZzbTGF17HdWjtCaYXSlYOyzm2mMLr2O6tHaE0wulKwdlnNtMYXXsd1aO0JphdKVg7LObaYwuvY7q0doTTC6UrB2Wc20xhdex3Vo7QmmF0pWDss5tpjC69jurR2hNMLpSsHZZzbTGF17HdWjtCaYXSlYOyzm2mMcE499T2/Ub2/Rl/H7fSNMxaVPxKGWEW9WMCQasADVgAasADVgAasAFxv76ft+ovuejL+X2+sZIRX/ABOGSEf/2Q==">
+                                        English</a>
+                                </li>
+                                <li>
+                                    <a class="flex items-center gap-2 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="javascript:void(0)"><img alt="flag" class="h-4" src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAA8AAD/4QMpaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjAtYzA2MCA2MS4xMzQ3NzcsIDIwMTAvMDIvMTItMTc6MzI6MDAgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgV2luZG93cyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoxMEY3OTk0MDYxM0MxMUU3ODQ3Rjk5RTY5NjQzOEY2MyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoxMEY3OTk0MTYxM0MxMUU3ODQ3Rjk5RTY5NjQzOEY2MyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjEwRjc5OTNFNjEzQzExRTc4NDdGOTlFNjk2NDM4RjYzIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjEwRjc5OTNGNjEzQzExRTc4NDdGOTlFNjk2NDM4RjYzIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoKDBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgAKgBAAwERAAIRAQMRAf/EAIAAAAMBAAMAAAAAAAAAAAAAAAAGBwgBAgMBAAIDAQEBAAAAAAAAAAAAAAAHAwUGBAECEAABAwAIBAMJAAAAAAAAAAAAAQIDMbEyM3Q2BwgRUbM0kgREIWFxEkJicwYWEQEAAAMJAQEAAAAAAAAAAAAAATGBwTKCAzMENAUGEQL/2gAMAwEAAhEDEQA/AEB8sj3ue96ue5VVzlVVVVWlVU2PxyOvzO5qAU3b2qr+9zcV9BN1Iyu7PSqky5tIGfTgAjWrKr/VJ7fTR1uKzd3zE8xxcUbCXxXmcrRfHLXva5HNcrXNXiiovBUVAeRhCKcjOI8AFO2957mwE3UjK7tNKqTLm0gZ9OACM6s5rTDR1uKzd3zE8xxcUbCYcrRAAnQziOABTtvee5sBN1Iyu7TSqky5tIGfTgAjOrOa0w0dbis3d8xPMcXFGwmHK0QAJ0M4jgAU7b3nubATdSMru00qpMubSBn04AIzqzmtMNHW4rN3fMTzHFxRsJhytEACdDOI4AFO2957mwE3UjK7tNKqTLm0gZ9OACM6s5rTDR1uKzd3zE8xxcUbCYcrRAAQ/N91Nc23XV3Stj7eQzISI55eA9Cmbfc9S2exmo/JGV3Z6VUmXNo8oE4AI1qxmpKO2jp+Lis3d8w/McXFGwmeE5Whenl7+O7tNvLFP1e7mewfP7uxnSb/2Q=="> French</a>
+                                </li>
+                                <li>
+                                    <a class="flex items-center gap-2 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="javascript:void(0)"><img alt="flag" class="h-4" src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAA8AAD/4QMpaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjAtYzA2MCA2MS4xMzQ3NzcsIDIwMTAvMDIvMTItMTc6MzI6MDAgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgV2luZG93cyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpENEQyQjUxRTYxM0IxMUU3QThGRDlFNzgyMDM4RjBCQyIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpENEQyQjUxRjYxM0IxMUU3QThGRDlFNzgyMDM4RjBCQyI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkQ0RDJCNTFDNjEzQjExRTdBOEZEOUU3ODIwMzhGMEJDIiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkQ0RDJCNTFENjEzQjExRTdBOEZEOUU3ODIwMzhGMEJDIi8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoKDBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgAKgBAAwERAAIRAQMRAf/EAHkAAQEBAAMAAAAAAAAAAAAAAAABBgIFBwEBAAIDAQAAAAAAAAAAAAAAAAEFAgQGBxAAAQIBDQADAQAAAAAAAAAAAAECAzFRkRKi0qPjVAVVFhchQYEyEQEAAAMHBQEAAAAAAAAAAAAA4WKiUaGx0QJSFgEDBBQVMf/aAAwDAQACEQMRAD8A82fFive573uc9yqrnKqqqqvyqqqmwhKzp1JCs6dQFZ06gKzp1AVnTqArOnUCsixWPa9j3Ne1UVrkVUVFT5RUVCB2XWd701uHeNb3O1biuePebsq05nWd701uHeHudq3E495uyrTmdZ3vTW4d4e52rcTj3m7KtOZ1ne9Nbh3h7natxOPebsq05nWd701uHeHudq3E495uyrTmdZ3vTW4d4e52rcTj3m7KtOZ1ne9Nbh3h7natxOPebsq05nWd701uHeHudq3E495uyrTm3RRvTgAAAAAAADd+XpyeBmFJ9iS+Dm+QyVQPL05PAzB9iS+ByGSqB5enJ4GYPsSXwOQyVQPL05PAzB9iS+ByGSqB5enJ4GYPsSXwOQyVQPL05PAzB9iS+ByGSqB5enJ4GYPsSXwOQyVQPL05PAzB9iS+ByGSqDdlI5sAAAAAAAA5O/pZJfqT8M9f71/EdEoMQoAUAKAFACgCt/pJJfuT9MtH70/Dq//Z">
+                                        German</a>
+                                </li>
+                                <li>
+                                    <a class="flex items-center gap-2 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="javascript:void(0)"><img alt="flag" class="h-4" src="data:image/jpeg;base64,/9j/4QAYRXhpZgAASUkqAAgAAAAAAAAAAAAAAP/sABFEdWNreQABAAQAAAA8AAD/4QMpaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLwA8P3hwYWNrZXQgYmVnaW49Iu+7vyIgaWQ9Ilc1TTBNcENlaGlIenJlU3pOVGN6a2M5ZCI/PiA8eDp4bXBtZXRhIHhtbG5zOng9ImFkb2JlOm5zOm1ldGEvIiB4OnhtcHRrPSJBZG9iZSBYTVAgQ29yZSA1LjAtYzA2MCA2MS4xMzQ3NzcsIDIwMTAvMDIvMTItMTc6MzI6MDAgICAgICAgICI+IDxyZGY6UkRGIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyI+IDxyZGY6RGVzY3JpcHRpb24gcmRmOmFib3V0PSIiIHhtbG5zOnhtcD0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wLyIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bXA6Q3JlYXRvclRvb2w9IkFkb2JlIFBob3Rvc2hvcCBDUzUgV2luZG93cyIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDoyODQ3Mjc2MTYxM0MxMUU3ODJENDgwMDE3MDIxNjRGOCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDoyODQ3Mjc2MjYxM0MxMUU3ODJENDgwMDE3MDIxNjRGOCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjI4NDcyNzVGNjEzQzExRTc4MkQ0ODAwMTcwMjE2NEY4IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjI4NDcyNzYwNjEzQzExRTc4MkQ0ODAwMTcwMjE2NEY4Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+/+4ADkFkb2JlAGTAAAAAAf/bAIQABgQEBAUEBgUFBgkGBQYJCwgGBggLDAoKCwoKDBAMDAwMDAwQDA4PEA8ODBMTFBQTExwbGxscHx8fHx8fHx8fHwEHBwcNDA0YEBAYGhURFRofHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8fHx8f/8AAEQgAKgBAAwERAAIRAQMRAf/EAI4AAQACAgMAAAAAAAAAAAAAAAAEBQEDAgYHAQEAAgMBAQAAAAAAAAAAAAAAAgYDBAUBBxAAAQMBBgMFCAMAAAAAAAAAAQIDBAAREpMFVQZR0RYyktIzFTFBIkJiExQ0YXGREQACAQEGBQMDBQAAAAAAAAAAAQIDETGRUhMUIUFREgRxoSJhgTLwscHRBf/aAAwDAQACEQMRAD8ApFOOLUVKUVKUbVKJJJJ95rln0xIxeVxNALyuJoBeVxNALyuJoBeVxNALyuJoDKXHEKCkqKVJNqVAkEEe8UDR7x6BkWnRcFvw1R9zVzSxZXdafV4nFeS7babW7Ihw2GGkqW46tlsJSlItJPw1m8edarNRU2rfqzx1qnJybKyBL2JNnrhNxGmXb9xhciGGkOKtu3bxT8JvggBVnD2105+FUsfbVeN/D1/SJz14xUndzslbYWvoGRadFwW/DXG3NXNLFkdafV4j0DItOi4LfhpuauaWLGtPq8R6BkWnRcFvw03NXNLFjWn1eI9AyLTouC34abmrmlixrT6vEegZFp0XBb8NNzVzSxY1p9XiT6wGM6vuF8QkFMWJLiflvoVmMlX47iS2oFF5KG1POAKCRZeb/wAqwLxYqEJW2vstSfX6Xe7Njxvm+Li+26/+bFgzOxsz2q4p9qQuL+XFlqBelXY6xHKQEFJIZBVeCrRZaKsFD/LhoRlWj+azP+zR8rynOpKFNy+KuSt+XuXMERVyHpbUKQw7IN2Q+6uOptZaN1ASGnHFAhJ+YCqr53jqnRptO3jL0v5cLfW37Gbul+LaaXrbx9V+xOrkgUAoBQCgKSREczGG9CGVpyq8QtUkfaV91YcCiVhtRUSeJrt1/JppU7JqXarOCljxSRHx6s1NuSl92vYhP7FQiOlMaW0VvtluaS0oG0qcsWiwi8brtnxe8A/xWat51Hsj8pSceXLl1uuNil5Vkm3CzD3LmKsmXc9ITF+2lSDmFrRW6kKF0KuEr/q2tTy6sJUIRU4uUeSUrePHmrOF15pwlPudttnqrPtx5k+uSZhQCgFAeFdUbj1OVjL51dtnRyRwLDoU8qHVG49TlYy+dNnRyRwGhTyodUbj1OVjL502dHJHAaFPKh1RuPU5WMvnTZ0ckcBoU8qHVG49TlYy+dNnRyRwGhTyodUbj1OVjL502dHJHAaFPKh1RuPU5WMvnTZ0ckcBoU8qHVG49TlYy+dNnRyRwGhTyohyf2XfK7avK7Ht+T6eFbTJRuV5r7teEh3aAd2gHdoB3aAd2gNkb9lryu2nzex7fn+njXqIyud5/9k="> Spanish</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Offer Link -->
+                <h5 class="text-sm text-primary-50 text-center">Free Delivery Over $50 <a class="font-semibold underline" href="javascript:void(0)">Claim Offer</a></h5>
+    
+                <ul class="flex items-center justify-end gap-4">
+                    <li class="flex menu-item">
+                        <a class="text-sm hover:text-primary" href="faqs.html">Help</a>
+                    </li>
+    
+                    <li class="flex menu-item">
+                        <a class="text-sm hover:text-primary" href="contact-us.html">Contact Us</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    
+    <!-- Main Navigation Menu -->
+    <header id="navbar" class="sticky top-0 z-20 border-b border-default-200 bg-transparent transition-all">
+        <div class="lg:h-20 h-14 flex items-center">
+            <div class="container">
+                <div class="grid lg:grid-cols-3 grid-cols-2 items-center gap-4">
+                    <div class="flex">
+                        <!-- Mobile Menu Toggle Button -->
+                        <button class="lg:hidden block " data-hs-overlay="#mobile-menu">
+                            <i data-lucide="menu" class="w-7 h-7 text-default-600 me-4 hover:text-primary"></i>
+                        </button>
+    
+                        <!-- Navbar Brand Logo -->
+                        <a href="home.html">
+                            <img src="assets/logo-dark-6dbab3e1.png" alt="logo" class="h-10 flex dark:hidden">
+                            <img src="assets/logo-light-35c89c2c.png" alt="logo" class="h-10 hidden dark:flex">
+                        </a>
+                    </div>
+    
+                    <!-- Nevigation Menu -->
+                    <ul class="menu lg:flex items-center justify-center hidden relative">
+                        <!-- Home Menu -->
+                        <li class="menu-item">
+                            <a class="inline-flex items-center text-sm lg:text-base font-medium text-default-800 py-2 px-4 rounded-full hover:text-primary " href="home.html">Home </a>
+                        </li>
+    
+                        <!-- Product Menu -->
+                        <li class="menu-item">
+                            <div class="hs-dropdown relative inline-flex [--trigger:hover] [--placement:bottom]">
+                                <a class="hs-dropdown-toggle after:absolute hover:after:-bottom-10 after:inset-0 inline-flex items-center text-sm lg:text-base font-medium text-default-700 py-2 px-4 rounded-full hover:text-primary" href="javascript:void(0)">Product <i class="w-4 h-4 ms-2" data-lucide="chevron-down"></i></a>
+    
+                                <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 min-w-[200px] transition-[opacity,margin] mt-4 opacity-0 hidden z-10 bg-white shadow-lg rounded-lg border border-default-100 p-1.5 dark:bg-default-50">
+                                    <ul class="flex flex-col gap-1">
+                                        <li>
+                                            <a class="flex items-center font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="product-grid.html">Product Grid</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="product-list.html">Product List</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="product-detail.html">Product Detail</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+    
+                        <!-- Mega Menu -->
+                        <li class="menu-item">
+                            <div class="hs-dropdown relative inline-flex [--trigger:hover] [--auto-close:inside]">
+                                <a class="hs-dropdown-toggle after:absolute hover:after:-bottom-10 after:inset-0 inline-flex items-center text-sm whitespace-nowrap lg:text-base font-medium text-default-700 py-2 px-4 rounded-full hover:text-primary" href="javascript:void(0)">
+                                    Mega Menu <i class="w-4 h-4 ms-2" data-lucide="chevron-down"></i>
+                                </a>
+    
+                                <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 top-full inset-x-0 w-full min-w-full absolute mt-4 transition-[opacity,margin] opacity-0 hidden z-10 duration-300">
+                                    <div class="container">
+                                        <div class="bg-white shadow-lg rounded-lg border border-default-200 overflow-hidden dark:bg-default-50">
+                                            <div class="grid grid-cols-12">
+                                                <div class="col-span-2 text-sm">
+                                                    <div class="bg-default-100 h-full w-full py-10 px-6">
+                                                        <nav aria-label="Tabs" class="flex flex-col space-y-3.5" data-hs-tabs-vertical="true" role="tablist">
+                                                            <button class="hs-tab-active:text-primary !bg-transparent inline-flex items-center text-base font-medium text-default-600 hover:text-primary transition-all active" data-hs-tab="#wraps" role="tab" type="button">
+                                                                Wraps <i class="w-5 h-5 ms-auto" data-lucide="chevron-right"></i>
+                                                            </button>
+                                                            <button class="hs-tab-active:text-primary !bg-transparent inline-flex items-center text-base font-medium text-default-600 hover:text-primary transition-all" data-hs-tab="#noodles" role="tab" type="button">
+                                                                Noodles <i class="w-5 h-5 ms-auto" data-lucide="chevron-right"></i>
+                                                            </button>
+                                                            <button class="hs-tab-active:text-primary !bg-transparent inline-flex items-center text-base font-medium text-default-600 hover:text-primary transition-all" data-hs-tab="#mexican" role="tab" type="button">
+                                                                Mexican cuisine <i class="w-5 h-5 ms-auto" data-lucide="chevron-right"></i>
+                                                            </button>
+                                                            <button class="hs-tab-active:text-primary !bg-transparent inline-flex items-center text-base font-medium text-default-600 hover:text-primary transition-all" data-hs-tab="#tacos" role="tab" type="button">
+                                                                Tacos <i class="w-5 h-5 ms-auto" data-lucide="chevron-right"></i>
+                                                            </button>
+                                                            <button class="hs-tab-active:text-primary !bg-transparent inline-flex items-center text-base font-medium text-default-600 hover:text-primary transition-all" data-hs-tab="#smart-meals" role="tab" type="button">
+                                                                Smart Meals <i class="w-5 h-5 ms-auto" data-lucide="chevron-right"></i>
+                                                            </button>
+                                                            <button class="hs-tab-active:text-primary !bg-transparent inline-flex items-center text-base font-medium text-default-600 hover:text-primary transition-all" data-hs-tab="#burger" role="tab" type="button">
+                                                                Burger <i class="w-5 h-5 ms-auto" data-lucide="chevron-right"></i>
+                                                            </button>
+                                                            <button class="hs-tab-active:text-primary !bg-transparent inline-flex items-center text-base font-medium text-default-600 hover:text-primary transition-all" data-hs-tab="#beverages-desserts" role="tab" type="button">
+                                                                Beverages & Desserts <i class="w-5 h-5 ms-auto" data-lucide="chevron-right"></i>
+                                                            </button>
+                                                        </nav>
+                                                    </div>
+                                                </div>
+    
+                                                <div class="col-span-10">
+                                                    <div class="py-10">
+                                                        <div id="wraps" role="tabpanel">
+                                                            <div class="grid grid-cols-4 divide-x divide-default-200">
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Bean-Based Wraps</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Black Bean Wrap</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Refried Bean and Cheese Wrap</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Falafel Wrap</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Chickpea and Hummus Wrap</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Grilled Vegetable Wraps</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Grilled Veggie Wrap</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Roasted Red Pepper Wrap</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Portobello Mushroom Wrap</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Eggplant Parmesan Wrap</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Cheese and Spinach Wraps</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Spinach and Feta Wrap</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Paneer Tikka Wrap</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Caprese Wrap</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Chicken Wraps</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Grilled Chicken Wrap</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Buffalo Chicken Wrap</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Chicken Caesar Wrap</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Chicken Shawarma Wrap</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+    
+                                                        <div class="hidden" id="noodles" role="tabpanel">
+                                                            <div class="grid grid-cols-4 divide-x divide-default-200">
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Italian Pasta Dishes</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Spaghetti Bolognese</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Fettuccine Alfredo</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Lasagna</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Carbonara</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Penne alla Vodka</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Asian Noodle Dishes</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Ramen</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Pad Thai</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Pho</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Chow Mein</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Udon Stir-Fry</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Soba Noodles</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Lo Mein</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Chinese Noodle Dishes</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Beef Chow Fun</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Dan Dan Noodles</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Sesame Noodles</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Wonton Noodle Soup</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Zha Jiang Mian</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Japanese Noodle Dishes</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Yakisoba</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Tempura Udon</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Hiyashi Chukakies</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Sushi Rolls</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+    
+                                                        <div class="hidden" id="mexican" role="tabpanel">
+                                                            <div class="grid grid-cols-4 divide-x divide-default-200">
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Thai Noodle Dishes</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Drunken Noodles</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Tom Yum Noodle Soup</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Green Curry Noodles</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Glass Noodle Salad</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">Indian Noodle Dishes</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Veg Hakka Noodles</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Maggi Noodles</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Masala Instant Noodles</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">Korean Noodle Dishes</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Japchae</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Jajangmyeon</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Ramyeon</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Naengmyeon</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Western Noodle Dishes</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Chicken Noodle Soup</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Beef Stroganoff</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Tuna Noodle Casserole</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Macaroni and Cheese</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+    
+                                                        <div class="hidden" id="tacos" role="tabpanel">
+                                                            <div class="grid grid-cols-4 divide-x divide-default-200">
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Tacos</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Street Tacos</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Carnitas Tacos</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Barbacoa Tacos</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Fish Tacos</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Vegetarian Tacos</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Enchiladas</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Chicken Enchiladas</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Cheese Enchiladas</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Beef Enchiladas</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Suizas Enchiladas</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Tamales</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Pork Tamales</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Chicken Tamales</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Sweet Tamales</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Quesadillas</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Cheese Quesadillas</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Chicken Quesadillas</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Vegetarian Quesadillas</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+    
+                                                        <div class="hidden" id="smart-meals" role="tabpanel">
+                                                            <div class="grid grid-cols-3 divide-x divide-default-200">
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Balanced Meals</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Grilled chicken breast with steamed broccoli and quinoa</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Baked salmon with asparagus and brown rice</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Low-Carb Meals</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Cauliflower rice stir-fry with tofu and mixed vegetables</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Zucchini noodles with pesto and grilled shrimp</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        High-Protein Meals</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Lean beef or turkey burger with a side salad</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Greek yogurt parfait with berries and nuts</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+    
+                                                        <div class="hidden" id="burger" role="tabpanel">
+                                                            <div class="grid grid-cols-4 divide-x divide-default-200">
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">Classic Burgers</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Cheeseburger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Bacon Cheeseburger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Double Cheeseburger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Triple Cheeseburger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Classic Veggie Burger</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Patty Variations</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Turkey Burger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Chicken Burger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Bison Burger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Salmon Burger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Black Bean Burger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Portobello Mushroom Burger</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Flavorful Toppings</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">BBQ Burgerges</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Mushroom Swiss Burger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Western/Cowboy Burger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Blue Cheese Burger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Jalapeño Burger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Guacamole Burger</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Breakfast Burger</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Avocado Burger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Caprese Burger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Mediterranean Burger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Tex-Mex Burger</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Reuben Burger</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+    
+    
+                                                        <div class="hidden" id="beverages-desserts" role="tabpanel">
+                                                            <div class="grid grid-cols-4 divide-x divide-default-200">
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">Coffee Based</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Espresso</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Cappuccino</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Latte</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Americano</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Mocha</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Macchiato</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Tea</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Black Tea</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Green Tea</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Herbal Tea</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Chai Tea</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Earl Grey</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Cakes</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Chocolate Cake</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Carrot Cake</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Red Velvet Cake</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Cheesecake</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+    
+                                                                <div class="ps-6">
+                                                                    <h6 class="text-base font-medium text-default-800">
+                                                                        Cookies & Pastries</h6>
+                                                                    <ul class="grid space-y-3 mt-4">
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Chocolate Chip Cookies</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Oatmeal Raisin Cookies</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Peanut Butter Cookies</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Sugar Cookies</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Croissant</a>
+                                                                        </li>
+                                                                        <li>
+                                                                            <a class="text-sm font-medium text-default-600 hover:text-primary transition-all" href="javascript:void(0)">Danish Pastry</a>
+                                                                        </li>
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+    
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+    
+                        <!-- Pages Menu -->
+                        <li class="menu-item">
+                            <div class="hs-dropdown relative inline-flex [--trigger:hover] [--placement:bottom]">
+                                <a class="hs-dropdown-toggle after:absolute hover:after:-bottom-10 after:inset-0 inline-flex items-center text-sm lg:text-base font-medium text-default-700 py-2 px-4 rounded-full hover:text-primary" href="javascript:void(0)">
+                                    Pages <i class="w-4 h-4 ms-2" data-lucide="chevron-down"></i>
+                                </a>
+    
+                                <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 min-w-[200px] transition-[opacity,margin] mt-4 opacity-0 hidden z-10 bg-white shadow-md rounded-lg border border-default-100 p-1.5 dark:bg-default-50">
+                                    <ul class="flex flex-col gap-1">
+                                        <li>
+                                            <a class="flex items-center font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="cart.html">Cart</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="wishlist.html">Wishlist</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="checkout.html">Checkout</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="faqs.html">FAQs</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="contact-us.html">Contact Us</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="error-404.html">Error 404</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="auth-login.html">Login</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="auth-register.html">Register</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="auth-recoverpw.html">Forgot Password</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="auth-reset-password.html">Reset Password</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+    
+                        <!-- Admin Link -->
+                        <li class="menu-item">
+                            <a class="inline-flex items-center text-sm lg:text-base font-medium text-default-700 py-2 px-4 rounded-full hover:text-primary" href="admin-dashboard.html" target="_blank">Admin</a>
+                        </li>
+                    </ul>
+    
+                    <ul class="flex items-center justify-end gap-x-6">
+                        <!-- Search Form Input -->
+                        <li class="2xl:flex relative menu-item hidden">
+                            <input class="ps-10 pe-4 py-2.5 block w-64 border-transparent placeholder-primary-500 rounded-full text-sm bg-primary-400/40 text-primary" placeholder="Search for items..." type="search">
+                            <span class="absolute start-4 top-3">
+                                <i class="w-4 h-4 text-primary-500" data-lucide="search"></i>
+                            </span>
+                        </li>
+    
+                        <!-- Search Button (small screen) -->
+                        <li class="2xl:hidden flex menu-item">
+                            <button data-hs-overlay="#mobileSearchSidebar" class="relative flex text-base transition-all text-default-600 hover:text-primary">
+                                <i class="w-5 h-5" data-lucide="search"></i>
+                            </button>
+                        </li>
+    
+                        <!-- Cart Page link -->
+                        <li class="flex menu-item">
+                            <a href="cart.html" class="relative flex text-base transition-all text-default-600 hover:text-primary">
+                                <i class="w-5 h-5" data-lucide="shopping-bag"></i>
+                                <span class="absolute z-10 -top-2.5 end-0 inline-flex items-center justify-center p-1 h-5 w-5 text-xs font-bold leading-none text-red-100 transform translate-x-1/2 bg-red-500 rounded-full">1</span>
+                            </a>
+                        </li>
+    
+                        <!-- User Dropdown -->
+                        <li class="flex menu-item">
+                            <div class="hs-dropdown relative inline-flex [--trigger:hover] [--placement:bottom]">
+                                <a class="hs-dropdown-toggle after:absolute hover:after:-bottom-10 after:inset-0 relative flex items-center text-base transition-all text-default-600 hover:text-primary" href="javascript:void(0)">
+                                    <i class="w-5 h-5" data-lucide="user"></i>
+                                </a>
+    
+                                <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 min-w-[200px] transition-[opacity,margin] mt-4 opacity-0 hidden z-20 bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-lg border border-default-100 p-1.5 dark:bg-default-50">
+                                    <ul class="flex flex-col gap-1">
+                                        <li>
+                                            <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="admin-dashboard.html" target="_blank"><i class="h-4 w-4" data-lucide="user-circle"></i> Admin</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="cart.html"><i class="h-4 w-4" data-lucide="shopping-cart"></i>
+                                                Cart</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="wishlist.html"><i class="h-4 w-4" data-lucide="heart"></i>
+                                                Wishlist</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-100 rounded" href="auth-login.html"><i class="h-4 w-4" data-lucide="log-out"></i> Log Out</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Mobile Nav (Bottom Navbar) -->
+    <div class="flex lg:hidden">
+        <div class="fixed inset-x-0 bottom-0 h-16 w-full grid grid-cols-3 items-center justify-items-center border-t border-default-200 bg-white dark:bg-default-50 z-40">
+            <a href="home.html" class="flex flex-col items-center justify-center gap-1 text-default-600" type="button">
+                <i class="fa-solid fa-house text-lg"></i>
+                <span class="text-xs font-medium">Home</span>
+            </a>
+            <a href="product-grid.html" class="flex flex-col items-center justify-center gap-1 text-default-600" type="button">
+                <i class="fa-solid fa-utensils text-lg"></i>
+                <span class="text-xs font-medium">Food</span>
+            </a>
+            <a href="wishlist.html" class="flex flex-col items-center justify-center gap-1 text-default-600" type="button">
+                <i class="fa-regular fa-heart text-lg"></i>
+                <span class="text-xs font-medium">Wishlist</span>
+            </a>
+        </div>
+    </div>
+    
+    <!-- Mobile Menu (Sidebar Menu) -->
+    <div id="mobile-menu" class="hs-overlay hs-overlay-open:translate-x-0 hidden -translate-x-full fixed top-0 left-0 transition-all transform h-full max-w-[270px] w-full z-60  border-r border-default-200 bg-white dark:bg-default-50" tabindex="-1">
+        <div class="flex justify-center items-center border-b border-dashed border-default-200 h-16 transition-all duration-300">
+            <a href="home.html">
+                <img src="assets/logo-dark-6dbab3e1.png" alt="logo" class="h-10 flex dark:hidden">
+                <img src="assets/logo-light-35c89c2c.png" alt="logo" class="h-10 hidden dark:flex">
+            </a>
+        </div>
+        <div class="h-[calc(100%-4rem)]" data-simplebar>
+            <nav class="hs-accordion-group p-4 w-full flex flex-col flex-wrap">
+                <ul class="space-y-2.5">
+                    <li>
+                        <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm font-medium text-default-700 rounded-md hover:bg-default-100" href="home.html">
+                            Home
+                        </a>
+                    </li>
+    
+                    <li class="hs-accordion" id="product-categories-accordion">
+                        <a class="hs-accordion-toggle flex items-center gap-x-3.5 py-2 px-2.5 hs-accordion-active:text-primary hs-accordion-active:bg-default-100 text-sm font-medium text-default-700 rounded-md hover:bg-default-100" href="javascript:;">
+                            Product <i data-lucide="chevron-down" class="w-5 h-5 ms-auto hs-accordion-active:rotate-180 transition-all"></i>
+                        </a>
+    
+                        <div id="product-categories-accordion" class="hs-accordion-content w-full overflow-hidden transition-[height] hidden">
+                            <ul class="pt-2 ps-2">
+                                <li>
+                                    <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm font-medium text-default-700 rounded-md hover:bg-default-100" href="product-grid.html">
+                                        Product Grid
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm font-medium text-default-700 rounded-md hover:bg-default-100" href="product-list.html">
+                                        Product List
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm font-medium text-default-700 rounded-md hover:bg-default-100" href="product-detail.html">
+                                        Product Details
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+    
+                    <li>
+                        <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm font-medium text-default-700 rounded-md hover:bg-default-100" href="wishlist.html">
+                            My Wishlist
+                        </a>
+                    </li>
+    
+                    <li>
+                        <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm font-medium text-default-700 rounded-md hover:bg-default-100" href="contact-us.html">
+                            Contact Us
+                        </a>
+                    </li>
+    
+                    <li>
+                        <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm font-medium text-default-700 rounded-md hover:bg-default-100" href="faqs.html">
+                            FAQs
+                        </a>
+                    </li>
+    
+                    <li>
+                        <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm font-medium text-default-700 rounded-md hover:bg-default-100" href="error-404.html">
+                            Error Page
+                        </a>
+                    </li>
+    
+                    <li>
+                        <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm font-medium text-default-700 rounded-md hover:bg-default-100" href="auth-login.html">
+                            Login
+                        </a>
+                    </li>
+    
+                    <li>
+                        <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm font-medium text-default-700 rounded-md hover:bg-default-100" href="auth-register.html">
+                            Register
+                        </a>
+                    </li>
+    
+                    <li>
+                        <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm font-medium text-default-700 rounded-md hover:bg-default-100" href="auth-recoverpw.html">
+                            Forgot Password
+                        </a>
+                    </li>
+    
+                    <li>
+                        <a class="flex items-center gap-x-3.5 py-2 px-2.5 text-sm font-medium text-default-700 rounded-md hover:bg-default-100" href="auth-reset-password.html">
+                            Reset Password
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    
+    <!-- Topbar Search Modal (Small Screen) -->
+    <div id="mobileSearchSidebar" class="hs-overlay hidden w-full h-full fixed top-0 left-0 z-60 overflow-x-hidden overflow-y-auto">
+        <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto">
+            <div class="flex flex-col bg-white shadow-sm rounded-lg">
+                <div class="relative flex w-full">
+                    <span class="absolute start-4 top-3">
+                        <i class="w-4 h-4 text-primary-500" data-lucide="search"></i>
+                    </span>
+    
+                    <input class="px-10 py-2.5 block w-full border-transparent placeholder-primary-500 rounded-lg text-sm bg-transparent text-primary-500" placeholder="Search for items..." type="search">
+    
+                    <button class="absolute end-4 top-3" data-hs-overlay="#mobileSearchSidebar">
+                        <i class="w-4 h-4 text-primary-500" data-lucide="x"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <section class="lg:flex items-center hidden bg-default-400/10 h-14">
+        <div class="container">
+            <div class="flex items-center">
+                <ol aria-label="Breadcrumb" class="flex items-center whitespace-nowrap min-w-0 gap-2">
+                    <li class="text-sm">
+                        <a class="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500" href="javascript:void(0)">
+                            <i class="w-4 h-4" data-lucide="home"></i>
+                            Home
+                            <i class="w-4 h-4" data-lucide="chevron-right"></i>
+                        </a>
+                    </li>
+    
+                    <li class="text-sm">
+                        <a class="flex items-center gap-2 align-middle text-default-800 transition-all leading-none hover:text-primary-500" href="javascript:void(0)">
+                            Product
+                            <i class="w-4 h-4" data-lucide="chevron-right"></i>
+                        </a>
+                    </li>
+    
+                    <li aria-current="page" class="text-sm font-medium text-primary truncate leading-none hover:text-primary-500">
+                        Grid
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </section>
+    <section class="lg:py-8 py-6">
+        <div class="container">
+            <div class="lg:flex gap-6">
+                <div class="hs-overlay hs-overlay-open:translate-x-0 hidden max-w-xs lg:max-w-full lg:w-1/4 w-full -translate-x-full fixed top-0 start-0 transition-all transform h-full z-60 lg:z-auto bg-white lg:translate-x-0 lg:block lg:static lg:start-auto dark:bg-default-50" id="filter_Offcanvas" tabindex="-1">
+                    <div class="flex justify-between items-center py-3 px-4 border-b border-default-200 lg:hidden">
+                        <h3 class="font-medium text-default-800">
+                            Filter Options
+                        </h3>
+
+                        <button class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-default-500 hover:text-default-700 text-sm" data-hs-overlay="#filter_Offcanvas" type="button">
+                            <span class="sr-only">Close modal</span>
+                            <i class="h-5 w-5" data-lucide="x"></i>
+                        </button>
+                    </div>
+
+                    <div class="h-[calc(100vh-128px)] overflow-y-auto lg:h-auto" data-simplebar>
+                        <div class="p-6 lg:p-0 divide-y divide-default-200">
+                            <div>
+                                <button class="hs-collapse-toggle py-4 inline-flex justify-between items-center gap-2 transition-all uppercase font-medium text-lg text-default-900 w-full open" data-hs-collapse="#all_categories" id="hs-basic-collapse" type="button">
+                                    Category
+                                </button>
+                                <div class="hs-collapse w-full overflow-hidden transition-[height] duration-300 open" id="all_categories">
+                                    <div class="relative flex flex-col space-y-4 mb-6">
+                                        <div class="flex items-center">
+                                            <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="all" name="all" type="checkbox" checked>
+                                            <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="all">All</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="wraps_roll" type="checkbox">
+                                            <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="wraps_roll">Wraps</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="noodles_bowl" type="checkbox">
+                                            <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="noodles_bowl">Noodles</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="burrito_bowls" name="burrito_bowls" type="checkbox">
+                                            <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="burrito_bowls">Burrito Bowls</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="thalis" name="thalis" type="checkbox">
+                                            <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="thalis">Thalis</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="smart_meals" name="smart_meals" type="checkbox">
+                                            <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="smart_meals">Smart Meals</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="salads" name="salads" type="checkbox">
+                                            <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="salads">Salads</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="beverages_desserts" name="beverages_desserts" type="checkbox">
+                                            <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="beverages_desserts">Beverages & Desserts</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="appetizers" name="appetizers" type="checkbox">
+                                            <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="appetizers">Appetizers</label>
+                                        </div>
+                                        <div class="flex items-center">
+                                            <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="burger_more" name="burger_more" type="checkbox">
+                                            <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="burger_more">Burger & More</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end category -->
+
+                            <div>
+                                <button class="hs-collapse-toggle py-4 inline-flex justify-between items-center gap-2 transition-all uppercase font-medium text-lg text-default-900 w-full open" data-hs-collapse="#price_range" id="hs-basic-collapse" type="button">
+                                    Price Range
+                                </button>
+                                <div class="hs-collapse w-full overflow-hidden transition-[height] duration-300 open" id="price_range">
+                                    <div class="relative flex flex-col space-y-5 mb-6">
+                                        <div class="space-y-2 py-4">
+                                            <div id="product-price-range"></div>
+
+                                            <div class="flex flex-wrap xl:flex-nowrap gap-2 items-center !mt-4">
+                                                <div class="inline-flex items-center justify-center whitespace-nowrap w-full xl:w-1/2 gap-1 border border-default-200 py-2 px-4 rounded-full">
+                                                    Min price :
+                                                    <input class="border-none p-0 w-10 bg-transparent focus:ring-0" id="minCost" type="text" value="0" />
+                                                </div>
+                                                <div class="inline-flex items-center justify-center whitespace-nowrap w-full xl:w-1/2 gap-1 border border-default-200 py-2 px-4 rounded-full">
+                                                    Max price :
+                                                    <input class="border-none p-0 w-10 bg-transparent focus:ring-0" id="maxCost" type="text" value="1000" />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="relative flex flex-col space-y-4 mb-6">
+                                            <div class="flex items-center">
+                                                <input class="form-radio rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent cursor-pointer" id="all_price" name="radio" type="radio">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="all_price">All
+                                                    Price</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input class="form-radio rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent cursor-pointer" id="under_$20" name="radio" type="radio">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="under_$20">Under
+                                                    $20</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input class="form-radio rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent cursor-pointer" id="$25_$100" name="radio" type="radio">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="$25_$100">$25
+                                                    to $100</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input class="form-radio rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent cursor-pointer" id="$100_$300" name="radio" type="radio">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="$100_$300">$100
+                                                    to $300</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input checked class="form-radio rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent cursor-pointer" id="$300_$500" name="radio" type="radio">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="$300_$500">$300
+                                                    to $500</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input class="form-radio rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent cursor-pointer" id="$500_$1,000" name="radio" type="radio">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="$500_$1,000">$500
+                                                    to $1,000</label>
+                                            </div>
+                                            <div class="flex items-center">
+                                                <input class="form-radio rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent cursor-pointer" id="$1,000_$10,000" name="radio" type="radio">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="$1,000_$10,000">$1,000
+                                                    to $10,000</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end range -->
+
+                            <div>
+                                <button class="hs-collapse-toggle py-4 inline-flex justify-between items-center gap-2 transition-all uppercase font-medium text-lg text-default-900 w-full open" data-hs-collapse="#cafe_restaurant" id="hs-basic-collapse" type="button">
+                                    Popular Café / Restaurant
+                                </button>
+                                <div class="hs-collapse w-full overflow-hidden transition-[height] duration-300 open" id="cafe_restaurant">
+                                    <div class="relative flex flex-col space-y-5 mb-6">
+                                        <div class="flex gap-x-6">
+                                            <div class="flex items-center w-1/2">
+                                                <input checked class="form-checkbox bg-transparent border-default-200 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer" id="monginis" type="checkbox">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="monginis">Monginis</label>
+                                            </div>
+
+                                            <div class="flex items-center w-1/2">
+                                                <input checked class="form-checkbox bg-transparent border-default-200 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer" id="ferrero" type="checkbox">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="ferrero">Ferrero</label>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-x-6">
+                                            <div class="flex items-center w-1/2">
+                                                <input checked class="form-checkbox bg-transparent border-default-200 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer" id="burger_king" type="checkbox">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="burger_king">Burger
+                                                    King</label>
+                                            </div>
+
+                                            <div class="flex items-center w-1/2">
+                                                <input class="form-checkbox bg-transparent border-default-200 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer" id="starbucks" type="checkbox">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="starbucks">Starbucks</label>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-x-6">
+                                            <div class="flex items-center w-1/2">
+                                                <input class="form-checkbox bg-transparent border-default-200 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer" id="macDonald" type="checkbox">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="macDonald">MacDonald's</label>
+                                            </div>
+
+                                            <div class="flex items-center w-1/2">
+                                                <input checked class="form-checkbox bg-transparent border-default-200 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer" id="tim_hortons" type="checkbox">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="tim_hortons">Tim
+                                                    Hortons</label>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-x-6">
+                                            <div class="flex items-center w-1/2">
+                                                <input class="form-checkbox bg-transparent border-default-200 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer" id="coffee_cafe" type="checkbox">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="coffee_cafe">Coffee
+                                                    Café</label>
+                                            </div>
+
+                                            <div class="flex items-center w-1/2">
+                                                <input class="form-checkbox bg-transparent border-default-200 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer" id="dominos" type="checkbox">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="dominos">Dominos</label>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-x-6">
+                                            <div class="flex items-center w-1/2">
+                                                <input class="form-checkbox bg-transparent border-default-200 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer" id="café_beats" type="checkbox">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="café_beats">Café
+                                                    Beats</label>
+                                            </div>
+
+                                            <div class="flex items-center w-1/2">
+                                                <input checked class="form-checkbox bg-transparent border-default-200 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer" id="blaze_pizza" type="checkbox">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="blaze_pizza">Blaze
+                                                    Pizza</label>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-x-6">
+                                            <div class="flex items-center w-1/2">
+                                                <input checked class="form-checkbox bg-transparent border-default-200 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer" id="tgb" type="checkbox">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="tgb">TGB</label>
+                                            </div>
+
+                                            <div class="flex items-center w-1/2">
+                                                <input class="form-checkbox bg-transparent border-default-200 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer" id="red_robbin" type="checkbox">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="red_robbin">Red
+                                                    Robbin</label>
+                                            </div>
+                                        </div>
+                                        <div class="flex gap-x-6">
+                                            <div class="flex items-center w-1/2">
+                                                <input class="form-checkbox bg-transparent border-default-200 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer" id="nestle" type="checkbox">
+                                                <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="nestle">Nestle</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end popular-cafe & restaurant -->
+
+                            <div>
+                                <button class="hs-collapse-toggle py-4 inline-flex justify-between items-center gap-2 transition-all uppercase font-medium text-lg text-default-900 w-full open" data-hs-collapse="#popular_tags" id="hs-basic-collapse" type="button">
+                                    Popular tags
+                                </button>
+                                <div class="hs-collapse w-full overflow-hidden transition-[height] duration-300 open" id="popular_tags">
+                                    <div class="relative mb-6">
+                                        <div class="flex flex-wrap gap-1.5">
+                                            <div class="text-default-950 px-3 py-1 rounded-full border border-default-200 cursor-pointer hover:bg-primary/10 hover:text-primary hover:border-primary-500/60 transition-all">
+                                                Pizza
+                                            </div>
+                                            <div class="text-default-950 px-3 py-1 rounded-full border border-default-200 cursor-pointer hover:bg-primary/10 hover:text-primary hover:border-primary-500/60 transition-all">
+                                                Burger
+                                            </div>
+                                            <div class="text-default-950 px-3 py-1 rounded-full border border-default-200 cursor-pointer hover:bg-primary/10 hover:text-primary hover:border-primary-500/60 transition-all">
+                                                Cake
+                                            </div>
+                                            <div class="text-default-950 px-3 py-1 rounded-full border border-default-200 cursor-pointer hover:bg-primary/10 hover:text-primary hover:border-primary-500/60 transition-all">
+                                                Desserts
+                                            </div>
+                                            <div class="text-default-950 px-3 py-1 rounded-full border border-default-200 cursor-pointer hover:bg-primary/10 hover:text-primary hover:border-primary-500/60 transition-all">
+                                                Coffee & Tea
+                                            </div>
+                                            <div class="text-default-950 px-3 py-1 rounded-full border border-default-200 cursor-pointer hover:bg-primary/10 hover:text-primary hover:border-primary-500/60 transition-all">
+                                                Juices
+                                            </div>
+                                            <div class="px-3 py-1 rounded-full border bg-primary/10 text-primary border-primary-500/60 transition-all">
+                                                Italian Food
+                                            </div>
+                                            <div class="text-default-950 px-3 py-1 rounded-full border border-default-200 cursor-pointer hover:bg-primary/10 hover:text-primary hover:border-primary-500/60 transition-all">
+                                                Beverages
+                                            </div>
+                                            <div class="text-default-950 px-3 py-1 rounded-full border border-default-200 cursor-pointer hover:bg-primary/10 hover:text-primary hover:border-primary-500/60 transition-all">
+                                                Noodles
+                                            </div>
+                                            <div class="text-default-950 px-3 py-1 rounded-full border border-default-200 cursor-pointer hover:bg-primary/10 hover:text-primary hover:border-primary-500/60 transition-all">
+                                                Momos
+                                            </div>
+                                            <div class="text-default-950 px-3 py-1 rounded-full border border-default-200 cursor-pointer hover:bg-primary/10 hover:text-primary hover:border-primary-500/60 transition-all">
+                                                Sandwich
+                                            </div>
+                                            <div class="text-default-950 px-3 py-1 rounded-full border border-default-200 cursor-pointer hover:bg-primary/10 hover:text-primary hover:border-primary-500/60 transition-all">
+                                                Frankie
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- end cafe & restaurant -->
+
+                            <div class="py-6">
+                                <div class="relative rounded-lg bg-[url(../images/other/offer-bg.png)] bg-opacity-5 bg-center bg-cover overflow-hidden">
+                                    <div class="absolute inset-0 bg-primary/10 -z-10"></div>
+                                    <div class="p-12">
+                                        <div class="flex justify-center mb-6">
+                                            <img src="assets/filter-offer-dish-1d78b7ee.png">
+                                        </div>
+                                        <div class="text-center mb-10">
+                                            <h3 class="text-2xl font-medium text-default-900 mb-2">
+                                                Burger Combo</h3>
+                                            <p class="text-sm text-default-500">Lorem ipsum dolor sit
+                                                amet, consectetur adipiscing elit, sed do.</p>
+                                        </div>
+                                        <div class="flex items-center justify-center gap-2 w-full font-medium text-default-950 mb-6">
+                                            Sort By :
+                                            <span class="inline-flex items-center gap-4 text-sm py-2 px-4 xl:px-5 bg-default-50 rounded-full">
+                                                $59 USD
+                                            </span>
+                                        </div>
+                                        <button class="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-full bg-primary text-white hover:bg-primary-500 transition-all" type="button">
+                                            Shop Now <i class="h-5 w-5" data-lucide="move-right"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="block lg:hidden py-4 px-4 border-t border-default-200">
+                        <a class="w-full inline-flex items-center justify-center rounded border border-primary bg-primary px-6 py-2.5 text-center text-sm font-medium text-white shadow-sm transition-all hover:border-primary-700 hover:bg-primary focus:ring focus:ring-primary/50" href="javascript:void(0)">Reset</a>
+                    </div>
+                </div>
+
+                <div class="lg:w-3/4">
+                    <div class="flex flex-wrap md:flex-nowrap items-center justify-between gap-4 mb-10">
+                        <div class="flex flex-wrap md:flex-nowrap items-center gap-4">
+                            <button class="inline-flex lg:hidden items-center gap-4 text-sm py-2.5 px-4 xl:px-5 rounded-full text-default-950 border border-default-200 transition-all" data-hs-overlay="#filter_Offcanvas" type="button">
+                                Filter <i class="h-4 w-4" data-lucide="settings-2"></i>
+                            </button>
+
+                            <h6 class="lg:flex hidden text-default-950 text-base">Showing 1–10 of 99
+                                results</h6>
+                        </div>
+
+                        <div class="flex items-center">
+                            <span class="text-base text-default-950 me-3">Sort By :</span>
+                            <div class="hs-dropdown relative inline-flex [--placement:bottom-left]">
+                                <button class="hs-dropdown-toggle flex items-center gap-2 font-medium text-default-950 text-sm py-2.5 px-4 xl:px-5 rounded-full border border-default-200 transition-all" type="button">
+                                    Latest <i class="h-4 w-4" data-lucide="chevron-down"></i>
+                                </button><!-- end dropdown button -->
+
+                                <div class="hs-dropdown-menu hs-dropdown-open:opacity-100 min-w-[200px] transition-[opacity,margin] mt-4 opacity-0 hidden z-20 bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-lg border border-default-100 p-1.5 dark:bg-default-50">
+                                    <ul class="flex flex-col gap-1">
+                                        <li>
+                                            <a class="flex items-center gap-3 font-normal py-2 px-3 transition-all text-default-700 bg-default-400/20 rounded" href="javascript:void(0)">Latest</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded" href="javascript:void(0)">Featured</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded" href="javascript:void(0)">Release Date</a>
+                                        </li>
+                                        <li>
+                                            <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded" href="javascript:void(0)">Avg. Rating</a>
+                                        </li>
+                                    </ul><!-- end dropdown items -->
+                                </div><!-- end dropdown menu -->
+                            </div>
+                        </div>
+                    </div><!-- end flex -->
+
+                    <div class="grid xl:grid-cols-3 sm:grid-cols-2 gap-5">
+                        <div class="xl:order-1 order-2 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300">
+                            <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
+                                <div class="mb-4 mx-auto">
+                                    <img class="w-full h-full group-hover:scale-105 transition-all" src="assets/pizza-d046283e.png">
+                                </div>
+
+                                <div class="pt-2">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <a class="text-default-800 text-xl font-semibold line-clamp-1 after:absolute after:inset-0" href="product-detail.html">Italian
+                                            Pizza</a>
+                                        <i class="h-6 w-6 text-red-500 fill-red-500 cursor-pointer" data-lucide="heart"></i>
+                                    </div>
+                                    <span class="inline-flex items-center gap-2 mb-4">
+                                        <span class="bg-primary rounded-full p-1"><i class="h-3 w-3 text-white fill-white" data-lucide="star"></i></span>
+                                        <span class="text-sm text-default-950 from-inherit">4.5</span>
+                                    </span>
+
+                                    <div class="flex items-end justify-between mb-4">
+                                        <h4 class="font-semibold text-xl text-default-900">$8.75</h4>
+                                        <div class="relative z-10 inline-flex justify-between border border-default-200 p-1 rounded-full">
+                                            <button class="minus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                –
+                                            </button>
+                                            <input class="w-8 border-0 text-sm text-center text-default-800 focus:ring-0 p-0 bg-transparent" max="100" min="0" readonly="" type="text" value="5">
+                                            <button class="plus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <a class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="cart.html">Add
+                                        to cart</a><!-- end btn -->
+                                </div>
+                            </div>
+                        </div><!-- end grid-cols -->
+
+                        <div class="sm:col-span-2 xl:order-2 order-1">
+                            <div class="relative rounded-lg overflow-hidden bg-cover bg-[url(../images/other/discount.png)] h-full">
+                                <div class="absolute inset-0 bg-black/10"></div>
+                                <div class="relative p-8 md:p-12">
+                                    <h4 class="text-5xl text-yellow-500 font-semibold mb-6">52% Discount</h4>
+                                    <p class="text-lg text-default-500 mb-6">on your first order</p>
+                                    <a class="md:mb-10 inline-flex items-center justify-center gap-2 rounded-full border border-primary bg-primary px-4 py-2 text-center text-sm font-medium text-white shadow-sm transition-all duration-200 hover:border-primary-700 hover:bg-primary-500" href="javascript:void(0)">
+                                        Shop Now
+                                        <i class="h-4 w-4" data-lucide="move-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div><!-- end grid-col -->
+
+                        <div class="order-3 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300">
+                            <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
+                                <div class="mb-4 mx-auto">
+                                    <img class="w-full h-full group-hover:scale-105 transition-all" src="assets/burger-dee4db61.png">
+                                </div>
+
+                                <div class="pt-2">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <a class="text-default-800 text-xl font-semibold line-clamp-1 after:absolute after:inset-0" href="product-detail.html">Veg Burger</a>
+                                        <i class="h-6 w-6 text-default-200 cursor-pointer hover:text-red-500 hover:fill-red-500 transition-all relative z-10" data-lucide="heart"></i>
+                                    </div>
+                                    <span class="inline-flex items-center gap-2 mb-4">
+                                        <span class="bg-primary rounded-full p-1">
+                                            <i class="h-3 w-3 text-white fill-white" data-lucide="star"></i></span>
+                                        <span class="text-sm text-default-950 from-inherit">4.2</span>
+                                    </span>
+                                    <div class="flex items-end justify-between mb-4">
+                                        <h4 class="font-semibold text-xl text-default-900">$12.78</h4>
+                                        <div class="relative z-10 inline-flex justify-between border border-default-200 p-1 rounded-full">
+                                            <button class="minus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                –
+                                            </button>
+                                            <input class="w-8 border-0 text-sm text-center text-default-800 focus:ring-0 p-0 bg-transparent" max="100" min="0" readonly="" type="text" value="1">
+                                            <button class="plus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <a class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="cart.html">Add
+                                        to cart</a><!-- end btn -->
+                                </div>
+                            </div>
+                        </div><!-- end grid-cols -->
+
+                        <div class="order-3 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300">
+                            <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
+                                <div class="mb-4 mx-auto">
+                                    <img class="w-full h-full group-hover:scale-105 transition-all" src="assets/noodles-65d947ec.png">
+                                </div>
+
+                                <div class="pt-2">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <a class="text-default-800 text-xl font-semibold line-clamp-1 after:absolute after:inset-0" href="product-detail.html">Noodles</a>
+                                        <i class="h-6 w-6 text-default-200 cursor-pointer hover:text-red-500 hover:fill-red-500 transition-all relative z-10" data-lucide="heart"></i>
+                                    </div>
+                                    <span class="inline-flex items-center gap-2 mb-4">
+                                        <span class="bg-primary rounded-full p-1"><i class="h-3 w-3 text-white fill-white" data-lucide="star"></i></span>
+                                        <span class="text-sm text-default-950 from-inherit">4.9</span>
+                                    </span>
+                                    <div class="flex items-end justify-between mb-4">
+                                        <h4 class="font-semibold text-xl text-default-900">$12.34</h4>
+                                        <div class="relative z-10 inline-flex justify-between border border-default-200 p-1 rounded-full">
+                                            <button class="minus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                –
+                                            </button>
+                                            <input class="w-8 border-0 text-sm text-center text-default-800 focus:ring-0 p-0 bg-transparent" max="100" min="0" readonly="" type="text" value="2">
+                                            <button class="plus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <a class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="cart.html">
+                                        Add to cart
+                                    </a><!-- end btn -->
+                                </div>
+                            </div>
+                        </div><!-- end grid-cols -->
+
+                        <div class="order-3 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300">
+                            <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
+                                <div class="mb-4 mx-auto">
+                                    <img class="w-full h-full group-hover:scale-105 transition-all" src="assets/red-velvet-pastry-b09214ba.png">
+                                </div>
+
+                                <div class="pt-2">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <a class="text-default-800 text-xl font-semibold line-clamp-1 after:absolute after:inset-0" href="product-detail.html">Red
+                                            Velvet Pastry</a>
+                                        <i class="h-6 w-6 text-red-500 fill-red-500 cursor-pointer" data-lucide="heart"></i>
+                                    </div>
+                                    <span class="inline-flex items-center gap-2 mb-4">
+                                        <span class="bg-primary rounded-full p-1"><i class="h-3 w-3 text-white fill-white" data-lucide="star"></i></span>
+                                        <span class="text-sm text-default-950 from-inherit">4.0</span>
+                                    </span>
+                                    <div class="flex items-end justify-between mb-4">
+                                        <h4 class="font-semibold text-xl text-default-900">$42.25</h4>
+                                        <div class="relative z-10 inline-flex justify-between border border-default-200 p-1 rounded-full">
+                                            <button class="minus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                –
+                                            </button>
+                                            <input class="w-8 border-0 text-sm text-center text-default-800 focus:ring-0 p-0 bg-transparent" max="100" min="0" readonly="" type="text" value="4">
+                                            <button class="plus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <a class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="cart.html">Add
+                                        to cart</a><!-- end btn -->
+                                </div>
+                            </div>
+                        </div><!-- end grid-cols -->
+
+                        <div class="order-3 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300">
+                            <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
+                                <div class="mb-4 mx-auto">
+                                    <img class="w-full h-full group-hover:scale-105 transition-all" src="assets/spaghetti-c5ad136f.png">
+                                </div>
+
+                                <div class="pt-2">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <a class="text-default-800 text-xl font-semibold line-clamp-1 after:absolute after:inset-0" href="product-detail.html">Spaghetti</a>
+                                        <i class="h-6 w-6 text-default-200 cursor-pointer hover:text-red-500 hover:fill-red-500 transition-all relative z-10" data-lucide="heart"></i>
+                                    </div>
+                                    <span class="inline-flex items-center gap-2 mb-4">
+                                        <span class="bg-primary rounded-full p-1"><i class="h-3 w-3 text-white fill-white" data-lucide="star"></i></span>
+                                        <span class="text-sm text-default-950 from-inherit">4.9</span>
+                                    </span>
+                                    <div class="flex items-end justify-between mb-4">
+                                        <h4 class="font-semibold text-xl text-default-900">$12.42</h4>
+                                        <div class="relative z-10 inline-flex justify-between border border-default-200 p-1 rounded-full">
+                                            <button class="minus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                –
+                                            </button>
+                                            <input class="w-8 border-0 text-sm text-center text-default-800 focus:ring-0 p-0 bg-transparent" max="100" min="0" readonly="" type="text" value="1">
+                                            <button class="plus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <a class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="cart.html">Add
+                                        to cart</a><!-- end btn -->
+                                </div>
+                            </div>
+                        </div><!-- end grid-cols -->
+
+                        <div class="order-3 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300">
+                            <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
+                                <div class="mb-4 mx-auto">
+                                    <img class="w-full h-full group-hover:scale-105 transition-all" src="assets/hot-chocolate-b95843f9.png">
+                                </div>
+
+                                <div class="pt-2">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <a class="text-default-800 text-xl font-semibold line-clamp-1 after:absolute after:inset-0" href="product-detail.html">Hot
+                                            Chocolate</a>
+                                        <i class="h-6 w-6 text-default-200 cursor-pointer hover:text-red-500 hover:fill-red-500 transition-all relative z-10" data-lucide="heart"></i>
+                                    </div>
+                                    <span class="inline-flex items-center gap-2 mb-4">
+                                        <span class="bg-primary rounded-full p-1"><i class="h-3 w-3 text-white fill-white" data-lucide="star"></i></span>
+                                        <span class="text-sm text-default-950 from-inherit">3.9</span>
+                                    </span>
+                                    <div class="flex items-end justify-between mb-4">
+                                        <h4 class="font-semibold text-xl text-default-900">$15.23</h4>
+                                        <div class="relative z-10 inline-flex justify-between border border-default-200 p-1 rounded-full">
+                                            <button class="minus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                –
+                                            </button>
+                                            <input class="w-8 border-0 text-sm text-center text-default-800 focus:ring-0 p-0 bg-transparent" max="100" min="0" readonly="" type="text" value="0">
+                                            <button class="plus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <a class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="cart.html">Add
+                                        to cart</a><!-- end btn -->
+                                </div>
+                            </div>
+                        </div><!-- end grid-cols -->
+
+                        <div class="order-3 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300">
+                            <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
+                                <div class="mb-4 mx-auto">
+                                    <img class="w-full h-full group-hover:scale-105 transition-all" src="assets/steamed-dumpling-8d78cb15.png">
+                                </div>
+
+                                <div class="pt-2">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <a class="text-default-800 text-xl font-semibold line-clamp-1 after:absolute after:inset-0" href="product-detail.html">Steamed
+                                            Dumpling</a>
+                                        <i class="h-6 w-6 text-default-200 cursor-pointer hover:text-red-500 hover:fill-red-500 transition-all relative z-10" data-lucide="heart"></i>
+                                    </div>
+                                    <span class="inline-flex items-center gap-2 mb-4">
+                                        <span class="bg-primary rounded-full p-1"><i class="h-3 w-3 text-white fill-white" data-lucide="star"></i></span>
+                                        <span class="text-sm text-default-950 from-inherit">4.6</span>
+                                    </span>
+                                    <div class="flex items-end justify-between mb-4">
+                                        <h4 class="font-semibold text-xl text-default-900">$52.14</h4>
+                                        <div class="relative z-10 inline-flex justify-between border border-default-200 p-1 rounded-full">
+                                            <button class="minus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                –
+                                            </button>
+                                            <input class="w-8 border-0 text-sm text-center text-default-800 focus:ring-0 p-0 bg-transparent" max="100" min="0" readonly="" type="text" value="1">
+                                            <button class="plus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <a class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="cart.html">Add
+                                        to cart</a><!-- end btn -->
+                                </div>
+                            </div>
+                        </div><!-- end grid-cols -->
+
+                        <div class="order-3 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300">
+                            <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
+                                <div class="mb-4 mx-auto">
+                                    <img class="w-full h-full group-hover:scale-105 transition-all" src="assets/veg-rice-e40004d1.png">
+                                </div>
+
+                                <div class="pt-2">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <a class="text-default-800 text-xl font-semibold line-clamp-1 after:absolute after:inset-0" href="product-detail.html">Indian
+                                            Food</a>
+                                        <i class="h-6 w-6 text-red-500 fill-red-500 cursor-pointer" data-lucide="heart"></i>
+                                    </div>
+                                    <span class="inline-flex items-center gap-2 mb-4">
+                                        <span class="bg-primary rounded-full p-1"><i class="h-3 w-3 text-white fill-white" data-lucide="star"></i></span>
+                                        <span class="text-sm text-default-950 from-inherit">4.4</span>
+                                    </span>
+                                    <div class="flex items-end justify-between mb-4">
+                                        <h4 class="font-semibold text-xl text-default-900">$25.14</h4>
+                                        <div class="relative z-10 inline-flex justify-between border border-default-200 p-1 rounded-full">
+                                            <button class="minus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                –
+                                            </button>
+                                            <input class="w-8 border-0 text-sm text-center text-default-800 focus:ring-0 p-0 bg-transparent" max="100" min="0" readonly="" type="text" value="2">
+                                            <button class="plus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <a class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="cart.html">Add
+                                        to cart</a><!-- end btn -->
+                                </div>
+                            </div>
+                        </div><!-- end grid-cols -->
+
+                        <div class="order-3 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300">
+                            <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
+                                <div class="mb-4 mx-auto">
+                                    <img class="w-full h-full group-hover:scale-105 transition-all" src="assets/chickpea-hummus-cb6f1463.png">
+                                </div>
+
+                                <div class="pt-2">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <a class="text-default-800 text-xl font-semibold line-clamp-1 after:absolute after:inset-0" href="product-detail.html">Chickpea
+                                            Hummus</a>
+                                        <i class="h-6 w-6 text-default-200 cursor-pointer hover:text-red-500 hover:fill-red-500 transition-all relative z-10" data-lucide="heart"></i>
+                                    </div>
+                                    <span class="inline-flex items-center gap-2 mb-4">
+                                        <span class="bg-primary rounded-full p-1"><i class="h-3 w-3 text-white fill-white" data-lucide="star"></i></span>
+                                        <span class="text-sm text-default-950 from-inherit">4.8</span>
+                                    </span>
+                                    <div class="flex items-end justify-between mb-4">
+                                        <h4 class="font-semibold text-xl text-default-900">$21.41</h4>
+                                        <div class="relative z-10 inline-flex justify-between border border-default-200 p-1 rounded-full">
+                                            <button class="minus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                –
+                                            </button>
+                                            <input class="w-8 border-0 text-sm text-center text-default-800 focus:ring-0 p-0 bg-transparent" max="100" min="0" readonly="" type="text" value="6">
+                                            <button class="plus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <a class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="cart.html">Add
+                                        to cart</a><!-- end btn -->
+                                </div>
+                            </div>
+                        </div><!-- end grid-cols -->
+
+                        <div class="order-3 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300">
+                            <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
+                                <div class="mb-4 mx-auto">
+                                    <img class="w-full h-full group-hover:scale-105 transition-all" src="assets/butter-cookies-62bc5f5a.png">
+                                </div>
+
+                                <div class="pt-2">
+                                    <div class="flex items-center justify-between mb-4">
+                                        <a class="text-default-800 text-xl font-semibold line-clamp-1 after:absolute after:inset-0" href="product-detail.html">Butter
+                                            Cookies</a>
+                                        <i class="h-6 w-6 text-red-500 fill-red-500 cursor-pointer" data-lucide="heart"></i>
+                                    </div>
+                                    <span class="inline-flex items-center gap-2 mb-4">
+                                        <span class="bg-primary rounded-full p-1"><i class="h-3 w-3 text-white fill-white" data-lucide="star"></i></span>
+                                        <span class="text-sm text-default-950 from-inherit">4.8</span>
+                                    </span>
+                                    <div class="flex items-end justify-between mb-4">
+                                        <h4 class="font-semibold text-xl text-default-900">$30.25</h4>
+                                        <div class="relative z-10 inline-flex justify-between border border-default-200 p-1 rounded-full">
+                                            <button class="minus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                –
+                                            </button>
+                                            <input class="w-8 border-0 text-sm text-center text-default-800 focus:ring-0 p-0 bg-transparent" max="100" min="0" readonly="" type="text" value="2">
+                                            <button class="plus flex-shrink-0 bg-default-200 text-default-800 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button">
+                                                +
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    <a class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="cart.html">Add
+                                        to cart</a><!-- end btn -->
+                                </div>
+                            </div>
+                        </div><!-- end grid-cols -->
+                    </div><!-- end grid -->
+
+                    <div class="flex flex-wrap justify-center md:flex-nowrap md:justify-end gap-y-6 gap-x-10 pt-6">
+                        <nav>
+                            <ul class="inline-flex items-center space-x-2 rounded-md text-sm">
+                                <li>
+                                    <a aria-current="page" class="inline-flex items-center justify-center h-9 w-9 border border-primary rounded-full text-white bg-primary" href="javascript:void(0)">1 </a>
+                                </li>
+                                <li>
+                                    <a class="inline-flex items-center justify-center h-9 w-9 bg-default-100 rounded-full transition-all duration-500 text-default-800 hover:bg-primary hover:border-primary hover:text-white" href="javascript:void(0)">2 </a>
+                                </li>
+                                <li>
+                                    <a class="inline-flex items-center justify-center h-9 w-9 bg-default-100 rounded-full transition-all duration-500 text-default-800 hover:bg-primary hover:border-primary hover:text-white" href="javascript:void(0)">...</a>
+                                </li>
+                                <li>
+                                    <a class="inline-flex items-center justify-center h-9 w-9 bg-default-100 rounded-full transition-all duration-500 text-default-800 hover:bg-primary hover:border-primary hover:text-white" href="javascript:void(0)">9 </a>
+                                </li>
+                                <li>
+                                    <a class="inline-flex items-center justify-center h-9 w-9 bg-default-100 rounded-full transition-all duration-500 text-default-800 hover:bg-primary hover:border-primary hover:text-white" href="javascript:void(0)">10 </a>
+                                </li>
+                            </ul><!-- end ul -->
+                        </nav><!-- end nav -->
+
+                        <nav>
+                            <ul class="inline-flex items-center space-x-2 rounded-md text-sm">
+                                <li>
+                                    <a class="inline-flex items-center justify-center h-9 w-9 bg-default-100 rounded-full transition-all duration-500 text-default-800 hover:bg-primary hover:border-primary hover:text-white" href="javascript:void(0)">
+                                        <i class="h-5 w-5" data-lucide="chevron-left"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="inline-flex items-center justify-center h-9 w-9 bg-default-100 rounded-full transition-all duration-500 text-default-800 hover:bg-primary hover:border-primary hover:text-white" href="javascript:void(0)">
+                                        <i class="h-5 w-5" data-lucide="chevron-right"></i>
+                                    </a>
+                                </li>
+                            </ul><!-- end ul -->
+                        </nav><!-- end nav -->
+                    </div><!-- end flex -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="border-t border-default-200">
+        <div class="container">
+            <div class="grid lg:grid-cols-3 items-center gap-6 lg:py-10 py-6">
+                <div class="lg:col-span-2">
+                    <div class="grid md:grid-cols-4 grid-cols-2 gap-6 mb-6">
+                        <div class="flex flex-col gap-3">
+                            <h5 class="mb-3 font-semibold text-default-950">About</h5>
+                            <div class="text-default-600"><a href="javascript:void(0);">About Us</a></div>
+                            <div class="text-default-600"><a href="javascript:void(0);">Features</a></div>
+                            <div class="text-default-600"><a href="javascript:void(0);">News</a></div>
+                            <div class="text-default-600"><a href="javascript:void(0);">Careers</a></div>
+                            <div class="text-default-600"><a href="javascript:void(0);">Services</a></div>
+                        </div>
+    
+                        <div class="flex flex-col gap-3">
+                            <h5 class="mb-3 font-semibold text-default-950">Company</h5>
+                            <div class="text-default-600"><a href="javascript:void(0);">Our Team</a></div>
+                            <div class="text-default-600"><a href="javascript:void(0);">Partner with Us</a></div>
+                            <div class="text-default-600"><a href="javascript:void(0);">FAQs</a></div>
+                            <div class="text-default-600"><a href="javascript:void(0);">Blog</a></div>
+                        </div>
+    
+                        <div class="flex flex-col gap-3">
+                            <h5 class="mb-3 font-semibold text-default-950">Support</h5>
+                            <div class="text-default-600"><a href="javascript:void(0);">About</a></div>
+                            <div class="text-default-600"><a href="javascript:void(0);">Support Center</a></div>
+                            <div class="text-default-600"><a href="javascript:void(0);">Feedback</a></div>
+                            <div class="text-default-600"><a href="javascript:void(0);">Contact Us</a></div>
+                            <div class="text-default-600"><a href="javascript:void(0);">Accessibility</a></div>
+                        </div>
+    
+                        <div class="flex flex-col gap-3">
+                            <h5 class="mb-3 font-semibold text-default-950">Get in touch</h5>
+                            <div class="text-default-600"><a href="javascript:void(0);">(+123) 456 789 123</a></div>
+                            <div class="text-default-600"><a href="javascript:void(0);">example@mail.com</a></div>
+                            <div class="flex items-center gap-4">
+                                <a href="#!" class="cursor-pointer">
+                                    <i data-lucide="phone" class="h-6 w-6 transition-all text-default-600 hover:text-primary"></i>
+                                </a>
+                                <a href="#!" class="cursor-pointer">
+                                    <i data-lucide="globe" class="h-6 w-6 transition-all text-default-600 hover:text-primary"></i>
+                                </a>
+                                <a href="#!" class="cursor-pointer">
+                                    <i data-lucide="instagram" class="h-6 w-6 transition-all text-default-600 hover:text-primary"></i>
+                                </a>
+                                <a href="#!" class="cursor-pointer">
+                                    <i data-lucide="twitter" class="h-6 w-6 transition-all text-default-600 hover:text-primary"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-span-1">
+                    <div class="flex flex-col gap-3">
+                        <div class="bg-primary/10 rounded-lg">
+                            <div class="p-8">
+                                <form class="space-y-2 mb-6">
+                                    <label for="subscribeEmail" class="text-lg font-medium text-default-950 mb-4">Subscribe</label>
+                                    <div class="flex rounded-md shadow-sm">
+                                        <input type="email" id="subscribeEmail" name="subscribeEmail" class="py-3 px-4 block w-full bg-white border-default-200 rounded-s-md text-sm dark:bg-default-50" placeholder="Email address" />
+                                        <button type="button" class="inline-flex flex-shrink-0 justify-center items-center h-[2.875rem] w-[2.875rem] rounded-e-md border border-transparent font-semibold bg-primary text-white hover:bg-primary-500 transition-all text-sm">
+                                            <i data-lucide="arrow-right" class="h-5 w-5"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                                <p class="text-sm text-default-500 mb-6">A Res is a self-service shop offering a wide variety of food, beverages & household products we’re engage with their clients & their team.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    
+            <div class="py-6 border-t border-default-200 lg:flex hidden">
+                <div class="container">
+                    <div class="grid lg:grid-cols-2 items-center gap-6">
+                        <div>
+                            <p class="text-default-600">
+                                <script>document.write(new Date().getFullYear())</script> Design crafted <i data-lucide="heart" class="inline h-4 w-4 text-red-500 fill-red-500"></i> by Coderthemes.com
+                            </p>
+                        </div>
+    
+                        <div class="flex justify-end gap-6">
+                            <a href="javascript:void(0)" class="text-default-500 font-medium">
+                                Terms
+                            </a>
+                            <a href="javascript:void(0)" class="text-default-500 font-medium">
+                                Privacy
+                            </a>
+                            <a href="javascript:void(0)" class="text-default-500 font-medium">
+                                Cookies
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Back to Top & Light/Dark Toggle -->
+    <div class="fixed lg:bottom-5 end-5 bottom-18 flex flex-col items-center bg-primary/25 rounded-full z-10">
+        <button class="h-0 w-8 opacity-0 flex justify-center items-center transition-all duration-500 translate-y-5 z-10" data-toggle="back-to-top">
+            <i class="h-5 w-5 text-primary-500 mt-1" data-lucide="chevron-up"></i>
+        </button>
+        <button class="rounded-full h-10 w-10 bg-primary text-white flex justify-center items-center z-20">
+            <i class="h-5 w-5" data-lucide="sun" id="light-theme"></i>
+            <i class="h-5 w-5" data-lucide="moon" id="dark-theme"></i>
+        </button>
+    </div>
+
+    
+    
+
+    
+
+</body>
+
+
+<!-- Mirrored from coderthemes.com/yum/product-grid.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 13:21:25 GMT -->
+</html>
