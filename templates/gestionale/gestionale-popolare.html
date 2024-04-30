@@ -43,7 +43,8 @@
   <!-- Offer/Help Menu -->
 
   <!-- Main Navigation Menu -->
-  <header id="navbar" class="sticky top-0 z-20 border-b border-default-200 bg-transparent transition-all">
+  <header id="navbar" style="display: none;"
+    class="sticky top-0 z-20 border-b border-default-200 bg-transparent transition-all">
     <div class="lg:h-20 h-14 flex items-center">
       <div class="container">
         <div class="grid lg:grid-cols-3 grid-cols-2 items-center gap-4">
@@ -60,7 +61,6 @@
             <img src="assets/img/Logo_popolare_2024x500_trasparente.png" alt="logo"
               class="h-18 mh-12 hidden dark:flex" />
 
-            <button type="button" id="button-new-order" style="#NewOrder-button" onclick="init()">Nuovo Ordine</button>
 
           </div>
 
@@ -1023,6 +1023,13 @@
 
   <!-- Topbar Search Modal (Small Screen) -->
   <section class="lg:py-8 py-6">
+    <div class="flex h-40 justify-center text-center" id="preloader-container">
+      <img src="assets/img/Logo_popolare_2024x500_trasparente.png" alt="logo" class="flex dark:hidden" />
+      <img src="assets/img/Logo_popolare_2024x500_trasparente.png" alt="logo" class="hidden dark:flex" />
+      <button type="button" id="button-new-order"
+        class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 items-center justify-center px-6 py-3 rounded-full shadow-lg text-center text-sm text-white transition-all w-1/4 z-10"
+        onclick="init()">NUOVO ORDINE</button>
+    </div>
     <div class="container" id="whole-page" style="display: none">
       <div id="frontpage" class="lg:flex gap-4">
         <div
@@ -1325,17 +1332,13 @@
       cursor: pointer;
     }
 
-    #NewOrder-button {
-      padding: 16px 32px;
-      text-align: center;
-      text-decoration: none;
-      display: inline-block;
-      font-size: 16px;
-      margin: 4px 2px;
-      cursor: pointer;
-      background-color: grey;
-      color: black;
-      border: 2px solid #04AA6D
+    #button-new-order {
+      flex-direction: column;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
     }
 
     #overlay {
@@ -1401,6 +1404,7 @@
       // URL dell'API da cui ottenere i dati JSON
       const apiUrl = "http://" + self.location.host + "/api/menu";
       document.getElementById("button-new-order").style.pointerEvents = "none"
+      document.getElementById("preloader-container").style.display = "none"
       document.getElementById("whole-page").style.display = ""
       // Carica i dati JSON dall'API e avvia l'applicazione
       loadExternalJsonAndInitialize(apiUrl);
