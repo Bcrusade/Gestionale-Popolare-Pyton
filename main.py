@@ -47,13 +47,15 @@ def getOrderItems():
     return jsonify(data)
 
 #register order to database (fill the order data)
-@app.route("/api/orders", methods = ['POST', 'GET'])
+@app.route("/api/orders", methods = ['POST'])
 def orders():
+    responseData = {'status': ""}
     if request.method == 'POST':
         r = request.get_json()
         registerOrderToDatabase(connection, r)
+        responseData["status"] = "success"
         print(r)
-    return "{}"
+    return jsonify(responseData)
 
 #update an order status and/or table id
 @app.route("/api/orderDataUpdate", methods = ['POST', 'GET'])
@@ -141,6 +143,5 @@ if __name__ == '__main__':
   "tableId": 200
 }"""
 
-    print(retrieveOrderItems(connection, 84))
     app.run(threaded=True, debug=True, host="0.0.0.0")
 

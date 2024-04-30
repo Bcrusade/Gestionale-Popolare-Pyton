@@ -4,15 +4,15 @@ from datetime import datetime
 
 mutex = Lock()
 
-#todo remove orderStatus from orders table
 def registerOrderToDatabase(conn, order):
     order["status"] = 0 #status: "non assegnato"
     orderId = order["orderId"]
     #datetime
     order["datetime"] = datetime.now()
-    #operatorId & customerType(todo)
+    #operatorId(todo)
     order["operatorId"] = 0
-    orderData = (order["totalValue"], order["operatorId"], order["paymentType"], order["datetime"], order["customerType"], order["orderId"])
+    order["tableId"] = 0
+    orderData = (order["orderId"], order["totalValue"], order["operatorId"], order["paymentType"], order["datetime"], order["customerType"], order["tableId"])
     insertOrder(conn, orderData)  # insert order in orders table
     #check if order has pizzeria and/or restaurant (filter out beverages), then put orderStatuses in the db
     hasCucina = False
@@ -46,7 +46,6 @@ def retrieveOrderNumber(conn):
     mutex.release()
     return orderId
 
-#todo modify query (and javascript) to retrieve order statues
 def retrieveOrderList(conn):
     data = getOrderList(conn)
     #print(data)
@@ -87,3 +86,19 @@ def updateData(conn, data):
         updateOrderStatus(conn, data)
     updateOrderTable(conn, data)
 
+def archiveDatabaseData(conn):
+    dayId = getDayId(conn)
+    hotOrders = getHotOrders(conn)
+    for order in hotOrders:
+        archiveOrder = {'displayId': order[0], 'totalValue': order[1], 'paymentType': order[3], 'datetime': order[4], 'customerType': order[6], 'dayId': dayId}
+        insertArchiveOrder(conn, archiveOrder)
+    #todo check for success before deleting
+    deleteHotOrders(conn)
+    deleteHotOrdersStatuses(conn)
+    hotItems = getHotItems(conn)
+    for item in hotItems:
+        archiveItem = {'dayId': dayId, 'displayId': item[0], 'itemId': item[1], 'quantity': item[2], 'notes': item[3]}
+        insertArchiveItem(conn, archiveItem)
+    #todo check for success before deleting
+    deleteHotItems(conn)
+    resetSqlSequence(conn)
