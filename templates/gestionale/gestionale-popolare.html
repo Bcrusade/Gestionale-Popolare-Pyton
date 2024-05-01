@@ -32,13 +32,13 @@
 
 <body>
   <!-- Preloader -->
-  <div id="preloader"
+  <!-- <div id="preloader"
     class="fixed inset-0 z-70 bg-default-50 transition-all visible opacity-100 h-screen w-screen flex items-center justify-center">
     <div class="animate-spin inline-block w-10 h-10 border-4 border-t-transparent border-primary rounded-full"
       role="status" aria-label="loading">
       <span class="sr-only">Loading...</span>
     </div>
-  </div>
+  </div> -->
 
   <!-- Offer/Help Menu -->
 
@@ -159,7 +159,7 @@
               <button id="check-out"
                 class="opacity-50 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-10 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500"
                 onclick="saveSelectedInput()">
-                Conto
+                Pagamento
               </button>
             </div>
           </div>
@@ -244,9 +244,20 @@
       uncheckedCheckbox.checked = false
       if (checkedId === "pos") {
         paymentType = "pos"
+        const changeContainer = document.getElementById("change-container");
+        changeContainer.style.opacity = "0";
+        setTimeout(() => {
+        changeContainer.style.height = "0";
+    }, 200);
       }
       else if (checkedId === "cash") {
         paymentType = "cash"
+        const changeContainer = document.getElementById("change-container");
+        changeContainer.style.height = "";
+        setTimeout(() => {
+          changeContainer.style.opacity = "1";
+    }, 50);
+
       }
       console.log(paymentType)
     }
