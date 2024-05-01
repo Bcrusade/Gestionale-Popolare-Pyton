@@ -4631,6 +4631,10 @@ select {
   margin-left: -1rem;
   margin-right: -1rem;
 }
+.mx-5 {
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
 .mx-10 {
   margin-left: 2.5rem;
   margin-right: 2.5rem;

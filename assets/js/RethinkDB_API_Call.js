@@ -1,9 +1,8 @@
 // Funzione principale che viene eseguita una volta che il DOM è pronto
-document.addEventListener("DOMContentLoaded", function () {
-});
+document.addEventListener("DOMContentLoaded", function () {});
 toastr.options = {
-  "timeOut": "1500"
-}
+  timeOut: "1500",
+};
 
 // Modifica la funzione loadExternalJsonAndInitialize per utilizzare la chiamata API
 async function loadExternalJsonAndInitialize(apiUrl) {
@@ -13,11 +12,13 @@ async function loadExternalJsonAndInitialize(apiUrl) {
     const data = await response.json(); // Estrai i dati JSON dalla risposta
     //console.log(data);
 
-    const response2 = await fetch("http://" + self.location.host + "/api/requestOrderNumber"); // Esegui la chiamata API
+    const response2 = await fetch(
+      "http://" + self.location.host + "/api/requestOrderNumber"
+    ); // Esegui la chiamata API
     console.log("Chiamata API riuscita:", response2);
     responseObject = await response2.json(); // Estrai i dati JSON dalla risposta
-    orderNumber = responseObject.orderId
-    console.log(orderNumber)
+    orderNumber = responseObject.orderId;
+    console.log(orderNumber);
 
     // Inizializza l'applicazione con il JSON caricato
     initializeApp(data);
@@ -61,20 +62,15 @@ function clearContainers() {
 function initializeApp(data) {
   // Mappa delle categorie ai rispettivi array di menu
   const json = JSON.parse(data);
-  console.log(json)
+  console.log(json);
   //key = category, item= list of products
   const categorieMenuMap = {
     pizza: json["pizza"] || [],
-    panini_singoli:
-      json["panini"] || [],
-    menu_birra:
-      json["menu birra"] || [],
-    cucina:
-      json["cucina"] || [],
-    bevande:
-      json["bevande"] || [],
-    menu_bibita:
-      json["menu bibita"] || [],
+    panini_singoli: json["panini"] || [],
+    menu_birra: json["menu birra"] || [],
+    cucina: json["cucina"] || [],
+    bevande: json["bevande"] || [],
+    menu_bibita: json["menu bibita"] || [],
   };
 
   // Funzione per generare HTML dinamico basato sulle >variabili globali< (NEL RIEPILOGO a lato)
@@ -127,8 +123,8 @@ function initializeApp(data) {
       // Verificare che l'elemento da rimuovere sia un figlio diretto del contenitore
       if (divToRemove && divToRemove.parentNode === container) {
         // Rimuovere l'elemento corrispondente dall'array di dettagli dell'oggetto
-        orderData = orderData.filter(item => item.ID != objectDetails.ID)
-        grandTotal = calculateTotalOrderValue(orderData)
+        orderData = orderData.filter((item) => item.ID != objectDetails.ID);
+        grandTotal = calculateTotalOrderValue(orderData);
         // Rimuovere il div dal DOM
         container.removeChild(divToRemove);
 
@@ -136,7 +132,7 @@ function initializeApp(data) {
         totaleElement.textContent = `€ ${grandTotal.toFixed(2)}`;
 
         console.log("Totale aggiornato dopo l'eliminazione:", grandTotal);
-        console.log("ID da eliminare:", objectDetails.ID)
+        console.log("ID da eliminare:", objectDetails.ID);
 
         // Ottieni il riferimento al bottone "check-out"
         var checkoutButton = document.getElementById("check-out");
@@ -144,7 +140,6 @@ function initializeApp(data) {
           // Toggle della classe opacity-50 sul div del bottone "check-out"
           checkoutButton.classList.add("opacity-50");
         }
-
       } else {
         // Log se l'elemento non è stato trovato o non è un figlio diretto del contenitore
         console.error(
@@ -160,11 +155,11 @@ function initializeApp(data) {
       price: itemProperties.price,
       notes: "",
       ID: itemProperties.ID,
-      itemId: itemProperties.productId
+      itemId: itemProperties.productId,
     };
 
     if (itemProperties.note) {
-      orderDetailsObject["notes"] = itemProperties.note
+      orderDetailsObject["notes"] = itemProperties.note;
     }
 
     // Aggiungere i dati correnti alla variabile globale orderData
@@ -180,7 +175,7 @@ function initializeApp(data) {
     // Ora puoi utilizzare orderDataJson per ottenere la rappresentazione JSON dei dati dell'ordine
     console.log("Ordine:", orderData);
 
-    grandTotal = calculateTotalOrderValue(orderData)
+    grandTotal = calculateTotalOrderValue(orderData);
     console.log("Totale riepilogo:", grandTotal);
 
     // Selezionare l'elemento <p> con l'ID "Totale"
@@ -202,9 +197,15 @@ function initializeApp(data) {
     checkoutButton.addEventListener("click", function () {
       if (grandTotal !== 0) {
         //make screen unclickable
-        const MenuContainer1 = document.getElementById("container-menu").style.pointerEvents = "none"
-        const MenuContainer2 = document.getElementById("filter_Offcanvas").style.pointerEvents = "none"
-        const MenuContainer3 = document.getElementById("right-panel").style.pointerEvents = "none"
+        const MenuContainer1 = (document.getElementById(
+          "container-menu"
+        ).style.pointerEvents = "none");
+        const MenuContainer2 = (document.getElementById(
+          "filter_Offcanvas"
+        ).style.pointerEvents = "none");
+        const MenuContainer3 = (document.getElementById(
+          "right-panel"
+        ).style.pointerEvents = "none");
         // Chiamare la funzione per pulire il carrello
         clearContainers();
         // Toggle della classe opacity-50 sul div del bottone "check-out"
@@ -218,8 +219,6 @@ function initializeApp(data) {
 
         // Chiamare la funzione showPopupOrderData con i dati trasformati
         showPopupOrderData(transformedOrderData, grandTotal);
-
-
       } else {
         // Alert o messaggio che informa l'utente che non può effettuare il check-out
         toastr.error("Il carrello è vuoto!", "Errore");
@@ -228,36 +227,38 @@ function initializeApp(data) {
   }
 
   // Funzione per inviare i dati dell'ordine al database
-  function inviaDatiOrdine(cleanedOrderData) {
+  async function inviaDatiOrdine(cleanedOrderData) {
     // Crea un oggetto con i dati dell'ordine da mandare al server
     const datiOrdine = {
       customerType: GuestTypeSelectedInput,
       paymentType: paymentType,
       orderId: orderNumber,
       totalValue: grandTotal,
-      items: cleanedOrderData
+      items: cleanedOrderData,
     };
 
     console.log("Dati dell'ordine:", datiOrdine);
 
-    fetch("http://" + self.location.host + "/api/orders", {
+    let response = await fetch("http://" + self.location.host + "/api/orders", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(datiOrdine),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error("Errore:", error));
-
-    location.reload() //reload the page after submitting the order to the server
+    });
+    let data = await response.json();
+    if (data.status == "success") {
+      // Svuotare le variabile dopo l'invio dell'ordine
+      closePopup();
+      clearDataState();
+      location.reload(); //reload the page after submitting the order to the server
+    } else {
+      toastr.error("Errore nell'invio dell'ordine. Riprovare:");
+    }
   }
 
   // Aggiungi un listener per l'evento beforeunload per assicurarti che i dati vengano salvati prima di lasciare la pagina
-  window.addEventListener("beforeunload", () => {
-
-  });
+  window.addEventListener("beforeunload", () => {});
 
   // Funzione per aggiungere numero ordine a orderData (useless at the moment)
   function transformAndSaveOrderData(newOrderData) {
@@ -280,15 +281,12 @@ function initializeApp(data) {
 
   function cleanOrderData(data) {
     data.forEach((item) => {
-      delete item["name"]  //remove useless data used only for visualization
-      delete item["price"]
-      delete item["ID"]
-    })
+      delete item["name"]; //remove useless data used only for visualization
+      delete item["price"];
+      delete item["ID"];
+    });
     return data;
   }
-
-
-
 
   // Funzione per creare e mostrare il pop-up con i dati trasformati
   function showPopupOrderData(transformedDataJson, grandTotal) {
@@ -297,24 +295,24 @@ function initializeApp(data) {
     // Ottieni il contenitore del pop-up
     const popupContainer = document.getElementById("popup-container");
     // Creare HTML dinamico con i dati mappati
-    let htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-3 text-center">Ordine Nr. ${orderNumber}</h4>
+    let htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-5 text-center">Ordine Nr. ${orderNumber}</h4>
     <div style="overflow:auto;">`;
     let noteHtml = `
     </div>
-    <div class="flex justify-between m-3">
-      <div id="grandTotal-container" class="flex gap-3 items-center">
-        <p class="text-base text-default-700 font-bold">Totale: </p>
-        <p class="text-base text-default-700 font-medium">${grandTotal} €</p>
+    <div class="mt-5 mx-5">
+      <div id="grandTotal-container" class="flex flex-shrink-0 gap-3 items-center justify-center mb-5 text-xl">
+        <p class="text-default-700 font-bold">Totale: </p>
+        <p class="text-default-700 font-medium">${grandTotal} €</p>
       </div>
 
       `;
-    if (GuestTypeSelectedInput === "Client") {
+    if ((paymentType = "cash" && GuestTypeSelectedInput === "Client")) {
       noteHtml += `
-      <div id="change-container" class="flex gap-2 items-center">
+      <div id="change-container" class="flex gap-2 items-center justify-between mb-5 hs-collapse open w-full overflow-hidden transition-all duration-300">
         <label for="num1">Contante:</label>
-        <input type="text" id="num1" class="border duration-500 font-medium items-center px-2.5 py-1.5 rounded-full shadow-sm text-center text-sm transition-all w-16" onkeydown="handleKeyPress(event)" />
-        <button class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500  items-center  px-6 py-1.5 relative rounded-full shadow-sm text-center text-sm text-white transition-all" onclick="calcolaSottrazione()">RESTO</button>
-        <h3 id="risultato" class="font-bold mt-2 py-1.5 text-center text-primary"></h3>
+        <input type="text" id="num1" class="border duration-500 font-medium items-center px-2.5 py-1.5 rounded-full shadow-sm text-center text-sm w-16" />
+        <button class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 items-center px-6 py-1.5 relative rounded-full shadow-sm text-center text-sm text-white" id="resto-btn">RESTO</button>
+        <div id="risultato" class="font-bold text-center flex-grow text-primary"></div>
       </div>
     </div>
     `;
@@ -322,25 +320,32 @@ function initializeApp(data) {
     orderItems.forEach((item) => {
       htmlContent += `
 
-      <div>
+      <div class="mx-5">
   <div style="
   display: grid;
   grid-template-columns: auto auto;
   column-gap: 40px;
-  padding:0 20px;
   justify-content: start;
   ">
     <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Piatto:</h4>
-    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${item.name}</span>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${
+      item.name
+    }</span>
     
     <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Quantità:</h4>
-    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${item.quantity}</span>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${
+      item.quantity
+    }</span>
     
     <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Prezzo:</h4>
-    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${item.price} €</span>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${
+      item.price
+    } €</span>
     
     <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Note:</h4>
-    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none text-primary">${item.notes ?? ''}</span>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none text-primary">${
+      item.notes ?? ""
+    }</span>
   </div>
   <hr class="mb-3 mt-3">
 </div>
@@ -351,59 +356,61 @@ function initializeApp(data) {
     htmlContent += noteHtml;
     if (GuestTypeSelectedInput === "Client") {
       htmlContent += `
-    <div id="checkbox-paymant" class="flex justify-around m-3">
+    <div id="checkbox-paymant" class="flex justify-around mb-5 mx-5">
                       <div>
-                        <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="cash" name="all" type="checkbox" onclick="paymentCheckboxMutex('cash', 'pos')">
-                        <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="cash">Contanti</label>
+                        <input class="hs-collapse-toggle open form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="cash" name="all" type="checkbox" onclick="paymentCheckboxMutex('cash', 'pos')">
+                        <label class="hs-collapse-toggle open transition-all ps-3 inline-flex items-center text-default-600 text-sm select-none" for="cash">Contanti</label>
                       </div>
                       <div>
-                        <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="pos" name="all" type="checkbox" onclick="paymentCheckboxMutex('pos', 'cash')">
-                        <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="pos">POS</label>
+                        <input class="hs-collapse-toggle open form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="pos" name="all" type="checkbox" onclick="paymentCheckboxMutex('pos', 'cash')">
+                        <label class="hs-collapse-toggle open transition-all ps-3 inline-flex items-center text-default-600 text-sm select-none" for="pos">POS</label>
                       </div>
-
                 </div>
-                ` }
+                `;
+    }
     htmlContent += `
-    <div id="button-order-container" class="flex gap-12 justify-around m-3">
-    <a id="send-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full" href="#">INVIA</a>
+    <div id="button-order-container" class="flex gap-12 justify-around  mx-5">
+    <a id="send-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full" href="#">PREPARAZIONE</a>
     <button id="btn-confirm-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full">Stampa</button>
     </div>
-    `
+    `;
     // Assegna l'HTML al contenitore del pop-up
     popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" >X</span>${htmlContent}`;
 
     // Mostra il pop-up
     popupContainer.style.display = "flex";
     if (GuestTypeSelectedInput === "Client") {
-      document.getElementById('cash').checked = true;
-      paymentType = 'cash'
+      document.getElementById("cash").checked = true;
+      paymentType = "cash";
     } else {
-      paymentType = 'free'
+      paymentType = "free";
     }
+
+    console.log(paymentType);
 
     //Calcolo resto
     function calcolaSottrazione() {
-      var num1 = parseFloat(document.getElementById("num1").value);
+      var num1 = parseFloat(
+        document.getElementById("num1").value.replace(",", ".")
+      );
 
       var risultatoElement = document.getElementById("risultato");
 
-      if (isNaN(num1) || isNaN(GrandTotal)) {
-        risultatoElement.textContent =
-          "Inserisci un numero valido e assicurati che il numero esterno sia definito.";
+      if (isNaN(num1) || isNaN(grandTotal)) {
+        alert("Inserisci un numero valido.");
         return;
       }
 
-      if (num1 < GrandTotal) {
+      if (num1 < grandTotal) {
         alert(
           "C'è un errore sul pagamento. Il numero inserito è inferiore al totale."
         );
         return;
       }
 
-      var risultato = Math.abs(GrandTotal - num1);
+      var risultato = Math.abs(grandTotal - num1);
 
-      risultatoElement.textContent =
-        "Resto: " + risultato.toFixed(2) + " €";
+      risultatoElement.textContent = "Resto: " + risultato.toFixed(2) + " €";
     }
 
     function handleKeyPress(event) {
@@ -412,6 +419,16 @@ function initializeApp(data) {
       }
     }
 
+    if (GuestTypeSelectedInput === "Client") {
+      const restoButton = document.getElementById("resto-btn");
+      restoButton.addEventListener("click", function () {
+        calcolaSottrazione();
+      });
+      const restoInputField = document.getElementById("num1");
+      restoInputField.addEventListener("keydown", function (event) {
+        handleKeyPress(event);
+      });
+    }
 
     // Aggiungi il codice per mostrare l'overlay
     const overlay = document.getElementById("overlay");
@@ -422,42 +439,40 @@ function initializeApp(data) {
       // Previeni il comportamento di default del link
       event.preventDefault();
       // Chiama la funzione per inviare i dati dell'ordine al database
-      let cleanedData = cleanOrderData(orderData)
+      let cleanedData = cleanOrderData(orderData);
       inviaDatiOrdine(cleanedData);
-      console.log(paymentType)
-      // Svuotare le variabile dopo l'invio dell'ordine
-      closePopup()
-      clearDataState()
-    }
-    )
+    });
     const closePopupButton = popupContainer.querySelector("#close-button");
     closePopupButton.addEventListener("click", function () {
       // Svuotare le variabile dopo l'invio dell'ordine
 
-      closePopup()
-      clearDataState()
-    }
-    )
+      closePopup();
+      clearDataState();
+    });
     const printButton = popupContainer.querySelector("#btn-confirm-order");
     printButton.addEventListener("click", function () {
-      printOrderData(transformedDataJson, grandTotal, orderNumber)
-    }
-    )
+      printOrderData(transformedDataJson, grandTotal, orderNumber);
+    });
+  }
 
-    // Funzione per chiudere il pop-up
-    function closePopup() {
-      const popupContainer = document.getElementById('popup-container');
-      const overlay = document.getElementById("overlay");
-      popupContainer.style.display = 'none';
-      //make clickable everything again
-      const MenuContainer1 = document.getElementById("container-menu").style.pointerEvents = ""
-      const MenuContainer2 = document.getElementById("filter_Offcanvas").style.pointerEvents = ""
-      const MenuContainer3 = document.getElementById("right-panel").style.pointerEvents = ""
-      // Nascondi il popup e l'overlay
-      popupContainer.style.display = "none";
-      overlay.style.display = "none";
-    }
-
+  // Funzione per chiudere il pop-up
+  function closePopup() {
+    const popupContainer = document.getElementById("popup-container");
+    const overlay = document.getElementById("overlay");
+    popupContainer.style.display = "none";
+    //make clickable everything again
+    const MenuContainer1 = (document.getElementById(
+      "container-menu"
+    ).style.pointerEvents = "");
+    const MenuContainer2 = (document.getElementById(
+      "filter_Offcanvas"
+    ).style.pointerEvents = "");
+    const MenuContainer3 = (document.getElementById(
+      "right-panel"
+    ).style.pointerEvents = "");
+    // Nascondi il popup e l'overlay
+    popupContainer.style.display = "none";
+    overlay.style.display = "none";
   }
 
   function printOrderData(transformedDataJson, grandTotal, idOrdineCreato) {
@@ -465,7 +480,7 @@ function initializeApp(data) {
     const jsonData = transformedDataJson;
     // Converti la stringa JSON in un oggetto JavaScript
     const orderItems = JSON.parse(jsonData);
-    console.log(transformedDataJson)
+    console.log(transformedDataJson);
     // Ottieni il totale
     const GragrandTotal = grandTotal;
 
@@ -512,7 +527,7 @@ function initializeApp(data) {
 
   function clearDataState() {
     orderData = [];
-    paymentType = ""
+    paymentType = "";
     grandTotal = 0;
   }
   // Funzione per gestire il click sulla categoria
@@ -560,7 +575,10 @@ function initializeApp(data) {
       // Funzione per generare un ID univoco basato sul nome e sull'ID della categoria senza spazi
       function generateUniqueId(name, categoryId) {
         // Sostituisci gli spazi con l'underscore, convergi tutto in minuscolo e aggiungi un prefisso
-        const cleanedName = name.replace(/\s/g, "_").replace(',', "-").toLowerCase();
+        const cleanedName = name
+          .replace(/\s/g, "_")
+          .replace(",", "-")
+          .toLowerCase();
         const cleanedCategoryId = categoryId.replace(/\s/g, "_").toLowerCase();
         return `${cleanedCategoryId}-${cleanedName}`;
       }
@@ -585,7 +603,7 @@ function initializeApp(data) {
   
           <div class="pt-2">
             <div id="obj-desc-container" style="flex-flow: column;" class="flex justify-between mb-4">
-              <span class="text-default-800 text-xl font-semibold line-clamp-1 after:absolute after:inset-0">${oggetto.name}</span>
+              <span class="text-default-800 text-xl font-semibold line-clamp-2 after:absolute after:inset-0">${oggetto.name}</span>
               <i class="text-m text-default-500">${oggetto.desc}</i>
               <div class="border border-default-200 inline-flex justify-between mt-2 p-1 relative rounded-full z-10 truncate overflow-auto">
               <input id="input_${menuId}" type="text" placeholder="Inserisci modifiche" class="bg-white border-none dark:bg-default-50 h-3 overflow-auto truncate w-full" />
@@ -624,7 +642,6 @@ function initializeApp(data) {
               parseInt(quantityInput.value, 10) - 1,
               0
             );
-
           }
         });
 
@@ -660,22 +677,27 @@ function initializeApp(data) {
                 quantity: Math.max(parseInt(quantityInput.value, 10), 0),
                 image: oggetto.img,
                 name: oggetto.name,
-                ID: menuId + Date.now().toString(36) + Math.random().toString(36).substr(2), //true random id for <div>
+                ID:
+                  menuId +
+                  Date.now().toString(36) +
+                  Math.random().toString(36).substr(2), //true random id for <div>
                 productId: oggetto.productId,
-                note: ""
-              }
+                note: "",
+              };
 
               // Ottieni il valore dall'input solo se la lunghezza è maggiore di 0
               if (noteInput && noteInput.value.trim().length > 0) {
                 itemProperties.note = noteInput.value.trim();
               }
               //reset input data after adding item to cart (notes and quantities) by updating menu to same category
-              updateMenu(categoryId)
+              updateMenu(categoryId);
               // Chiama la funzione per generare l'HTML dinamico
               generateDynamicHTML(itemProperties);
 
               toastr.success(
-                "<b>" + itemProperties.name + "</b> <br> aggiunto con successo al carrello!"
+                "<b>" +
+                  itemProperties.name +
+                  "</b> <br> aggiunto con successo al carrello!"
               );
             } else {
               console.log(
@@ -728,15 +750,14 @@ function initializeApp(data) {
       console.log("Global ID:", globalID);
       console.log("Global Note:", globalNote);
     }
-
   }
 
   function calculateTotalOrderValue(data) {
-    let totalValue = 0
-    data.forEach(item => {
-      totalValue += item.quantity * item.price
-    })
-    return totalValue
+    let totalValue = 0;
+    data.forEach((item) => {
+      totalValue += item.quantity * item.price;
+    });
+    return totalValue;
   }
 
   // Your array of categories menu laterale
