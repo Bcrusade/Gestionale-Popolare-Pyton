@@ -409,6 +409,11 @@
             if (order.tableId === 0){
             tableId = "---"
             }
+			if (order.orderStatus == "2") {
+			   const att = document.createAttribute("style")
+			   att.value = "background-color:#F7C7AC; color:blue"
+			   row.setAttributeNode(att)
+			}
             row.id = `order-row-${order.orderId}-${order.orderType}`;
 			let buttonId1 = "1button" + order.orderId + "-" + order.orderType
 			let buttonId2 = "2button" + order.orderId + "-" + order.orderType
