@@ -319,8 +319,8 @@ function initializeApp(data) {
       noteHtml += `
       <div id="change-container" class="flex gap-2 items-center">
         <label for="num1">Contante:</label>
-        <input type="text" id="num1" class="border duration-500 font-medium items-center px-2.5 py-1.5 rounded-full shadow-sm text-center text-sm transition-all w-16" onkeydown="handleKeyPress(event)" />
-        <button class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500  items-center  px-6 py-1.5 relative rounded-full shadow-sm text-center text-sm text-white transition-all" onclick="calcolaSottrazione()">RESTO</button>
+        <input type="text" id="num1" class="border duration-500 font-medium items-center px-2.5 py-1.5 rounded-full shadow-sm text-center text-sm transition-all w-16" />
+        <button class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500  items-center  px-6 py-1.5 relative rounded-full shadow-sm text-center text-sm text-white transition-all" id="resto-btn">RESTO</button>
         <h3 id="risultato" class="font-bold mt-2 py-1.5 text-center text-primary"></h3>
       </div>
     </div>
@@ -390,24 +390,24 @@ function initializeApp(data) {
 
     //Calcolo resto
     function calcolaSottrazione() {
-      var num1 = parseFloat(document.getElementById("num1").value);
+      var num1 = parseFloat(document.getElementById("num1").value.replace(",", "."));
 
       var risultatoElement = document.getElementById("risultato");
 
-      if (isNaN(num1) || isNaN(GrandTotal)) {
+      if (isNaN(num1) || isNaN(grandTotal)) {
         risultatoElement.textContent =
           "Inserisci un numero valido e assicurati che il numero esterno sia definito.";
         return;
       }
 
-      if (num1 < GrandTotal) {
+      if (num1 < grandTotal) {
         alert(
           "C'è un errore sul pagamento. Il numero inserito è inferiore al totale."
         );
         return;
       }
 
-      var risultato = Math.abs(GrandTotal - num1);
+      var risultato = Math.abs(grandTotal - num1);
 
       risultatoElement.textContent =
         "Resto: " + risultato.toFixed(2) + " €";
@@ -417,6 +417,17 @@ function initializeApp(data) {
       if (event.keyCode === 13) {
         calcolaSottrazione();
       }
+    }
+
+    if (GuestTypeSelectedInput === "Client") {
+    const restoButton = document.getElementById("resto-btn")
+    restoButton.addEventListener("click", function () {
+       calcolaSottrazione()
+      })
+    const restoInputField = document.getElementById("num1")
+    restoInputField.addEventListener("keydown", function (event) {
+       handleKeyPress(event)
+      })
     }
 
 
