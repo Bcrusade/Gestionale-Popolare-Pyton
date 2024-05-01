@@ -372,7 +372,7 @@ function initializeApp(data) {
                 ` }
     htmlContent += `
     <div id="button-order-container" class="flex gap-12 justify-around m-3">
-    <a id="send-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full" href="#">INVIA</a>
+    <a id="send-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full" href="#">PREPARAZIONE</a>
     <button id="btn-confirm-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full">Stampa</button>
     </div>
     `
