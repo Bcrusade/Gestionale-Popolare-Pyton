@@ -310,7 +310,7 @@ function initializeApp(data) {
       noteHtml += `
       <div id="change-container" class="flex gap-2 items-center justify-between mb-5 hs-collapse open w-full overflow-hidden transition-all duration-300">
         <label for="num1">Contante:</label>
-        <input type="text" id="num1" class="border duration-500 font-medium items-center px-2.5 py-1.5 rounded-full shadow-sm text-center text-sm w-16" />
+        <input type="text" id="num1" class="border dark:bg-default-50 duration-500 font-medium items-center px-2.5 py-1.5 rounded-full shadow-sm text-center text-sm w-16" />
         <button class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 items-center px-6 py-1.5 relative rounded-full shadow-sm text-center text-sm text-white" id="resto-btn">RESTO</button>
         <div id="risultato" class="font-bold text-center flex-grow text-primary"></div>
       </div>
