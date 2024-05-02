@@ -46,10 +46,12 @@
   <!-- End Sidebar -->
   <!-- Start Content -->
   <div
-    class="order-3 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300"
+    class="order-3 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300 h-96"
     style="overflow: auto; max-height: 90%" id="popup-container">
-    <span style="right: 10px" class="font-semibold text-lg text-primary" id="close-button"
-      onclick="closePopup()">X</span>
+    <span style="right: 10px" class="font-semibold text-lg text-primary" id="close-button" onclick="closePopup()">X
+      <button>
+        <i data-lucide="x-circle" class="w-5 h-5 text-default-400"></i>
+      </button></span></span>
   </div>
   <div class="w-full container">
     <div class="p-6 page-content">
@@ -429,7 +431,7 @@
 
     function showPopupEditDataOrder(orderID, stato, tavolo, orderType) {
       const popupContainer = document.getElementById("popup-container");
-      let OrderNubContent = `<h4 class="text-default-800 text-xl font-semibold line-clamp-1 after:absolute after:inset-0">Ordine N.${orderID}</h4>`;
+      let OrderNubContent = `<h4 class="text-default-800 text-xl font-semibold text-center line-clamp-1 after:absolute after:inset-0">Ordine N.${orderID}</h4>`;
       var statoOrdine = stato;
       if (!tavolo) {
         tavolo = "";
@@ -444,7 +446,7 @@
           break;
         //In Preparazione
         case 1:
-          orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-yellow-500/20 text-yellow-500">${orderStatusMap[statoOrdine]}}</span>`;
+          orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-yellow-500/20 text-yellow-500">${orderStatusMap[statoOrdine]}</span>`;
           break;
         //Parzialmente Evaso
         case 2:
@@ -459,20 +461,20 @@
           break;
       }
 
-      popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" onclick="closePopup()">X</span>
+      popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl z-10" id="close-button" onclick="closePopup()"><button><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x-circle" class="lucide lucide-x-circle w-5 h-5 text-primary text-default-400"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg></button></span>
 
       <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
         <div class="pt-2">
-          <div class="flex items-center justify-between mb-4">
+          <div class="flex items-center justify-center mb-4">
             ${OrderNubContent}
           </div>
-          <div class="flex items-center justify-around mb-4">
-       <label class="text-base text-default-950 me-3" for="tavolo">Tavolo:</label>
-       <div class="relative z-10 inline-flex justify-between p-1">
-      <input class="border border-default-300 rounded-full px-3 py-1.5" type="text" id="tavoloID" name="tavolo" value=${tavolo}><br>
-    </div>
-    </div>
-    <div class="flex items-center justify-around mb-4 gap-3">
+          <div class="flex items-center mb-4">
+            <label class="text-base text-default-950 me-3" for="tavolo">Tavolo:</label>
+            <div class="relative z-10 inline-flex justify-between p-1">
+              <input class="border border-default-300 px-3 py-1.5 rounded-full text-center w-14" type="text" id="tavoloID" name="tavolo" value=${tavolo}><br>
+            </div>
+          </div>
+    <div class="flex items-center justify-center mb-4 gap-3">
       <div class="hs-dropdown relative inline-flex">
                         <div>
                           <button type="button"
@@ -562,8 +564,8 @@
 
     async function showPopupViewOrderItem(orderID) {
       const popupContainer = document.getElementById("popup-container");
-      let htmlContent = `<h4 class="text-base text-default-700 font-bold">Ordine N.${orderID}</h4>`;
-      popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" onclick="closePopup()">X</span>${htmlContent}`;
+      let htmlContent = `<h4 class="text-default-800 text-xl font-semibold text-center line-clamp-1 after:absolute after:inset-0">Ordine N.${orderID}</h4>`;
+      popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl z-10" id="close-button" onclick="closePopup()"><button><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x-circle" class="lucide lucide-x-circle w-5 h-5 text-primary text-default-400"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg></button></span>${htmlContent}`;
       tableHtml = `<div style="overflow:auto;">
 	                    <table class="min-w-full divide-y divide-default-200">
                           <thead class="bg-default-100">
