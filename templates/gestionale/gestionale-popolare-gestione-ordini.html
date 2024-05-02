@@ -11,6 +11,9 @@
 
   <!-- Theme favicon -->
   <link rel="shortcut icon" href="assets/img/favicon.ico" />
+  <!-- Theme favicon -->
+  <link rel="shortcut icon" href="assets/favicon-c43f27ef.ico">
+
   <!-- JQuery -->
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <!--  Head js -->
@@ -42,8 +45,9 @@
   <!-- Start Sidebar -->
   <!-- End Sidebar -->
   <!-- Start Content -->
-  <div class="border border-default-200 c rounded-lg shadow-lg" style="overflow: auto; max-height: 90%"
-    id="popup-container">
+  <div
+    class="order-3 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300"
+    style="overflow: auto; max-height: 90%" id="popup-container">
     <span style="right: 10px" class="font-semibold text-lg text-primary" id="close-button"
       onclick="closePopup()">X</span>
   </div>
@@ -169,7 +173,6 @@
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
-      padding: 20px;
       background-color: #fff;
       z-index: 1000;
     }
@@ -384,7 +387,7 @@
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${order.orderId}</td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${order.orderType}</td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${tableId}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${orderStatusContent}</td>
+        <td class="px-6 py-4 whitespace-nowrap">${orderStatusContent}</td>
         <td class="flex items-center justify-start gap-x-6 px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
           <a href="javascript:void(0)" id="${buttonId1}" class="inline-flex items-center justify-center group gap-2 border border-primary text-primary text-sm font-medium rounded-full py-1.5 px-3 transition-all duration-300 hover:bg-primary hover:text-white">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="pencil" class="lucide lucide-pencil h-4 w-4 text-primary fill-primary group-hover:text-white group-hover:fill-white">
@@ -426,7 +429,7 @@
 
     function showPopupEditDataOrder(orderID, stato, tavolo, orderType) {
       const popupContainer = document.getElementById("popup-container");
-      let htmlContent = `<h4 class="text-base text-default-700 font-bold">Ordine N.${orderID}</h4>`;
+      let OrderNubContent = `<h4 class="text-default-800 text-xl font-semibold line-clamp-1 after:absolute after:inset-0">Ordine N.${orderID}</h4>`;
       var statoOrdine = stato;
       if (!tavolo) {
         tavolo = "";
@@ -456,21 +459,59 @@
           break;
       }
 
-      popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" onclick="closePopup()">X</span>${htmlContent}
-       <label for="tavolo">Tavolo:</label>
-      <input type="text" id="tavoloID" name="tavolo" value=${tavolo}><br>
-      <div class="dropdown">
-      <button onclick="showDropdownOrderStatus()" class="dropbtn">Stato</button>
-      <div id="myDropdown" class="dropdown-content">
-        <a id="stato1" href="#stato1">In preparazione</a>
-        <a id="stato2" href="#stato2">Parzialmente evaso</a>
-        <a id="stato3" href="#stato3">Evaso</a>
-      </div>
+      popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" onclick="closePopup()">X</span>
+
+      <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
+        <div class="pt-2">
+          <div class="flex items-center justify-between mb-4">
+            ${OrderNubContent}
+          </div>
+          <div class="flex items-center justify-around mb-4">
+       <label class="text-base text-default-950 me-3" for="tavolo">Tavolo:</label>
+       <div class="relative z-10 inline-flex justify-between p-1">
+      <input class="border border-default-300 rounded-full px-3 py-1.5" type="text" id="tavoloID" name="tavolo" value=${tavolo}><br>
     </div>
+    </div>
+    <div class="flex items-center justify-around mb-4 gap-3">
+      <div class="hs-dropdown relative inline-flex">
+                        <div>
+                          <button type="button"
+                            class="hs-dropdown-toggle flex items-center gap-2 font-medium text-default-700 text-sm py-2.5 px-4 xl:px-5 rounded-md bg-default-100 transition-all">
+                            Stato
+                            <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-down" class="lucide lucide-chevron-down h-4 w-4"><path d="m6 9 6 6 6-6"></path></svg>
+                          </button>
+                        </div>
+
+                        <!-- end dropdown button -->
+
+                        <div
+                          class="hs-dropdown-menu hs-dropdown-open:opacity-100 min-w-[200px] transition-[opacity,margin] mt-4 opacity-0 z-20 bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-lg border border-default-100 p-1.5 dark:bg-default-50 hidden">
+                          <ul class="flex flex-col gap-1">
+                            <li>
+                              <a id="stato1" href="#stato1" class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
+                              >In Preparazione</a>
+                            </li>
+                            <li>
+                              <a id="stato2" href="#stato2" class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
+                                >Parzialmente Evaso</a>
+                            </li>
+                            <li>
+                              <a id="stato3" href="#stato3" class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
+                                >Evaso</a>
+                            </li>
+                          </ul>
+                          <!-- end dropdown items -->
+                        </div>
+                        <!-- end dropdown menu -->
+                      </div>
      <div id="stato-ordine">
         <h4 class="text-base text-default-700 font-bold">${orderStatusContent}</h4>
    </div>
+   </div>
     <a id="update-order" class="relative w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="#">Aggiorna</a>
+    </div>
+    </div>
 
 
 
