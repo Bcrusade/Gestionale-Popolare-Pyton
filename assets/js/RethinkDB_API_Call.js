@@ -375,7 +375,7 @@ function initializeApp(data) {
     </div>
     `;
     // Assegna l'HTML al contenitore del pop-up
-    popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" >X</span>${htmlContent}`;
+    popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" ><button><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x-circle" class="lucide lucide-x-circle w-5 h-5 text-primary text-default-400"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg></button></span>${htmlContent}`;
 
     // Mostra il pop-up
     popupContainer.style.display = "flex";
