@@ -108,7 +108,9 @@
           </div>
           <div id="overlay"></div>
           <!-- Contenitore del pop-up -->
-          <div class=" border border-default-200 c rounded-lg  shadow-lg" id="popup-container">
+          <div
+            class="bg-white border border-default-100 dark:bg-default-50 p-5 rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] transition-[opacity,margin] z-70 hover:shadow-xl transition-all duration-300"
+            id="popup-container">
             <span class="font-semibold text-lg text-primary" id="close-button" onclick="closePopup()">X</span>
           </div>
           <!-- end grid -->
@@ -179,9 +181,6 @@
       max-height: 90%;
       min-width: 500px;
       transform: translate(-50%, -50%);
-      padding: 20px;
-      background-color: #fff;
-      z-index: 1000;
     }
 
     /* Aggiungi stili CSS per il pulsante di chiusura */
@@ -209,7 +208,7 @@
       width: 100%;
       height: 100%;
       background-color: rgba(0, 0, 0, 0.5);
-      z-index: 999;
+      z-index: 10;
     }
   </style>
 
@@ -247,8 +246,8 @@
         const changeContainer = document.getElementById("change-container");
         changeContainer.style.opacity = "0";
         setTimeout(() => {
-        changeContainer.style.height = "0";
-    }, 200);
+          changeContainer.style.height = "0";
+        }, 200);
       }
       else if (checkedId === "cash") {
         paymentType = "cash"
@@ -256,7 +255,7 @@
         changeContainer.style.height = "";
         setTimeout(() => {
           changeContainer.style.opacity = "1";
-    }, 50);
+        }, 50);
 
       }
       console.log(paymentType)
