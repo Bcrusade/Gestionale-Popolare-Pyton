@@ -60,10 +60,10 @@
                       Lista Ordini
                     </h2>
                     <div>
-                      <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none"
+                      <label class="text-base text-default-950 me-3 select-none"
                         for="completed-order-checkbox">Visualizza ordini evasi:</label>
                       <input
-                        class="form-checkbox bg-transparent border-default-200 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer"
+                        class="form-checkbox bg-transparent border-default-500 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer"
                         id="completed-order-checkbox" type="checkbox" onclick="fetchAndDisplayOrders()" />
                     </div>
                     <div class="flex items-center">
@@ -122,12 +122,14 @@
                             <th class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
                               Tipologia
                             </th>
-                            <th
-                              class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800 min-w">
+                            <th class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
                               Tavolo
                             </th>
                             <th class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
                               Stato
+                            </th>
+                            <th class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
+                              Azioni
                             </th>
                           </tr>
                           <!-- end table-head-row -->
@@ -343,24 +345,47 @@
         if (order.tableId === 0) {
           tableId = "---";
         }
-        if (order.orderStatus == "2") {
-          const att = document.createAttribute("style");
-          att.value = "background-color:#F7C7AC; color:blue";
-          row.setAttributeNode(att);
-        }
+        // if (order.orderStatus == "2") {
+        //   // const att = document.ge("style");
+        //   // att.value = "background-color:#F7C7AC; color:blue";
+        //   // row.setAttributeNode(att);
+        // }
         row.id = `order-row-${order.orderId}-${order.orderType}`;
         let buttonId1 = "1button" + order.orderId + "-" + order.orderType;
         let buttonId2 = "2button" + order.orderId + "-" + order.orderType;
+
+        // Create variable to hold the correct span based on the order status
+        let orderStatusContent;
+
+        switch (order.orderStatus) {
+          //Non Assegnato
+          case 0:
+            orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-red-500/20 text-red-500">${orderStatusMap[order.orderStatus]}</span>`;
+            break;
+          //In Preparazione
+          case 1:
+            orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-yellow-500/20 text-yellow-500">${orderStatusMap[order.orderStatus]}</span>`;
+            break;
+          //Parzialmente Evaso
+          case 2:
+            orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-indigo-600/80 text-white">${orderStatusMap[order.orderStatus]}</span>`;
+            break;
+          //Evaso
+          case 3:
+            orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-green-500/20 text-green-500">${orderStatusMap[order.orderStatus]}</span>`;
+            break;
+          default:
+            orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-gray-900 text-white">Stato sconosciuto</span>`;
+            break;
+        }
+
         row.innerHTML = `
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${formattedDate} ${formattedTime}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${order.orderId
-          }</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${order.orderType
-          }</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${order.orderId}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${order.orderType}</td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${tableId}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${orderStatusMap[order.orderStatus]
-          }</td>
-        <td class="flex items-center justify-end gap-x-6 px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${orderStatusContent}</td>
+        <td class="flex items-center justify-start gap-x-6 px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
           <a href="javascript:void(0)" id="${buttonId1}" class="inline-flex items-center justify-center group gap-2 border border-primary text-primary text-sm font-medium rounded-full py-1.5 px-3 transition-all duration-300 hover:bg-primary hover:text-white">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="pencil" class="lucide lucide-pencil h-4 w-4 text-primary fill-primary group-hover:text-white group-hover:fill-white">
               <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path><path d="m15 5 4 4"></path></svg> Edit
@@ -406,6 +431,30 @@
       if (!tavolo) {
         tavolo = "";
       }
+      // Create variable to hold the correct span based on the order status
+      let orderStatusContent;
+
+      switch (statoOrdine) {
+        //Non Assegnato
+        case 0:
+          orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-red-500/20 text-red-500">${orderStatusMap[statoOrdine]}</span>`;
+          break;
+        //In Preparazione
+        case 1:
+          orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-yellow-500/20 text-yellow-500">${orderStatusMap[statoOrdine]}}</span>`;
+          break;
+        //Parzialmente Evaso
+        case 2:
+          orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-indigo-600/80 text-white">${orderStatusMap[statoOrdine]}</span>`;
+          break;
+        //Evaso
+        case 3:
+          orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-green-500/20 text-green-500">${orderStatusMap[statoOrdine]}</span>`;
+          break;
+        default:
+          orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-gray-900 text-white">Stato sconosciuto</span>`;
+          break;
+      }
 
       popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" onclick="closePopup()">X</span>${htmlContent}
        <label for="tavolo">Tavolo:</label>
@@ -419,7 +468,7 @@
       </div>
     </div>
      <div id="stato-ordine">
-        <h4 class="text-base text-default-700 font-bold">Stato: ${orderStatusMap[statoOrdine]}</h4>
+        <h4 class="text-base text-default-700 font-bold">${orderStatusContent}</h4>
    </div>
     <a id="update-order" class="relative w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="#">Aggiorna</a>
 
@@ -434,7 +483,7 @@
         console.log("In preparazione");
         statoOrdine = 1;
         const htmlToUpdate = document.getElementById("stato-ordine");
-        htmlToUpdate.innerHTML = ` <h4  class="text-base text-default-700 font-bold">Stato: ${orderStatusMap[statoOrdine]}</h4>`;
+        htmlToUpdate.innerHTML = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-yellow-500/20 text-yellow-500">${orderStatusMap[statoOrdine]}</span>`;
       });
       const stato2Button = popupContainer.querySelector("#stato2");
       stato2Button.addEventListener("click", function (event) {
@@ -442,7 +491,7 @@
         event.preventDefault();
         statoOrdine = 2;
         const htmlToUpdate = document.getElementById("stato-ordine");
-        htmlToUpdate.innerHTML = ` <h4 class="text-base text-default-700 font-bold">Stato: ${orderStatusMap[statoOrdine]}</h4>`;
+        htmlToUpdate.innerHTML = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-indigo-600/80 text-white">${orderStatusMap[statoOrdine]}</span>`;
       });
       const stato3Button = popupContainer.querySelector("#stato3");
       stato3Button.addEventListener("click", function (event) {
@@ -450,7 +499,7 @@
         event.preventDefault();
         statoOrdine = 3;
         const htmlToUpdate = document.getElementById("stato-ordine");
-        htmlToUpdate.innerHTML = ` <h4 class="text-base text-default-700 font-bold">Stato: ${orderStatusMap[statoOrdine]}</h4>`;
+        htmlToUpdate.innerHTML = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-green-500/20 text-green-500">${orderStatusMap[statoOrdine]}</span>`;
       });
       const updateButton = popupContainer.querySelector("#update-order");
       updateButton.addEventListener("click", function (event) {
