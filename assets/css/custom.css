@@ -53,27 +53,27 @@
 
 .bg-primary {
   --tw-bg-opacity: 1;
-  background-color: red;
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
 .border-primary {
   --tw-border-opacity: 1;
-  border-color: red;
+  border-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
 .hover\:bg-primary-500:hover {
   --tw-bg-opacity: 1;
-  background-color: red;
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
 .hover\:bg-primary:hover {
   --tw-bg-opacity: 1;
-  background-color: red;
+  background-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
 .hover\:border-primary:hover {
   --tw-border-opacity: 1;
-  border-color: red;
+  border-color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
 .text-primary {
   --tw-text-opacity: 1;
-  color: red;
+  color: rgb(239 68 68 / var(--tw-bg-opacity));
 }
 .checked\:\!bg-primary:checked {
   --tw-bg-opacity: 1 !important;
