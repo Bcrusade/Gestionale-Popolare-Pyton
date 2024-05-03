@@ -71,7 +71,7 @@ def getOrders():
     return render_template('./gestionale/gestionale-popolare-gestione-ordini.html')
 
 @app.route("/summary")
-def getOrders():
+def getSummary():
     return render_template('./gestionale/gestionale-popolare-summary.html')
 
 #useless function (to remove)
