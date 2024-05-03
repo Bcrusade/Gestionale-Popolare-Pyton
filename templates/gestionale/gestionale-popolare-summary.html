@@ -1,10 +1,319 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<!-- Mirrored from coderthemes.com/yum/admin-order-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 13:21:49 GMT -->
 
+<head>
+    <meta charset="utf-8" />
+    <title>Yum - Multipurpose Food Tailwind CSS Template</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta content="" name="description" />
+    <meta content="coderthemes" name="author" />
+
+    <!-- Theme favicon -->
+    <link rel="shortcut icon" href="assets/img/favicon.ico" />
+
+    <!--  Head js -->
+    <script type="module" crossorigin src="assets/js/admin-order-list-7159724c.js"></script>
+    <link rel="modulepreload" crossorigin href="assets/js/theme-b118ffc1.js" />
+    <link rel="modulepreload" crossorigin href="assets/js/index-a4e39586.js" />
+    <link rel="stylesheet" href="assets/css/theme-c9540983.css" />
+    <link rel="stylesheet" href="assets/css/custom.css" />
+</head>
+
+<body>
+    <!-- Preloader -->
+    <div id="preloader"
+        class="fixed inset-0 z-70 bg-default-50 transition-all visible opacity-100 h-screen w-screen flex items-center justify-center">
+        <div class="animate-spin inline-block w-10 h-10 border-4 border-t-transparent border-primary rounded-full"
+            role="status" aria-label="loading">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+
+    <!-- End Header -->
+
+    <!-- End Header -->
+    <!-- Start Sidebar -->
+    <!-- End Sidebar -->
+    <!-- Start Content -->
+    <div class="w-full container">
+        <div class="p-6 page-content flex justify-center flex-wrap items-center">
+            <div class="grid gap-6">
+                <div class="xl:col-span-9">
+                    <div class="space-y-6">
+                        <div class="grid lg:grid-cols-4 sm:grid-cols-2 gap-6">
+
+                            <div class="border rounded-lg p-6 overflow-hidden border-default-200">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="inline-flex items-center justify-center rounded-full bg-primary/20 text-primary h-16 w-16">
+                                        <i data-lucide="banknote" class="h-8 w-8"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-base text-default-500 font-medium mb-1">
+                                            Ordini Totali
+                                        </p>
+                                        <h4 id="ordini_totali" class="text-2xl text-default-950 font-semibold mb-2">
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end grid-cols -->
+                            <div class="border rounded-lg p-6 overflow-hidden border-default-200">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="inline-flex items-center justify-center rounded-full bg-green-500/20 text-green-500 h-16 w-16">
+                                        <i data-lucide="wallet" class="h-8 w-8"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-base text-default-500 font-medium mb-1">
+                                            Incasso Totale
+                                        </p>
+                                        <h4 id="incasso_totale" class="text-2xl text-default-950 font-semibold mb-2">
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end grid-cols -->
+                            <div class="border rounded-lg p-6 overflow-hidden border-default-200">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="inline-flex items-center justify-center rounded-full bg-yellow-500/20 text-yellow-500 h-16 w-16">
+                                        <i data-lucide="wallet" class="h-8 w-8"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-base text-default-500 font-medium mb-1">
+                                            Incasso POS
+                                        </p>
+                                        <h4 id="incasso_pos" class="text-2xl text-default-950 font-semibold mb-2">
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end grid-cols -->
+                            <div class="border rounded-lg p-6 overflow-hidden border-default-200">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="inline-flex items-center justify-center rounded-full bg-primary text-white h-16 w-16">
+                                        <i data-lucide="star" class="h-8 w-8"></i>
+                                    </div>
+                                    <div>
+                                        <p class="text-base text-default-500 font-medium mb-1">
+                                            Spese Volontari
+                                        </p>
+                                        <h4 id="spese_volontari" class="text-2xl text-default-950 font-semibold mb-2">
+                                        </h4>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- end grid-cols -->
+                        </div>
+                        <div class="grid grid-cols-1">
+                            <div class="border border-default-200 rounded-lg">
+                                <div class="p-4 text-center">
+                                    <div class="h-16 w-16 mx-auto mb-6">
+                                        <img src="assets/combo-ca9d027a.svg" class="max-w-full h-full">
+                                    </div>
+                                    <!-- <h4 class="text-xl text-default-950 font-semibold mb-6">CHIUSURA CASSA</h4> -->
+                                    <a href="javascript:void(0)" id="chiusura-cassa"
+                                        data-hs-collapse="#password-container"
+                                        class="hs-collapse-toggle open inline-flex items-center justify-center gap-2 rounded-full border border-primary bg-primary px-10 py-4 text-center text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:border-primary-700 hover:bg-primary-500">CHIUSURA
+                                        CASSA</a>
+                                    <!-- Password Input Container -->
+                                    <div class="duration-300 hs-collapse overflow-hidden transition-[height] w-full hidden flex transition-all duration-300 justify-center"
+                                        id="password-container">
+                                        <div
+                                            class="flex gap-3 justify-center mt-5 relative transition-all duration-300">
+                                            <input type="password" id="password-input"
+                                                placeholder="Inserisci la password"
+                                                class="bg-default-50 block border-default-200 focus:border-primary focus:ring-primary pe-4 py-2.5 rounded-full text-center text-default-600 text-sm w-64">
+                                            <button id="submit-password"
+                                                class="flex items-center justify-center gap-2 rounded-full border border-primary bg-primary px-6 py-2.5 text-center text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:border-primary-700 hover:bg-primary-500">Invia</button>
+                                        </div>
+                                    </div>
+                                    <div id="message-container" class="relative h-8">
+                                        <div id="message-box" class="absolute w-full top-3"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end grid-cols -->
+
+                <!-- end grid-cols -->
+            </div>
+            <!-- end grid -->
+        </div>
+    </div>
+    <!-- End Content -->
+    <style>
+        /* style.css */
+        #error-message {
+            color: red;
+        }
+
+        #success-message {
+            color: green;
+        }
+
+        .shake {
+            animation: shake 0.3s;
+            /* 0.3 secondi di vibrazione */
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+        }
+    </style>
+    <script>
+
+        // Imposta la durata del blocco a 5 minuti
+        const lockoutDuration = 300000;
+
+        // Variabili di controllo e timeout
+        let buttonClicked = false; // Flag per prevenire clic multipli
+        let correctPassword = "password123"; // La password da verificare
+        let attemptCount = 0; // Conta i tentativi
+        let lockoutTime = 0; // Tempo di sblocco
+        let unlockTimeout; // Per il timeout di sblocco
+
+        function showError(message) {
+            const messageContainer = document.getElementById("message-box");
+            messageContainer.innerHTML = `<span id="error-message">${message}</span>`;
+        }
+
+        function showSuccess(message) {
+            const messageContainer = document.getElementById("message-box");
+            messageContainer.innerHTML = `<span id="success-message">${message}</span>`;
+        }
+
+        function archiveData() {
+            // Se la password è corretta, chiama questa funzione
+            resetAll(); // Ripristina tutto come all'inizio
+            showSuccess("Chiusura cassa avvenuta con successo!");
+        }
+
+        function handlePasswordSubmission() {
+            const input = document.getElementById("password-input");
+            const password = input.value;
+
+            if (password === correctPassword) {
+                archiveData(); // Se la password è corretta, chiama questa funzione
+            } else {
+                attemptCount += 1;
+
+                if (attemptCount >= 3) {
+                    lockoutTime = Date.now() + lockoutDuration; // 5 minuti di blocco
+                    attemptCount = 0;
+                    document.getElementById("password-container").style.display = "none";
+                    showError("Troppi tentativi falliti. Attendi 5 minuti.");
+
+                    disableButton(); // Disabilita il bottone e ritarda la rimozione
+
+                    // Riabilita il click dopo 5 minuti
+                    unlockTimeout = setTimeout(() => {
+                        enableButton(); // Riabilita il bottone e l'evento
+                    }, lockoutDuration);
+
+                } else {
+                    input.classList.add("shake");
+                    setTimeout(() => input.classList.remove("shake"), 300);
+                    showError(`Password errata. Tentativo ${attemptCount}/3.`);
+                }
+            }
+        }
+
+        function disableButton() {
+            const link = document.getElementById("chiusura-cassa");
+            link.classList.add("opacity-50");
+            link.style.cursor = 'not-allowed'; // Indica che il bottone è disabilitato
+            buttonClicked = true; // Flag per prevenire ulteriori clic
+
+            // Ritardo di 2 secondi per rimuovere l'evento e l'attributo
+            setTimeout(() => {
+                link.removeEventListener("click", chiusuraCassaHandler); // Rimuovi l'evento click
+                link.removeAttribute("data-hs-collapse"); // Rimuovi l'attributo
+            }, 2000);
+        }
+
+        function enableButton() {
+            const link = document.getElementById("chiusura-cassa");
+            link.classList.remove("opacity-50");
+            link.style.cursor = ''; // Ripristina il cursore predefinito
+            link.addEventListener("click", chiusuraCassaHandler); // Riattiva l'evento
+            link.setAttribute("data-hs-collapse", "#password-container"); // Riaggiungi l'attributo
+            buttonClicked = false; // Reimposta il flag
+        }
+
+        function resetAll() {
+            // Pulire messaggi
+            const messageContainer = document.getElementById("message-box");
+            messageContainer.innerHTML = '';
+
+            // Ripristinare lo stato del bottone
+            enableButton(); // Riattiva il bottone e l'attributo
+
+            // Nascondere il password-container
+            const div = document.getElementById("password-container");
+            div.classList.toggle("hidden");
+            document.getElementById("password-container").style.display = "";
+            // Resettare gli altri flag e variabili
+            attemptCount = 0;
+            clearTimeout(unlockTimeout); // Annulla qualsiasi timeout in corso
+
+
+        }
+
+        const chiusuraCassaHandler = (event) => {
+            if (buttonClicked) {
+                event.preventDefault(); // Prevenire ulteriori azioni
+                return;
+            }
+
+            disableButton(); // Disabilita il bottone
+            document.getElementById("password-container").style.display = "block";
+        };
+
+        document.getElementById("chiusura-cassa").addEventListener("click", chiusuraCassaHandler);
+
+        document.getElementById("submit-password").addEventListener("click", handlePasswordSubmission);
+
+        document.getElementById("password-input").addEventListener("keydown", (event) => {
+            if (event.key === "Enter") {
+                handlePasswordSubmission();
+            }
+        });
+
+
+    </script>
+    <!-- Back to Top & Light/Dark Toggle -->
+    <div class="fixed lg:bottom-5 end-5 bottom-18 flex flex-col items-center bg-primary/25 rounded-full z-10">
+        <button
+            class="h-0 w-8 opacity-0 flex justify-center items-center transition-all duration-500 translate-y-5 z-10"
+            data-toggle="back-to-top">
+            <i class="h-5 w-5 text-primary-500 mt-1" data-lucide="chevron-up"></i>
+        </button>
+        <button class="rounded-full h-10 w-10 bg-primary text-white flex justify-center items-center z-20">
+            <i class="h-5 w-5" data-lucide="sun" id="light-theme"></i>
+            <i class="h-5 w-5" data-lucide="moon" id="dark-theme"></i>
+        </button>
+    </div>
 </body>
+
+<!-- Mirrored from coderthemes.com/yum/admin-order-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 13:21:50 GMT -->
+
 </html>
