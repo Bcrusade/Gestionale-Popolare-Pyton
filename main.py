@@ -2,9 +2,10 @@
 
 from flask import Flask, render_template, jsonify, request
 import json
-import time
-from database import *
+#import time
+import threading
 from core import *
+import os
 
 connection = sqlite3.connect("./data/myDatabase.db", timeout=10, check_same_thread=False)
 app = Flask(__name__, static_folder="assets")
@@ -51,10 +52,13 @@ def getOrderItems():
 def orders():
     responseData = {'status': ""}
     if request.method == 'POST':
-        r = request.get_json()
-        registerOrderToDatabase(connection, r)
+        order = request.get_json()
+        dbStatus = registerOrderToDatabase(connection, order)
+        if (dbStatus == 0):
+            threading.Thread(target=printCommand(connection, order)).start()
+            #printCommand(connection, order)
         responseData["status"] = "success"
-        print(r)
+        print(order)
     return jsonify(responseData)
 
 #update an order status and/or table id
@@ -145,6 +149,7 @@ if __name__ == '__main__':
   "orderStatus": 2,
   "tableId": 200
 }"""
-
+    directory = os.path.dirname(os.path.abspath(__file__))
+    print(directory)
     app.run(threaded=True, debug=True, host="0.0.0.0")
 
