@@ -55,9 +55,9 @@ def orders():
         order = request.get_json()
         dbStatus = registerOrderToDatabase(connection, order)
         if (dbStatus == 0):
-            threading.Thread(target=printCommand(connection, order)).start()
-            #printCommand(connection, order)
-        responseData["status"] = "success"
+            t = threading.Thread(target=printCommand, args=(connection, order), daemon=True)
+            t.start()
+            responseData["status"] = "success"
         print(order)
     return jsonify(responseData)
 
@@ -151,5 +151,6 @@ if __name__ == '__main__':
 }"""
     directory = os.path.dirname(os.path.abspath(__file__))
     print(directory)
+    print(os.getcwd())
     app.run(threaded=True, debug=True, host="0.0.0.0")
 

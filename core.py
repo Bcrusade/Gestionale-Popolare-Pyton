@@ -7,6 +7,8 @@ import win32api
 import win32print
 #----------------
 import os
+import time
+import os.path
 
 
 mutex = Lock()
@@ -94,7 +96,8 @@ def printCommandType(conn, orderId, printItemList):
     </table>
     """
     html_template = html_template.format(body=html_body)
-    filename = r".\serverPrinter\tmp\a" + str(uuid.uuid4())
+    randomName = str(uuid.uuid4())
+    filename = r".\serverPrinter\tmp\a" + randomName
     print(filename)
     infilename = filename + "input.html"
     with open(infilename, "wb") as file:
@@ -102,13 +105,19 @@ def printCommandType(conn, orderId, printItemList):
     outfilename = filename + "output.pdf"
     commandText = """.\serverPrinter\weasyprint.exe -e utf-8 {} {}""".format(infilename, outfilename)
     os.popen(commandText)
-    printername = "HP Deskjet 2020 series"
+    printfilename = ".\\serverPrinter\\tmp\\a" + randomName + "output.pdf"
+    time.sleep(3)
+    while True:
+        if(os.path.isfile(outfilename)):
+            break
+        time.sleep(1)
+    print(printfilename)
+    printername = "NomeStampante"
     try:
         win32api.ShellExecute(
             0,
             "printto",
-            outfilename,
-            #'"%s"' % win32print.GetDefaultPrinter(),
+            r"{}".format(printfilename),
             f'"{printername}"',
             ".",
             0
