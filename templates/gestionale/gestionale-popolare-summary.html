@@ -4,7 +4,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Yum - Multipurpose Food Tailwind CSS Template</title>
+    <title>Parrocchia SS Nabore e Felice - Festa parrocchiale</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta content="" name="description" />
     <meta content="coderthemes" name="author" />
@@ -18,6 +18,10 @@
     <link rel="modulepreload" crossorigin href="assets/js/index-a4e39586.js" />
     <link rel="stylesheet" href="assets/css/theme-c9540983.css" />
     <link rel="stylesheet" href="assets/css/custom.css" />
+    <!-- Includi Flatpickr -->
+    <!-- Includi il JS di Flatpickr -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
 </head>
 
 <body>
@@ -41,6 +45,33 @@
             <div class="grid gap-6">
                 <div class="xl:col-span-9">
                     <div class="space-y-6">
+                        <!-- Data Picker -->
+                        <!-- Campo per selezionare la data -->
+                        <div class="lg:w-1/4 mb-6">
+                            <h2 class="text-xl text-default-800 font-semibold mb-4">Seleziona una data</h2>
+                            <div class="relative">
+                                <span class="absolute top-1/2 start-2.5 -translate-y-1/2">
+                                    <i data-lucide="calendar" class="h-4 w-4 text-default-700"></i>
+                                </span>
+                                <span class="absolute top-1/2 end-2.5 -translate-y-1/2">
+                                    <i data-lucide="chevron-down" class="h-4 w-4 text-default-700"></i>
+                                </span>
+                                <input type="text"
+                                    class="py-2 px-9 block w-full bg-transparent rounded-md border-default-200 text-sm text-default-700 font-medium focus:border-default-200 focus:ring-0"
+                                    id="datepicker-basic" />
+                            </div>
+                            <div class="h-14 relative text-center">
+                                <div id="print-box"
+                                    class="absolute w-full top-3 duration-300 hs-collapse overflow-hidden transition-[height] hidden transition-all">
+                                    <a href="javascript:void(0)" id="print-summary"
+                                        class="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-full bg-primary text-white hover:bg-primary-500 transition-all">STAMPA
+                                        GLI ORDINI</a>
+                                </div>
+                            </div>
+
+                        </div>
+
+
                         <div class="grid lg:grid-cols-4 sm:grid-cols-2 gap-6">
 
                             <div class="border rounded-lg p-6 overflow-hidden border-default-200">
@@ -121,7 +152,7 @@
                                         class="hs-collapse-toggle open inline-flex items-center justify-center gap-2 rounded-full border border-primary bg-primary px-10 py-4 text-center text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:border-primary-700 hover:bg-primary-500">CHIUSURA
                                         CASSA</a>
                                     <!-- Password Input Container -->
-                                    <div class="duration-300 hs-collapse overflow-hidden transition-[height] w-full hidden flex transition-all duration-300 justify-center"
+                                    <div class="duration-300 hs-collapse overflow-hidden transition-[height] w-full hidden flex transition-all justify-center"
                                         id="password-container">
                                         <div
                                             class="flex gap-3 justify-center mt-5 relative transition-all duration-300">
@@ -181,6 +212,83 @@
     </style>
     <script>
 
+        document.addEventListener('DOMContentLoaded', function () {
+            let globalSelectedDate = null; // Variabile globale per la data selezionata
+
+            const dateInput = document.getElementById("datepicker-basic");
+
+            if (dateInput) {
+                flatpickr(dateInput, {
+                    onChange: function (selectedDates, dateStr) {
+                        // Aggiorna la variabile globale con la data selezionata
+                        globalSelectedDate = dateStr;
+
+                        // Converti la data in JSON
+                        const jsonDate = JSON.stringify({ selectedDate: dateStr });
+                        console.log("Data in formato JSON:", jsonDate);
+
+                        // Mostra il bottone per stampare
+                        const printBox = document.getElementById("print-box");
+                        if (printBox) {
+                            printBox.classList.remove("hidden");
+                        }
+                    },
+                });
+            }
+
+            const printSummaryButton = document.getElementById("print-summary");
+            if (printSummaryButton) {
+                printSummaryButton.addEventListener("click", async function () {
+                    if (!globalSelectedDate) {
+                        console.error("Nessuna data selezionata. Seleziona una data prima di stampare.");
+                        return;
+                    }
+
+                    try {
+                        // Chiamata API per ottenere dati in base alla data selezionata
+                        const response = await fetch("http://" + self.location.host + "/api/getOrderData?date=" + globalSelectedDate);
+                        if (!response.ok) {
+                            throw new Error("Errore nella risposta dell'API");
+                        }
+                        const data = await response.json();
+
+                        // Crea contenuto HTML per la stampa
+                        let htmlContent = `<div id="print-content">`;
+                        htmlContent += `<h4>Ordine N.${data.orderId}</h4>`;
+                        data.items.forEach((item) => {
+                            htmlContent += `
+                        <div>
+                            <span>${item.quantity}x</span>
+                            <span>${item.name}</span>
+                            <span style="margin-left: 20px;">${item.price} €</span>
+                        </div>
+                    `;
+                        });
+                        htmlContent += `<div><h4>TOTALE: ${data.grandTotal} €</h4></div>`;
+                        htmlContent += `</div>`;
+
+                        // Aggiungi contenitore temporaneo al DOM
+                        const printContainer = document.createElement("div");
+                        printContainer.innerHTML = htmlContent;
+                        document.body.appendChild(printContainer);
+
+                        // Usa Print.js per stampare
+                        printJS({
+                            printable: "print-content",
+                            type: "html",
+                            showModal: false,
+                            printer: "POS-58", // Nome della stampante
+                        });
+
+                        // Rimuovi l'elemento temporaneo dopo la stampa
+                        document.body.removeChild(printContainer);
+                    } catch (error) {
+                        console.error("Errore durante il tentativo di stampa:", error);
+                    }
+                });
+            }
+        });
+
         // Imposta la durata del blocco a 5 minuti
         const lockoutDuration = 300000;
 
@@ -193,12 +301,14 @@
 
         function showError(message) {
             const messageContainer = document.getElementById("message-box");
-            messageContainer.innerHTML = `<span id="error-message">${message}</span>`;
+            messageContainer.innerHTML = `<span id="error-message"
+        class="px-3 py-1 text-xs font-medium rounded-md bg-red-500/10 text-red-500">${message}</span>`;
         }
 
         function showSuccess(message) {
             const messageContainer = document.getElementById("message-box");
-            messageContainer.innerHTML = `<span id="success-message">${message}</span>`;
+            messageContainer.innerHTML = `<span id="success-message"
+        class="px-3 py-1 text-xs font-medium rounded-md bg-green-500/10 text-green-500">${message}</span>`;
         }
 
         function archiveData() {
@@ -216,7 +326,7 @@
             } else {
                 attemptCount += 1;
 
-                if (attemptCount >= 3) {
+                if (attemptCount >= 5) {
                     lockoutTime = Date.now() + lockoutDuration; // 5 minuti di blocco
                     attemptCount = 0;
                     document.getElementById("password-container").style.display = "none";
@@ -232,7 +342,7 @@
                 } else {
                     input.classList.add("shake");
                     setTimeout(() => input.classList.remove("shake"), 300);
-                    showError(`Password errata. Tentativo ${attemptCount}/3.`);
+                    showError(`Password errata. Tentativo ${attemptCount}/5.`);
                 }
             }
         }
@@ -247,7 +357,7 @@
             setTimeout(() => {
                 link.removeEventListener("click", chiusuraCassaHandler); // Rimuovi l'evento click
                 link.removeAttribute("data-hs-collapse"); // Rimuovi l'attributo
-            }, 2000);
+            }, 500);
         }
 
         function enableButton() {
@@ -260,10 +370,11 @@
         }
 
         function resetAll() {
-            // Pulire messaggi
-            const messageContainer = document.getElementById("message-box");
-            messageContainer.innerHTML = '';
-
+            setTimeout(() => {
+                // Pulire messaggi
+                const messageContainer = document.getElementById("message-box");
+                messageContainer.innerHTML = '';
+            }, 5000);
             // Ripristinare lo stato del bottone
             enableButton(); // Riattiva il bottone e l'attributo
 
