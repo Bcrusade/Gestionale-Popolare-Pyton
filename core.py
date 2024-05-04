@@ -9,6 +9,7 @@ import win32print
 import os
 import time
 import os.path
+import config
 
 
 mutex = Lock()
@@ -62,12 +63,12 @@ def printCommand(conn, order):
             pizzeriaItemList.append(item)
     orderId = order['orderId']
     if len(cucinaItemList) > 0:
-        printCommandType(conn, orderId, cucinaItemList)
+        printCommandType(conn, orderId, cucinaItemList, config.nomeStampanteCucina)
     if len(pizzeriaItemList) > 0:
-        printCommandType(conn, orderId, pizzeriaItemList)
+        printCommandType(conn, orderId, pizzeriaItemList, config.nomeStampantePizzeria)
 
 #todo type
-def printCommandType(conn, orderId, printItemList):
+def printCommandType(conn, orderId, printItemList, printername):
     with open("./serverPrinter/template/invoice.html", "r") as file:
         html_template = file.read()
     html_body = "<h1>Ordine Nr." + str(orderId) + """
@@ -98,7 +99,6 @@ def printCommandType(conn, orderId, printItemList):
     html_template = html_template.format(body=html_body)
     randomName = str(uuid.uuid4())
     filename = r".\serverPrinter\tmp\a" + randomName
-    print(filename)
     infilename = filename + "input.html"
     with open(infilename, "wb") as file:
         file.write(str.encode(html_template))
@@ -111,8 +111,6 @@ def printCommandType(conn, orderId, printItemList):
         if(os.path.isfile(outfilename)):
             break
         time.sleep(1)
-    print(printfilename)
-    printername = "NomeStampante"
     try:
         win32api.ShellExecute(
             0,
