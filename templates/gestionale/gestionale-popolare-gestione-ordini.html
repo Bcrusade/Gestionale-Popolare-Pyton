@@ -93,7 +93,11 @@
                             </li>
                             <li>
                               <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
-                                href="javascript:SetSortType('NumeroOrdine')">NumeroOrdine</a>
+                                href="javascript:SetSortType('NumeroOrdineCresc')">NumeroOrdineCresc</a>
+                            </li>
+                            <li>
+                              <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
+                                href="javascript:SetSortType('NumeroOrdineDecresc')">NumeroOrdineDecresc</a>
                             </li>
                             <li>
                               <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
@@ -311,9 +315,15 @@
           );
           break;
 
-        case "NumeroOrdine":
+        case "NumeroOrdineCresc":
           newOrderData.sort(
             (a, b) => new Date(a.orderId) - new Date(b.orderId)
+          );
+          break;
+
+        case "NumeroOrdineDecresc":
+          newOrderData.sort(
+            (a, b) => new Date(b.orderId) - new Date(a.orderId)
           );
           break;
 
@@ -347,11 +357,11 @@
         if (order.tableId === 0) {
           tableId = "---";
         }
-        // if (order.orderStatus == "2") {
-        //   // const att = document.ge("style");
-        //   // att.value = "background-color:#F7C7AC; color:blue";
-        //   // row.setAttributeNode(att);
-        // }
+        if (order.orderType == "pizzeria") {
+           const att = document.createAttribute("style");
+           att.value = "background-color:#F2F2F2; ";
+           row.setAttributeNode(att);
+        }
         row.id = `order-row-${order.orderId}-${order.orderType}`;
         let buttonId1 = "1button" + order.orderId + "-" + order.orderType;
         let buttonId2 = "2button" + order.orderId + "-" + order.orderType;
