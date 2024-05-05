@@ -82,7 +82,7 @@ def getOrderItemsById(conn, id):
     return cur.fetchall()
 
 def getRecentCompletedOrders(conn):
-    sql = ''' SELECT * FROM orderStatus WHERE status = 3 ORDER BY orderId DESC LIMIT 30'''
+    sql = ''' SELECT * FROM orderStatus WHERE status = 3 ORDER BY orderId DESC LIMIT 50'''
     cur = conn.cursor()
     cur.execute(sql)
     return cur.fetchall()

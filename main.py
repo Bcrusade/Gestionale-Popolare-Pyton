@@ -43,8 +43,9 @@ def getOrderNumber():
 
 @app.route("/api/getItemsByOrderId")
 def getOrderItems():
-    id = request.args.get('orderId')
-    data = {'items': retrieveOrderItems(connection, id)}
+    orderId = request.args.get('orderId')
+    orderType = request.args.get('orderType')
+    data = {'items': retrieveOrderItems(connection, orderId, orderType)}
     return jsonify(data)
 
 #register order to database (fill the order data)
@@ -62,12 +63,22 @@ def orders():
     return jsonify(responseData)
 
 #update an order status and/or table id
-@app.route("/api/orderDataUpdate", methods = ['POST', 'GET'])
+@app.route("/api/orderDataUpdate", methods = ['POST'])
 def orderDataUpdate():
     if request.method == 'POST':
         r = request.get_json()
         print(r)
         updateData(connection, r)
+    return "{}"
+
+@app.route("/api/orderRequestReprint", methods = ['POST'])
+def orderRequestReprint():
+    if request.method == 'POST':
+        r = request.get_json()
+        orderId = request.args.get('orderId')
+        orderType = request.args.get('orderType')
+        print(r)
+        requestReprint(connection, orderId, orderType)
     return "{}"
 
 @app.route("/ordini")

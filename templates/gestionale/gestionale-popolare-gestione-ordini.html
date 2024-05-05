@@ -380,11 +380,13 @@
             orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-gray-900 text-white">Stato sconosciuto</span>`;
             break;
         }
-
+        let orderTypeDisplay = ""
+        if (order.orderType == "cucina") { orderTypeDisplay = "Cucina"}
+        else if (order.orderType == "pizzeria") { orderTypeDisplay = "Pizzeria"}
         row.innerHTML = `
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${formattedDate} ${formattedTime}</td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${order.orderId}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${order.orderType}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${orderTypeDisplay}</td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${tableId}</td>
         <td class="px-6 py-4 whitespace-nowrap">${orderStatusContent}</td>
         <td class="flex items-center justify-start gap-x-6 px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
@@ -422,7 +424,7 @@
         ChangeButton2.addEventListener("click", () => {
           console.log(order.orderId);
           //funzione per riempire popup
-          showPopupViewOrderItem(order.orderId);
+          showPopupViewOrderItem(order.orderId, order.orderType);
         });
       });
     }
@@ -560,9 +562,15 @@
       popupContainer.style.display = "block";
     }
 
-    async function showPopupViewOrderItem(orderID) {
+    async function showPopupViewOrderItem(orderID, orderType) {
       const popupContainer = document.getElementById("popup-container");
-      let htmlContent = `<h4 class="font-semibold line-clamp-1 mb-4 text-center text-default-800 text-xl">Ordine N.${orderID}</h4>`;
+      let htmlContent = `<h4 class="font-semibold line-clamp-1 mb-4 text-center text-default-800 text-xl">Ordine ${orderType} N.${orderID}</h4>
+                <button id="reprint-order"
+                class="w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-10 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500"
+                onclick="reprintOrder(${orderID}, '${orderType}')">
+                Ristampa
+              </button>`;
+
       popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl z-10" id="close-button" onclick="closePopup()"><button><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x-circle" class="lucide lucide-x-circle w-5 h-5 text-primary text-default-400"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg></button></span>${htmlContent}`;
       tableHtml = `<div style="overflow:auto;">
 	                    <table class="min-w-full divide-y divide-default-200">
@@ -605,7 +613,7 @@
           "http://" +
           self.location.host +
           "/api/getItemsByOrderId?orderId=" +
-          orderID
+          orderID + "&orderType=" + orderType
         ); // Esegui la chiamata API
 
         data = await response.json(); // Estrai i dati JSON dalla risposta
@@ -641,6 +649,21 @@
 
     function showDropdownOrderStatus() {
       document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    function reprintOrder(orderID, orderType) {
+       fetch("http://" + self.location.host + "/api/orderRequestReprint?orderId=" +
+          orderID + "&orderType=" + orderType , {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: "{}",
+      })
+        .then((response) => response.json())
+        .then((data) => console.log(data))
+        .catch((error) => console.error("Errore:", error));
+        closePopup()
     }
 
     function updateOrderData(orderID, statoOrdine, tavoloID, orderType) {
