@@ -1,6 +1,16 @@
 from database import *
 from threading import Lock
 from datetime import datetime
+#printer imports
+import uuid
+import win32api
+import win32print
+#----------------
+import os
+import time
+import os.path
+import config
+
 
 mutex = Lock()
 
@@ -31,14 +41,89 @@ def registerOrderToDatabase(conn, order):
     for item in order["items"]:
         item["orderId"] = orderId
         insertItem(conn, item)  # insert each item in items table
-    return
+    return 0
 
-def printCommand(order):
+def printCommand(conn, order):
     #divide by item class
     #divide menu in panino + fries
     #filter out beverages
     #send print instructions to printers with correct data
-    pass
+    cucinaItemList = []
+    pizzeriaItemList = []
+    for item in order['items']:
+        itemClass = resolveItemClassById(conn, item["itemId"])
+        if (itemClass == "cucina"):
+            itemCategory = resolveItemCategoryById(conn, item["itemId"])
+            if(itemCategory == "menu birra" or itemCategory == "menu bibita"):
+                cucinaItemList.append({"name": resolveItemNameById(conn, item['itemId']).split("- ")[1], "itemId": item['itemId'], "quantity": item['quantity'], "notes": item['notes']})
+                cucinaItemList.append({"name": "Patatine fritte", "itemId": item['itemId'], "quantity": item['quantity'], "notes": ""})
+            else:
+                cucinaItemList.append(item)
+        elif (itemClass == "pizzeria"):
+            pizzeriaItemList.append(item)
+    orderId = order['orderId']
+    if len(cucinaItemList) > 0:
+        printCommandType(conn, orderId, cucinaItemList, config.nomeStampanteCucina)
+    if len(pizzeriaItemList) > 0:
+        printCommandType(conn, orderId, pizzeriaItemList, config.nomeStampantePizzeria)
+
+#todo type
+def printCommandType(conn, orderId, printItemList, printername):
+    with open("./serverPrinter/template/invoice.html", "r") as file:
+        html_template = file.read()
+    html_body = "<h1>Ordine Nr." + str(orderId) + """
+    </h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Quantità</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+    """
+    for item in printItemList:
+        itemCategory = resolveItemCategoryById(conn, item["itemId"])
+        #do not resolve name if item is part of menu because name is already set
+        name = ""
+        if (itemCategory != "menu birra" and itemCategory != "menu bibita"):
+            name = resolveItemNameById(conn, item['itemId'])
+        else:
+            name = item['name']
+        html_body += "<tr> <td>" + name + "</td><td>" + str(item['quantity']) + "</td><td>" + item['notes'] + "</td>"
+    html_body += """
+    </tbody>
+    </table>
+    """
+    html_template = html_template.format(body=html_body)
+    randomName = str(uuid.uuid4())
+    filename = r".\serverPrinter\tmp\a" + randomName
+    infilename = filename + "input.html"
+    with open(infilename, "wb") as file:
+        file.write(str.encode(html_template))
+    outfilename = filename + "output.pdf"
+    commandText = """.\serverPrinter\weasyprint.exe -e utf-8 {} {}""".format(infilename, outfilename)
+    os.popen(commandText)
+    printfilename = ".\\serverPrinter\\tmp\\a" + randomName + "output.pdf"
+    time.sleep(3)
+    while True:
+        if(os.path.isfile(outfilename)):
+            break
+        time.sleep(1)
+    try:
+        win32api.ShellExecute(
+            0,
+            "printto",
+            r"{}".format(printfilename),
+            f'"{printername}"',
+            ".",
+            0
+        )
+    except win32api.error:
+        pass
+    return
+
 
 def retrieveOrderNumber(conn):
     mutex.acquire(timeout=10) #probably useless mutex (there is a write to db)

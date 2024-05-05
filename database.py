@@ -105,6 +105,12 @@ def resolveItemClassById(conn, id):
     cur.execute(sql, (id, ))
     return cur.fetchone()[0]
 
+def resolveItemCategoryById(conn, id):
+    sql = ''' SELECT category FROM itemProp WHERE itemId = ? '''
+    cur = conn.cursor()
+    cur.execute(sql, (id,))
+    return cur.fetchone()[0]
+
 #-------------------archive functions------------------------------
 def getHotOrders(conn):
     sql = ''' SELECT * FROM orders'''
