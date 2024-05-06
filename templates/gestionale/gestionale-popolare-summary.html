@@ -336,6 +336,9 @@
 
                     // Riabilita il click dopo 5 minuti
                     unlockTimeout = setTimeout(() => {
+                        // Pulire messaggi
+                        const messageContainer = document.getElementById("message-box");
+                        messageContainer.innerHTML = '';
                         enableButton(); // Riabilita il bottone e l'evento
                     }, lockoutDuration);
 
