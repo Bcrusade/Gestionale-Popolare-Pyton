@@ -18,6 +18,7 @@ python -m venv venv
 call .\venv\Scripts\activate.bat
 pip install -U Flask
 pip install pywin32
+pip install waitress
 call .\venv\Scripts\deactivate.bat
 
 cd ./installazione

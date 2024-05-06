@@ -15,7 +15,7 @@ import config
 mutex = Lock()
 
 def registerOrderToDatabase(conn, order):
-    order["status"] = 0 #status: "non assegnato"
+    order["status"] = 0 #status: "non stampato"
     orderId = order["orderId"]
     #datetime
     order["datetime"] = datetime.now()
@@ -114,9 +114,13 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
     printfilename = ".\\serverPrinter\\tmp\\a" + randomName + "output.pdf"
     time.sleep(3)
     #wait for the pdf outfile before trying to print
+    counter = 0
     while True:
-        if(os.path.isfile(outfilename)):
+        if (os.path.isfile(outfilename)):
             break
+        if (counter > 10):
+            break
+        counter += 1
         time.sleep(1)
     #print the command to the right printer
     try:
@@ -128,6 +132,12 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
             ".",
             0
         )
+        #update order status
+        data = {'orderStatus': 1, 'orderId': orderId, 'orderType': orderType}
+        updateOrderStatus(conn, data)
+        #remove tmp files
+        os.remove(infilename)
+        os.remove(outfilename)
     except win32api.error:
         pass
     return
@@ -172,11 +182,7 @@ def retrieveOrderItems(conn, orderId, orderType):
 def updateData(conn, data):
     print(data)
     #check if input exist and valid?
-    if (data["tableId"] != 0 and data["orderStatus"] == 0):
-        #aggiorna lo stato a 'in preparazione' se prima era 'non assegnato' quando metto il numero del tavolo
-        makeOrderStatusCoherent(conn, data["orderId"])
-    else:
-        updateOrderStatus(conn, data)
+    updateOrderStatus(conn, data)
     updateOrderTable(conn, data)
 
 def archiveDatabaseData(conn):

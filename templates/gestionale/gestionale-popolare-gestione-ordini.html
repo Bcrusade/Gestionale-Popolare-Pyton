@@ -93,11 +93,11 @@
                             </li>
                             <li>
                               <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
-                                href="javascript:SetSortType('NumeroOrdineCresc')">NumeroOrdineCresc</a>
+                                href="javascript:SetSortType('OrdineCresc')">OrdineCresc</a>
                             </li>
                             <li>
                               <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
-                                href="javascript:SetSortType('NumeroOrdineDecresc')">NumeroOrdineDecresc</a>
+                                href="javascript:SetSortType('OrdineDecresc')">OrdineDecresc</a>
                             </li>
                             <li>
                               <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
@@ -253,7 +253,7 @@
     let loadedOrderIds = [];
 
     let orderStatusMap = {
-      0: "Non Assegnato",
+      0: "Non Stampato",
       1: "In preparazione",
       2: "Parzialmente evaso",
       3: "Evaso",
@@ -315,13 +315,13 @@
           );
           break;
 
-        case "NumeroOrdineCresc":
+        case "OrdineCresc":
           newOrderData.sort(
             (a, b) => new Date(a.orderId) - new Date(b.orderId)
           );
           break;
 
-        case "NumeroOrdineDecresc":
+        case "OrdineDecresc":
           newOrderData.sort(
             (a, b) => new Date(b.orderId) - new Date(a.orderId)
           );
@@ -370,7 +370,7 @@
         let orderStatusContent;
 
         switch (order.orderStatus) {
-          //Non Assegnato
+          //Non Stampato
           case 0:
             orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-red-500/20 text-red-500">${orderStatusMap[order.orderStatus]}</span>`;
             break;
@@ -450,7 +450,7 @@
       let orderStatusContent;
 
       switch (statoOrdine) {
-        //Non Assegnato
+        //Non Stampato
         case 0:
           orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-red-500/20 text-red-500">${orderStatusMap[statoOrdine]}</span>`;
           break;

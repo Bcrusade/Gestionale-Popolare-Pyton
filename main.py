@@ -161,7 +161,9 @@ if __name__ == '__main__':
   "tableId": 200
 }"""
     directory = os.path.dirname(os.path.abspath(__file__))
-    print(directory)
     print(os.getcwd())
+    #prod server
+    #from waitress import serve
+    #serve(app, host="0.0.0.0", port=5000)
     app.run(threaded=True, debug=True, host="0.0.0.0")
 
