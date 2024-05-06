@@ -1,6 +1,16 @@
 from database import *
 from threading import Lock
 from datetime import datetime
+#printer imports
+import uuid
+import win32api
+import win32print
+#----------------
+import os
+import time
+import os.path
+import config
+
 
 mutex = Lock()
 
@@ -24,21 +34,104 @@ def registerOrderToDatabase(conn, order):
         elif (itemClass == "pizzeria"):
             hasPizza = True
     if (hasCucina):
-        insertStatus(conn, orderId, "Cucina", 0)
+        insertStatus(conn, orderId, "cucina", 0)
     if (hasPizza):
-        insertStatus(conn, orderId, "Pizzeria", 0)
+        insertStatus(conn, orderId, "pizzeria", 0)
 
     for item in order["items"]:
         item["orderId"] = orderId
         insertItem(conn, item)  # insert each item in items table
-    return
+    return 0
 
-def printCommand(order):
+def printCommand(conn, order):
     #divide by item class
     #divide menu in panino + fries
     #filter out beverages
     #send print instructions to printers with correct data
-    pass
+    cucinaItemList = []
+    pizzeriaItemList = []
+    for item in order['items']:
+        itemClass = resolveItemClassById(conn, item["itemId"])
+        if (itemClass == "cucina"):
+            itemCategory = resolveItemCategoryById(conn, item["itemId"])
+            if(itemCategory == "menu birra" or itemCategory == "menu bibita"):
+                cucinaItemList.append({"name": resolveItemNameById(conn, item['itemId']).split("- ")[1], "itemId": item['itemId'], "quantity": item['quantity'], "notes": item['notes']})
+                cucinaItemList.append({"name": "Patatine fritte", "itemId": item['itemId'], "quantity": item['quantity'], "notes": ""})
+            else:
+                cucinaItemList.append(item)
+        elif (itemClass == "pizzeria"):
+            pizzeriaItemList.append(item)
+    orderId = order['orderId']
+    if len(cucinaItemList) > 0:
+        orderType = "cucina"
+        printCommandType(conn, orderId, cucinaItemList, config.nomeStampanteCucina, orderType)
+    if len(pizzeriaItemList) > 0:
+        orderType = "pizzeria"
+        printCommandType(conn, orderId, pizzeriaItemList, config.nomeStampantePizzeria, orderType)
+
+def printCommandType(conn, orderId, printItemList, printername, orderType):
+    print(printItemList)
+    #read the html template
+    with open("./serverPrinter/template/invoice.html", "r") as file:
+        html_template = file.read()
+    html_body = "<h1>Ordine " + str(orderType.capitalize()) + " Nr." + str(orderId) + """
+    </h1>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Quantità</th>
+          <th>Note</th>
+        </tr>
+      </thead>
+      <tbody>
+    """
+    for item in printItemList:
+        itemCategory = resolveItemCategoryById(conn, item["itemId"])
+        #do not resolve name if item is part of menu because name is already set
+        name = ""
+        if (itemCategory != "menu birra" and itemCategory != "menu bibita"):
+            name = resolveItemNameById(conn, item['itemId'])
+        else:
+            name = item['name']
+        html_body += "<tr> <td>" + name + "</td><td>" + str(item['quantity']) + "</td><td>" + item['notes'] + "</td>"
+    html_body += """
+    </tbody>
+    </table>
+    """
+    #fill the template
+    html_template = html_template.format(body=html_body)
+    randomName = str(uuid.uuid4())
+    filename = r".\serverPrinter\tmp\a" + randomName
+    infilename = filename + "input.html"
+    #save to tmp file the filled html template
+    with open(infilename, "wb") as file:
+        file.write(str.encode(html_template))
+    outfilename = filename + "output.pdf"
+    commandText = """.\serverPrinter\weasyprint.exe -e utf-8 {} {}""".format(infilename, outfilename)
+    #convert html to pdf
+    os.popen(commandText)
+    printfilename = ".\\serverPrinter\\tmp\\a" + randomName + "output.pdf"
+    time.sleep(3)
+    #wait for the pdf outfile before trying to print
+    while True:
+        if(os.path.isfile(outfilename)):
+            break
+        time.sleep(1)
+    #print the command to the right printer
+    try:
+        win32api.ShellExecute(
+            0,
+            "printto",
+            r"{}".format(printfilename),
+            f'"{printername}"',
+            ".",
+            0
+        )
+    except win32api.error:
+        pass
+    return
+
 
 def retrieveOrderNumber(conn):
     mutex.acquire(timeout=10) #probably useless mutex (there is a write to db)
@@ -55,7 +148,6 @@ def retrieveOrderList(conn):
         statuses = getOrderStatusById(conn, orderId)
         for status in statuses:
             orderList.append({"orderId": order[0],  "tableId": order[1], "datetime": order[2], "orderType": status[1], "orderStatus": status[2]})
-    print(orderList)
     return orderList
 
 def retrieveRecentCompletedOrderList(conn):
@@ -68,12 +160,13 @@ def retrieveRecentCompletedOrderList(conn):
     print(orderList)
     return orderList
 
-def retrieveOrderItems(conn, id):
-    data = getOrderItemsById(conn, id)
+def retrieveOrderItems(conn, orderId, orderType):
+    data = getOrderItemsById(conn, orderId)
     itemList = []
     for item in data:
         name = resolveItemNameById(conn, item[0])
-        itemList.append({"name": name, "quantity": item[1], "notes": item[2]})
+        if (resolveItemClassById(conn, item[0]) == orderType):
+            itemList.append({"name": name, "quantity": item[1], "notes": item[2]})
     return itemList
 
 def updateData(conn, data):
@@ -102,3 +195,27 @@ def archiveDatabaseData(conn):
     #todo check for success before deleting
     deleteHotItems(conn)
     resetSqlSequence(conn)
+
+def requestReprint(conn, orderId, orderType):
+    printername = ""
+    if (orderType == "cucina"):
+        printername = config.nomeStampanteCucina
+    elif (orderType == "pizzeria"):
+        printername = config.nomeStampantePizzeria
+    printItemList = []
+    items = getOrderItemsById(conn, orderId)
+    for item in items:
+        itemClass = resolveItemClassById(conn, item[0]) #item[0] = itemId
+        if (itemClass == orderType): #cucina or pizzeria
+            itemCategory = resolveItemCategoryById(conn, item[0])
+            if (itemCategory == "menu birra" or itemCategory == "menu bibita"): #if item is a menu
+                printItemList.append(
+                    {"name": resolveItemNameById(conn, item[0]).split("- ")[1], "itemId": item[0],
+                     "quantity": item[1], "notes": item[2]})
+                printItemList.append(
+                    {"name": "Patatine fritte", "itemId": item[0], "quantity": item[1], "notes": ""})
+            else: #item is not a menu
+                printItemList.append({"name": resolveItemNameById(conn, item[0]), "itemId": item[0],
+                     "quantity": item[1], "notes": item[2]})
+    printCommandType(conn, orderId, printItemList, printername, orderType)
+    return 0
