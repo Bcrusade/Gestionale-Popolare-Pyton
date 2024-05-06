@@ -370,8 +370,8 @@ function initializeApp(data) {
     }
     htmlContent += `
     <div id="button-order-container" class="flex gap-12 justify-around  mx-5">
-    <a id="send-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full" href="#">PREPARAZIONE</a>
-    <button id="btn-confirm-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full">Stampa</button>
+    <button id="send-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full opacity-50" disabled>PREPARAZIONE</a>
+    <button id="print-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full">Stampa</button>
     </div>
     `;
     // Assegna l'HTML al contenitore del pop-up
@@ -436,8 +436,6 @@ function initializeApp(data) {
 
     const sendOrderButton = popupContainer.querySelector("#send-order");
     sendOrderButton.addEventListener("click", function (event) {
-      // Previeni il comportamento di default del link
-      event.preventDefault();
       // Chiama la funzione per inviare i dati dell'ordine al database
       let cleanedData = cleanOrderData(orderData);
       inviaDatiOrdine(cleanedData);
@@ -449,8 +447,10 @@ function initializeApp(data) {
       closePopup();
       clearDataState();
     });
-    const printButton = popupContainer.querySelector("#btn-confirm-order");
+    const printButton = popupContainer.querySelector("#print-order");
     printButton.addEventListener("click", function () {
+      sendOrderButton.classList.remove("opacity-50");
+      sendOrderButton.disabled = false;
       printOrderData(transformedDataJson, grandTotal, orderNumber);
     });
   }
@@ -486,7 +486,9 @@ function initializeApp(data) {
 
     // Creare HTML dinamico con i dati mappati
     let htmlContent = `<div id="print-content">`;
-    htmlContent += `<h4 class="text-base text-default-700 font-bold">Ordine N.${idOrdineCreato}</h4>`;
+    //<img src="assets/img/Logo_popolare_2024x500_trasparente.png" alt="logo" class="center-block"/>
+    htmlContent += `
+    <h4 style="margin: 0px;" class="text-base text-default-700 font-bold">Ordine N.${idOrdineCreato}</h4>`;
     orderItems.forEach((item) => {
       htmlContent += `
          <div>
@@ -496,9 +498,15 @@ function initializeApp(data) {
          </div>
      `;
     });
+    let date = new Date()
+    let strTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+    let myDatetime = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + "  " + strTime
     htmlContent += `
      <div>
-         <h4 class="mt-1.5 mb-1.5 text-default-600 text-sm text-primary">TOTALE: <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none text-primary">${GragrandTotal} €</span></h4>
+         <h4 style="margin: 0px;" class="mt-1.5 mb-1.5 text-default-600 text-sm text-primary">TOTALE: <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none text-primary">${GragrandTotal} €</span></h4>
+     </div>
+     <div>
+         <h6 style="margin: 2px;" class="mt-1.5 mb-1.5 text-default-600 text-sm text-primary">${myDatetime}</h6>
      </div>
  `;
     htmlContent += `</div>`;

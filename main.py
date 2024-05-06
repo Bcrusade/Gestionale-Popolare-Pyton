@@ -2,9 +2,10 @@
 
 from flask import Flask, render_template, jsonify, request
 import json
-import time
-from database import *
+#import time
+import threading
 from core import *
+import os
 
 connection = sqlite3.connect("./data/myDatabase.db", timeout=10, check_same_thread=False)
 app = Flask(__name__, static_folder="assets")
@@ -42,8 +43,9 @@ def getOrderNumber():
 
 @app.route("/api/getItemsByOrderId")
 def getOrderItems():
-    id = request.args.get('orderId')
-    data = {'items': retrieveOrderItems(connection, id)}
+    orderId = request.args.get('orderId')
+    orderType = request.args.get('orderType')
+    data = {'items': retrieveOrderItems(connection, orderId, orderType)}
     return jsonify(data)
 
 #register order to database (fill the order data)
@@ -51,14 +53,17 @@ def getOrderItems():
 def orders():
     responseData = {'status': ""}
     if request.method == 'POST':
-        r = request.get_json()
-        registerOrderToDatabase(connection, r)
-        responseData["status"] = "success"
-        print(r)
+        order = request.get_json()
+        dbStatus = registerOrderToDatabase(connection, order)
+        if (dbStatus == 0):
+            t = threading.Thread(target=printCommand, args=(connection, order), daemon=True)
+            t.start()
+            responseData["status"] = "success"
+        print(order)
     return jsonify(responseData)
 
 #update an order status and/or table id
-@app.route("/api/orderDataUpdate", methods = ['POST', 'GET'])
+@app.route("/api/orderDataUpdate", methods = ['POST'])
 def orderDataUpdate():
     if request.method == 'POST':
         r = request.get_json()
@@ -66,10 +71,23 @@ def orderDataUpdate():
         updateData(connection, r)
     return "{}"
 
+@app.route("/api/orderRequestReprint", methods = ['POST'])
+def orderRequestReprint():
+    if request.method == 'POST':
+        r = request.get_json()
+        orderId = request.args.get('orderId')
+        orderType = request.args.get('orderType')
+        print(r)
+        requestReprint(connection, orderId, orderType)
+    return "{}"
+
 @app.route("/ordini")
 def getOrders():
     return render_template('./gestionale/gestionale-popolare-gestione-ordini.html')
 
+@app.route("/summary")
+def getSummary():
+    return render_template('./gestionale/gestionale-popolare-summary.html')
 
 #useless function (to remove)
 def startServer():
@@ -142,6 +160,8 @@ if __name__ == '__main__':
   "orderStatus": 2,
   "tableId": 200
 }"""
-
+    directory = os.path.dirname(os.path.abspath(__file__))
+    print(directory)
+    print(os.getcwd())
     app.run(threaded=True, debug=True, host="0.0.0.0")
 
