@@ -124,7 +124,7 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
         time.sleep(1)
     #print the command to the right printer
     try:
-        win32api.ShellExecute(
+        hinstance = win32api.ShellExecute(
             0,
             "printto",
             r"{}".format(printfilename),
@@ -132,14 +132,16 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
             ".",
             0
         )
-        #update order status
-        data = {'orderStatus': 1, 'orderId': orderId, 'orderType': orderType}
-        updateOrderStatus(conn, data)
-        #remove tmp files
-        os.remove(infilename)
-        os.remove(outfilename)
-    except win32api.error:
-        pass
+        if (hinstance > 32): #print command success
+            #update order status
+            data = {'orderStatus': 1, 'orderId': orderId, 'orderType': orderType}
+            updateOrderStatus(conn, data)
+            #remove tmp files
+            os.remove(infilename)
+            os.remove(outfilename)
+    except win32api.error as e:
+        print(e.args[0])
+        print(e.args[2])
     return
 
 

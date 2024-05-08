@@ -56,6 +56,7 @@ def orders():
         order = request.get_json()
         dbStatus = registerOrderToDatabase(connection, order)
         if (dbStatus == 0):
+            #start print thread
             t = threading.Thread(target=printCommand, args=(connection, order), daemon=True)
             t.start()
             responseData["status"] = "success"
