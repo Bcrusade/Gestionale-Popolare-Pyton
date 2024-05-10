@@ -11,7 +11,7 @@ def insertOrder(conn, order):
     cur = conn.cursor()
     cur.execute(sql, order)
     conn.commit()
-    return
+    return 0
 
 def insertItem(conn, item):
     sql = ''' INSERT INTO items(orderId, itemId, quantity, notes)
@@ -19,7 +19,7 @@ def insertItem(conn, item):
     cur = conn.cursor()
     cur.execute(sql, item)
     conn.commit()
-    return
+    return 0
 
 def insertStatus(conn, orderId, orderType, value):
     sql = ''' INSERT INTO orderStatus(orderId, orderType, status)
@@ -27,6 +27,7 @@ def insertStatus(conn, orderId, orderType, value):
     cur = conn.cursor()
     cur.execute(sql, (orderId, orderType, value, ))
     conn.commit()
+    return 0
 
 #get order id to use for a new order
 def getOrderId(conn):
@@ -130,7 +131,7 @@ def insertArchiveOrder(conn, order):
     cur = conn.cursor()
     cur.execute(sql, order)
     conn.commit()
-    return
+    return 0
 
 def insertArchiveItem(conn, item):
     sql = ''' INSERT INTO items(dayId, displayId, itemId, quantity, notes) 
@@ -138,7 +139,7 @@ def insertArchiveItem(conn, item):
     cur = conn.cursor()
     cur.execute(sql, item)
     conn.commit()
-    return
+    return 0
 
 def deleteHotOrders(conn):
     sql = ''' DELETE FROM orders'''

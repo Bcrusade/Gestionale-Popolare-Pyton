@@ -104,16 +104,16 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
     randomName = str(uuid.uuid4())
     filename = r".\serverPrinter\tmp\a" + randomName
     infilename = filename + "input.html"
-    #save to tmp file the filled html template
+    #save to tmp file the formatted html template
     with open(infilename, "wb") as file:
         file.write(str.encode(html_template))
     outfilename = filename + "output.pdf"
     commandText = """.\serverPrinter\weasyprint.exe -e utf-8 {} {}""".format(infilename, outfilename)
-    #convert html to pdf
+    #convert html to pdf with weasyprint
     os.popen(commandText)
     printfilename = ".\\serverPrinter\\tmp\\a" + randomName + "output.pdf"
     time.sleep(3)
-    #wait for the pdf outfile before trying to print
+    #wait for the pdf outfile before trying to print (maximum 10 seconds)
     counter = 0
     while True:
         if (os.path.isfile(outfilename)):
@@ -124,6 +124,19 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
         time.sleep(1)
     #print the command to the right printer
     try:
+        #set paper format to A5
+        handle = win32print.OpenPrinter(printername)
+        properties = win32print.GetPrinter(handle, 2)
+        devmode = properties['pDevMode']
+        DMPAPER_A5 = 11
+        devmode.PaperSize = DMPAPER_A5
+        win32print.SetPrinter(handle, 2, properties, 0)
+        #---------------- check if the format is correct------
+        properties = win32print.GetPrinter(handle, 2)
+        devmode = properties['pDevMode']
+        print(devmode.PaperSize)
+        win32print.ClosePrinter(handle)
+        #-----------------start printing----------------------
         hinstance = win32api.ShellExecute(
             0,
             "printto",
@@ -140,6 +153,7 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
             os.remove(infilename)
             os.remove(outfilename)
     except win32api.error as e:
+        #logging here
         print(e.args[0])
         print(e.args[2])
     return
@@ -186,23 +200,36 @@ def updateData(conn, data):
     #check if input exist and valid?
     updateOrderStatus(conn, data)
     updateOrderTable(conn, data)
+    return 0
 
 def archiveDatabaseData(conn):
     dayId = getDayId(conn)
+    #-----------archive orders---------------
     hotOrders = getHotOrders(conn)
+    ordersToArchive = len(hotOrders)
+    counter = 0
     for order in hotOrders:
         archiveOrder = {'displayId': order[0], 'totalValue': order[1], 'paymentType': order[3], 'datetime': order[4], 'customerType': order[6], 'dayId': dayId}
-        insertArchiveOrder(conn, archiveOrder)
-    #todo check for success before deleting
-    deleteHotOrders(conn)
-    deleteHotOrdersStatuses(conn)
+        status = insertArchiveOrder(conn, archiveOrder)
+        if status == 0:
+            counter += 1
+    if ordersToArchive == counter:
+        #todo check for success before deleting
+        deleteHotOrders(conn)
+        deleteHotOrdersStatuses(conn)
+    #-------------archive items--------------
     hotItems = getHotItems(conn)
+    itemsToArchive = len(hotItems)
+    counter = 0
     for item in hotItems:
         archiveItem = {'dayId': dayId, 'displayId': item[0], 'itemId': item[1], 'quantity': item[2], 'notes': item[3]}
-        insertArchiveItem(conn, archiveItem)
-    #todo check for success before deleting
-    deleteHotItems(conn)
-    resetSqlSequence(conn)
+        status = insertArchiveItem(conn, archiveItem)
+        if status == 0:
+            counter += 1
+    if itemsToArchive == counter:
+        #todo check for success before deleting
+        deleteHotItems(conn)
+        resetSqlSequence(conn)
 
 def requestReprint(conn, orderId, orderType):
     printername = ""
@@ -216,7 +243,7 @@ def requestReprint(conn, orderId, orderType):
         itemClass = resolveItemClassById(conn, item[0]) #item[0] = itemId
         if (itemClass == orderType): #cucina or pizzeria
             itemCategory = resolveItemCategoryById(conn, item[0])
-            if (itemCategory == "menu birra" or itemCategory == "menu bibita"): #if item is a menu
+            if (itemCategory == "menu birra" or itemCategory == "menu bibita"): #if item is a menu, the name is the one of panino; add fries
                 printItemList.append(
                     {"name": resolveItemNameById(conn, item[0]).split("- ")[1], "itemId": item[0],
                      "quantity": item[1], "notes": item[2]})
