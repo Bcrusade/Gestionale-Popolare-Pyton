@@ -106,7 +106,7 @@
                                     </div>
                                     <div>
                                         <p class="text-base text-default-500 font-medium mb-1">
-                                            Spese Volontari
+                                            Ordini Free
                                         </p>
                                         <h4 id="spese_volontari" class="text-2xl text-default-950 font-semibold mb-2">
                                         </h4>
@@ -288,9 +288,7 @@
 	  let IncassoPos = 0
 	  if (newSummaryData.at(0).POS) {
 	  	  IncassoPos = newSummaryData.at(0).POS }
-	  let SpeseVol = 0
-	  if (newSummaryData.at(0).SpeseVol) {
-	  	  SpeseVol = newSummaryData.at(0).SpeseVol }
+	  const NumOrderVolontari = newSummaryData.at(0).NumOrderVolontari
 	  
 	  const idOrdiniTotali = document.getElementById("ordini_totali");
       let htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-5 text-center">${NumOrder}</h4>`
@@ -305,7 +303,7 @@
       idIncassoPos.innerHTML = htmlContent;
 
 	 const idSpeseVolontari = document.getElementById("spese_volontari");
-        htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-5 text-center">${SpeseVol.toLocaleString(undefined,{minimumFractionDigits: 2})} €</h4>`
+        htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-5 text-center">${NumOrderVolontari}</h4>`
       idSpeseVolontari.innerHTML = htmlContent;
      }
 
@@ -424,7 +422,8 @@
             enableButton(); // Riattiva il bottone e l'attributo
 
             // Nascondere il password-container
-            const div = document.getElementById("password-container");
+            document.getElementById("password-input").value = "";
+			const div = document.getElementById("password-container");
             div.classList.toggle("hidden");
             document.getElementById("password-container").style.display = "";
             // Resettare gli altri flag e variabili

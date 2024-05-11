@@ -206,9 +206,9 @@ def retrieveSummaryData(conn):
     totalOrderNumber = getTotalOrderNumber(conn)
     totalCash = getTotalCash(conn)
     totalPos = getTotalPos(conn)
-    speseVol = getSpeseVol(conn)
+    totalOrderNumberVol = getTotalOrderNumberVol(conn)
     orderSummary = []
-    orderSummary.append({"NumOrder": totalOrderNumber, "Cash": totalCash, "POS": totalPos, "SpeseVol": speseVol})
+    orderSummary.append({"NumOrder": totalOrderNumber, "Cash": totalCash, "POS": totalPos, "NumOrderVolontari": totalOrderNumberVol})
     return orderSummary
 
 def archiveDatabaseData(conn):
@@ -276,11 +276,103 @@ def requestReprint(conn, orderId, orderType):
 
 def printReport(conn, selectedDate):
     printername = ""
-    selectedDate += "%"
-    print(selectedDate)
+    selectedDateWildCard = selectedDate + "%"
     paymentType = "cash"
-    contanti = getTotalOrdini(conn, paymentType, selectedDate)
+    customerType = "Client"
+    contanti = getTotalOrdini(conn, paymentType, customerType, selectedDateWildCard)
     paymentType = "pos"
-    pos = getTotalOrdini(conn, paymentType, selectedDate)
-    print(pos[0])
+    pos = getTotalOrdini(conn, paymentType, customerType, selectedDateWildCard)
+    paymentType = "free"
+    customerType = "Volounteer"
+    costoVolounteer = getTotalOrdini(conn, paymentType, customerType, selectedDateWildCard)
+    customerType = "Guest"
+    costoGuest = getTotalOrdini(conn, paymentType, customerType, selectedDateWildCard)
+    print(contanti)
+    print(pos)
+    print(costoVolounteer)
+    print(costoGuest)
+    #read the html template
+    with open("./serverPrinter/template/invoice.html", "r") as file:
+        html_template = file.read()
+    html_body = "<h1>Report Giorno " + str(selectedDate) + """
+    </h1>
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+    """
+    html_body += "<tr> <td>Totale Ordini contanti</td><td>" + str(contanti[0]) + "</td></tr>"
+    html_body += "<tr> <td>Totale Incasso contanti</td><td>" + str(contanti[1]) + " €</td></tr>"
+    html_body += "<tr> <td>Totale Ordini POS</td><td>" + str(pos[0]) + "</td></tr>"
+    html_body += "<tr> <td>Totale Incasso POS</td><td>" + str(pos[1]) + " €</td></tr>"
+    html_body += "<tr> <td>Totale Ordini Clienti</td><td>" + str(contanti[0]+pos[0]) + "</td></tr>"
+    html_body += "<tr> <td>Totale Incasso Clienti</td><td>" + str(contanti[1]+pos[1]) + " €</td></tr>"
+    html_body += "<tr> <td>Totale Ordini Volontari</td><td>" + str(costoVolounteer[0]) + "</td></tr>"
+    html_body += "<tr> <td>Totale Costo Volontari</td><td>" + str(costoVolounteer[1]) + " €</td></tr>"
+    html_body += "<tr> <td>Totale Ordini Ospiti</td><td>" + str(costoGuest[0]) + "</td></tr>"
+    html_body += "<tr> <td>Totale Costo Ospiti</td><td>" + str(costoGuest[1]) + " €</td></tr>"
+    html_body += """
+    </tbody>
+    </table>
+    """
+    #fill the template
+    html_template = html_template.format(body=html_body)
+    randomName = str(uuid.uuid4())
+    filename = r".\serverPrinter\tmp\a" + randomName
+    infilename = filename + "input.html"
+    #save to tmp file the formatted html template
+    with open(infilename, "wb") as file:
+        file.write(str.encode(html_template))
+    outfilename = filename + "output.pdf"
+    commandText = """.\serverPrinter\weasyprint.exe -e utf-8 {} {}""".format(infilename, outfilename)
+    #convert html to pdf with weasyprint
+    os.popen(commandText)
+    printfilename = ".\\serverPrinter\\tmp\\a" + randomName + "output.pdf"
+    time.sleep(3)
+    #wait for the pdf outfile before trying to print (maximum 10 seconds)
+    counter = 0
+    while True:
+        if (os.path.isfile(outfilename)):
+            break
+        if (counter > 10):
+            break
+        counter += 1
+        time.sleep(1)
+    #print the command to the right printer
+    try:
+        #set paper format to A5
+        handle = win32print.OpenPrinter(printername)
+        properties = win32print.GetPrinter(handle, 2)
+        devmode = properties['pDevMode']
+        DMPAPER_A5 = 11
+        devmode.PaperSize = DMPAPER_A5
+        win32print.SetPrinter(handle, 2, properties, 0)
+        #---------------- check if the format is correct------
+        properties = win32print.GetPrinter(handle, 2)
+        devmode = properties['pDevMode']
+        print(devmode.PaperSize)
+        win32print.ClosePrinter(handle)
+        #-----------------start printing----------------------
+        hinstance = win32api.ShellExecute(
+            0,
+            "printto",
+            r"{}".format(printfilename),
+            f'"{printername}"',
+            ".",
+            0
+        )
+        if (hinstance > 32): #print command success
+            #update order status
+            print("Stampa report OK")
+            #remove tmp files
+            #os.remove(infilename)
+            #os.remove(outfilename)
+    except win32api.error as e:
+        #logging here
+        print(e.args[0])
+        print(e.args[2])
     return 0
