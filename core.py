@@ -202,34 +202,53 @@ def updateData(conn, data):
     updateOrderTable(conn, data)
     return 0
 
+def retrieveSummaryData(conn):
+    totalOrderNumber = getTotalOrderNumber(conn)
+    totalCash = getTotalCash(conn)
+    totalPos = getTotalPos(conn)
+    speseVol = getSpeseVol(conn)
+    orderSummary = []
+    orderSummary.append({"NumOrder": totalOrderNumber, "Cash": totalCash, "POS": totalPos, "SpeseVol": speseVol})
+    return orderSummary
+
 def archiveDatabaseData(conn):
-    dayId = getDayId(conn)
-    #-----------archive orders---------------
-    hotOrders = getHotOrders(conn)
-    ordersToArchive = len(hotOrders)
-    counter = 0
-    for order in hotOrders:
-        archiveOrder = {'displayId': order[0], 'totalValue': order[1], 'paymentType': order[3], 'datetime': order[4], 'customerType': order[6], 'dayId': dayId}
-        status = insertArchiveOrder(conn, archiveOrder)
-        if status == 0:
-            counter += 1
-    if ordersToArchive == counter:
-        #todo check for success before deleting
-        deleteHotOrders(conn)
-        deleteHotOrdersStatuses(conn)
-    #-------------archive items--------------
-    hotItems = getHotItems(conn)
-    itemsToArchive = len(hotItems)
-    counter = 0
-    for item in hotItems:
-        archiveItem = {'dayId': dayId, 'displayId': item[0], 'itemId': item[1], 'quantity': item[2], 'notes': item[3]}
-        status = insertArchiveItem(conn, archiveItem)
-        if status == 0:
-            counter += 1
-    if itemsToArchive == counter:
-        #todo check for success before deleting
-        deleteHotItems(conn)
-        resetSqlSequence(conn)
+    orderOpen = checkOrderOpen(conn)
+    orderToArchive = getTotalOrderNumber(conn)
+    if (orderToArchive == 0):
+        return 2
+    if (orderOpen > 0):
+        return 1
+    elif (orderOpen == 0):
+        dayId = getDayId(conn)
+        # -----------archive orders---------------
+        hotOrders = getHotOrders(conn)
+        ordersToArchive = len(hotOrders)
+        counter = 0
+        for order in hotOrders:
+            archiveOrder = {'displayId': order[0], 'totalValue': order[1], 'paymentType': order[3], 'datetime': order[4], 'customerType': order[6], 'dayId': dayId}
+            status = insertArchiveOrder(conn, archiveOrder)
+            if status == 0:
+                counter += 1
+        if ordersToArchive == counter:
+            deleteHotOrders(conn)
+            deleteHotOrdersStatuses(conn)
+        else:
+            return 12
+        #-------------archive items--------------
+        hotItems = getHotItems(conn)
+        itemsToArchive = len(hotItems)
+        counter = 0
+        for item in hotItems:
+            archiveItem = {'dayId': dayId, 'displayId': item[0], 'itemId': item[1], 'quantity': item[2], 'notes': item[3]}
+            status = insertArchiveItem(conn, archiveItem)
+            if status == 0:
+                counter += 1
+        if itemsToArchive == counter:
+            deleteHotItems(conn)
+            resetSqlSequence(conn)
+        else:
+            return 13
+        return 0
 
 def requestReprint(conn, orderId, orderType):
     printername = ""
@@ -253,4 +272,15 @@ def requestReprint(conn, orderId, orderType):
                 printItemList.append({"name": resolveItemNameById(conn, item[0]), "itemId": item[0],
                      "quantity": item[1], "notes": item[2]})
     printCommandType(conn, orderId, printItemList, printername, orderType)
+    return 0
+
+def printReport(conn, selectedDate):
+    printername = ""
+    selectedDate += "%"
+    print(selectedDate)
+    paymentType = "cash"
+    contanti = getTotalOrdini(conn, paymentType, selectedDate)
+    paymentType = "pos"
+    pos = getTotalOrdini(conn, paymentType, selectedDate)
+    print(pos[0])
     return 0

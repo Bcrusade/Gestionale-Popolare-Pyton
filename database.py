@@ -48,6 +48,27 @@ def getOrderList(conn):
     cur.execute(sql)
     return cur.fetchall()
 
+#get total number of orders
+def getTotalOrderNumber(conn):
+    sql = ''' SELECT count(*) FROM orders'''
+    cur = conn.cursor()
+    cur.execute(sql)
+    return cur.fetchone()[0]
+
+#get total cash collection
+def getTotalCash(conn):
+    sql = ''' SELECT SUM(totalValue) FROM orders where paymentType = "cash"'''
+    cur = conn.cursor()
+    cur.execute(sql)
+    return cur.fetchone()[0]
+
+#get total pos collection
+def getTotalPos(conn):
+    sql = ''' SELECT SUM(totalValue) FROM orders where paymentType = "pos"'''
+    cur = conn.cursor()
+    cur.execute(sql)
+    return cur.fetchone()[0]
+
 # filter out status = 3
 def getOrderStatusById(conn, orderId):
     sql = ''' SELECT * FROM orderStatus WHERE orderId = ? AND status IN (0, 1, 2)'''
@@ -113,6 +134,12 @@ def resolveItemCategoryById(conn, id):
     return cur.fetchone()[0]
 
 #-------------------archive functions------------------------------
+def checkOrderOpen(conn):
+    sql = ''' SELECT count(*) FROM orderStatus WHERE status IN (0, 1, 2)'''
+    cur = conn.cursor()
+    cur.execute(sql)
+    return cur.fetchone()[0]
+
 def getHotOrders(conn):
     sql = ''' SELECT * FROM orders'''
     cur = conn.cursor()
@@ -126,15 +153,15 @@ def getHotItems(conn):
     return cur.fetchall()
 
 def insertArchiveOrder(conn, order):
-    sql = ''' INSERT INTO orders(displayId, totalValue, paymentType, datetime, customerType) 
-                      VALUES(:displayId, :totalValue, :paymentType, :datetime, :customerType) '''
+    sql = ''' INSERT INTO orderArchive(displayId, totalValue, paymentType, datetime, customerType, dayId) 
+                      VALUES(:displayId, :totalValue, :paymentType, :datetime, :customerType, :dayId) '''
     cur = conn.cursor()
     cur.execute(sql, order)
     conn.commit()
     return 0
 
 def insertArchiveItem(conn, item):
-    sql = ''' INSERT INTO items(dayId, displayId, itemId, quantity, notes) 
+    sql = ''' INSERT INTO itemArchive(dayId, displayId, itemId, quantity, notes) 
                       VALUES(:dayId, :displayId, :itemId, :quantity, :notes) '''
     cur = conn.cursor()
     cur.execute(sql, item)
@@ -185,3 +212,16 @@ def getOrderByDayId(conn, dayId):
     cur = conn.cursor()
     cur.execute(sql, dayId)
     return cur.fetchall()
+
+#get total data contanti
+def getTotalOrdini(conn, paymentType, selectedDate):
+    sql = ''' SELECT count(*), SUM(totalValue) FROM orderArchive WHERE paymentType = ? AND datetime LIKE ?'''
+    cur = conn.cursor()
+    cur.execute(sql, (paymentType, selectedDate))
+    return cur.fetchone()
+
+def getSpeseVol(conn):
+    sql = ''' SELECT SUM(totalValue) FROM orders WHERE customerType = "Guest" OR customerType = "Volounteer" '''
+    cur = conn.cursor()
+    cur.execute(sql)
+    return cur.fetchone()[0]
