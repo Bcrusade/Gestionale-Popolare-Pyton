@@ -5,6 +5,8 @@ from datetime import datetime
 import uuid
 import win32api
 import win32print
+import win32com.shell.shell as shell
+import win32event
 #----------------
 import os
 import time
@@ -94,7 +96,7 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
             name = resolveItemNameById(conn, item['itemId'])
         else:
             name = item['name']
-        html_body += "<tr> <td>" + name + "</td><td>" + str(item['quantity']) + "</td><td>" + item['notes'] + "</td>"
+        html_body += "<tr> <td>" + name + "</td><td>" + str(item['quantity']) + "</td><td>" + item['notes'] + "</td></tr>"
     html_body += """
     </tbody>
     </table>
@@ -125,7 +127,8 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
     #print the command to the right printer
     try:
         #set paper format to A5
-        handle = win32print.OpenPrinter(printername)
+        PRINTER_DEFAULTS = {"DesiredAccess":win32print.PRINTER_ALL_ACCESS}
+        handle = win32print.OpenPrinter(printername, PRINTER_DEFAULTS)
         properties = win32print.GetPrinter(handle, 2)
         devmode = properties['pDevMode']
         DMPAPER_A5 = 11
@@ -134,21 +137,16 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
         #---------------- check if the format is correct------
         properties = win32print.GetPrinter(handle, 2)
         devmode = properties['pDevMode']
-        print(devmode.PaperSize)
         win32print.ClosePrinter(handle)
         #-----------------start printing----------------------
-        hinstance = win32api.ShellExecute(
-            0,
-            "printto",
-            r"{}".format(printfilename),
-            f'"{printername}"',
-            ".",
-            0
-        )
-        if (hinstance > 32): #print command success
+        structureOut = shell.ShellExecuteEx(fMask = 256 + 64, lpVerb='printto', lpFile=r"{}".format(printfilename), lpParameters=f'"{printername}"', lpDirectory=".")
+        hh = structureOut['hProcess']
+        ret = win32event.WaitForSingleObject(hh, -1)
+        if (ret == 0): #print command success
             #update order status
             data = {'orderStatus': 1, 'orderId': orderId, 'orderType': orderType}
             updateOrderStatus(conn, data)
+            print("STAMPA COMANDA OK")
             #remove tmp files
             os.remove(infilename)
             os.remove(outfilename)
@@ -274,8 +272,7 @@ def requestReprint(conn, orderId, orderType):
     printCommandType(conn, orderId, printItemList, printername, orderType)
     return 0
 
-def printReport(conn, selectedDate):
-    printername = ""
+def printReport(conn, selectedDate, printername):
     selectedDateWildCard = selectedDate + "%"
     paymentType = "cash"
     customerType = "Client"
@@ -287,10 +284,6 @@ def printReport(conn, selectedDate):
     costoVolounteer = getTotalOrdini(conn, paymentType, customerType, selectedDateWildCard)
     customerType = "Guest"
     costoGuest = getTotalOrdini(conn, paymentType, customerType, selectedDateWildCard)
-    print(contanti)
-    print(pos)
-    print(costoVolounteer)
-    print(costoGuest)
     #read the html template
     with open("./serverPrinter/template/invoice.html", "r") as file:
         html_template = file.read()
@@ -345,7 +338,8 @@ def printReport(conn, selectedDate):
     #print the command to the right printer
     try:
         #set paper format to A5
-        handle = win32print.OpenPrinter(printername)
+        PRINTER_DEFAULTS = {"DesiredAccess":win32print.PRINTER_ALL_ACCESS}
+        handle = win32print.OpenPrinter(printername, PRINTER_DEFAULTS)
         properties = win32print.GetPrinter(handle, 2)
         devmode = properties['pDevMode']
         DMPAPER_A5 = 11
@@ -354,22 +348,16 @@ def printReport(conn, selectedDate):
         #---------------- check if the format is correct------
         properties = win32print.GetPrinter(handle, 2)
         devmode = properties['pDevMode']
-        print(devmode.PaperSize)
         win32print.ClosePrinter(handle)
         #-----------------start printing----------------------
-        hinstance = win32api.ShellExecute(
-            0,
-            "printto",
-            r"{}".format(printfilename),
-            f'"{printername}"',
-            ".",
-            0
-        )
-        if (hinstance > 32): #print command success
+        structureOut = shell.ShellExecuteEx(fMask = 256 + 64, lpVerb='printto', lpFile=r"{}".format(printfilename), lpParameters=f'"{printername}"', lpDirectory=".")
+        hh = structureOut['hProcess']
+        ret = win32event.WaitForSingleObject(hh, -1)
+        if (ret == 0): #print command success
             #update order status
-            print("Stampa report OK")
+            print("STAMPA REPORT OK")
             #remove tmp files
-            #os.remove(infilename)
+            os.remove(infilename)
             #os.remove(outfilename)
     except win32api.error as e:
         #logging here

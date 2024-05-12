@@ -116,7 +116,8 @@ def print_report():
     responseData = {'status': ""}
     if request.method == 'POST':
         selectedDate = request.get_json()
-        printStatus = printReport(connection, selectedDate)
+        printername = config.nomeStampanteCucina
+        printStatus = printReport(connection, selectedDate, printername)
         #status = archiveDatabaseData(connection)
         #if (status == 0):
         #    responseData["status"] = "success"
