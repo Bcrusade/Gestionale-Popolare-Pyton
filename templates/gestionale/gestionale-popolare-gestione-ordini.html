@@ -441,7 +441,7 @@
 
     function showPopupEditDataOrder(orderID, stato, tavolo, orderType) {
       const popupContainer = document.getElementById("popup-container");
-      let OrderNubContent = `<h4 class="text-default-800 text-xl font-semibold text-center line-clamp-1 after:absolute after:inset-0">Ordine N.${orderID}</h4>`;
+      let OrderNubContent = `<h4 class="text-default-800 text-xl font-semibold text-center line-clamp-1 after:absolute after:inset-0">Ordine ${orderType} N.${orderID}</h4>`;
       var statoOrdine = stato;
       if (!tavolo) {
         tavolo = "";

@@ -370,8 +370,8 @@ function initializeApp(data) {
     }
     htmlContent += `
     <div id="button-order-container" class="flex gap-12 justify-around  mx-5">
-    <button id="send-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full opacity-50" disabled>PREPARAZIONE</a>
-    <button id="print-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full">Stampa</button>
+    <button id="send-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full opacity-50" disabled>INVIO A CUCINA</a>
+    <button id="print-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full">STAMPA SCONTRINO</button>
     </div>
     `;
     // Assegna l'HTML al contenitore del pop-up
