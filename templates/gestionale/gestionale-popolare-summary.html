@@ -45,34 +45,10 @@
             <div class="grid gap-6">
                 <div class="xl:col-span-9">
                     <div class="space-y-6">
-                        <!-- Data Picker -->
-                        <!-- Campo per selezionare la data -->
-                        <div class="lg:w-1/4 mb-6">
-                            <h2 class="text-xl text-default-800 font-semibold mb-4">Seleziona una data</h2>
-                            <div class="relative">
-                                <span class="absolute top-1/2 start-2.5 -translate-y-1/2">
-                                    <i data-lucide="calendar" class="h-4 w-4 text-default-700"></i>
-                                </span>
-                                <span class="absolute top-1/2 end-2.5 -translate-y-1/2">
-                                    <i data-lucide="chevron-down" class="h-4 w-4 text-default-700"></i>
-                                </span>
-                                <input type="text"
-                                    class="py-2 px-9 block w-full bg-transparent rounded-md border-default-200 text-sm text-default-700 font-medium focus:border-default-200 focus:ring-0"
-                                    id="datepicker-basic" />
-                            </div>
-                            <div class="h-14 relative text-center">
-                                <div id="print-box"
-                                    class="absolute w-full top-3 duration-300 hs-collapse overflow-hidden transition-[height] hidden transition-all">
-                                    <a href="javascript:void(0)" id="print-summary"
-                                        class="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-full bg-primary text-white hover:bg-primary-500 transition-all">STAMPA
-                                        GLI ORDINI</a>
-                                </div>
-                            </div>
-
-                        </div>
-
-
-                        <div class="grid lg:grid-cols-4 sm:grid-cols-2 gap-6">
+                            <div class="lg:w-1/4 mb-6">
+                            <h2 class="text-xl text-default-800 font-semibold mb-4">Sintesi giornata corrente</h2>
+							</div>
+							<div class="grid lg:grid-cols-4 sm:grid-cols-2 gap-6">
 
                             <div class="border rounded-lg p-6 overflow-hidden border-default-200">
                                 <div class="flex items-center gap-4">
@@ -98,9 +74,9 @@
                                     </div>
                                     <div>
                                         <p class="text-base text-default-500 font-medium mb-1">
-                                            Incasso Totale
+                                            Incasso Contanti
                                         </p>
-                                        <h4 id="incasso_totale" class="text-2xl text-default-950 font-semibold mb-2">
+                                        <h4 id="incasso_contanti" class="text-2xl text-default-950 font-semibold mb-2">
                                         </h4>
                                     </div>
                                 </div>
@@ -130,7 +106,7 @@
                                     </div>
                                     <div>
                                         <p class="text-base text-default-500 font-medium mb-1">
-                                            Spese Volontari
+                                            Ordini Free
                                         </p>
                                         <h4 id="spese_volontari" class="text-2xl text-default-950 font-semibold mb-2">
                                         </h4>
@@ -146,11 +122,11 @@
                                     <div class="h-16 w-16 mx-auto mb-6">
                                         <img src="assets/combo-ca9d027a.svg" class="max-w-full h-full">
                                     </div>
-                                    <!-- <h4 class="text-xl text-default-950 font-semibold mb-6">CHIUSURA CASSA</h4> -->
+                                    <!-- <h4 class="text-xl text-default-950 font-semibold mb-6">CHIUSURA GIORNALIERA CASSA</h4> -->
                                     <a href="javascript:void(0)" id="chiusura-cassa"
                                         data-hs-collapse="#password-container"
                                         class="hs-collapse-toggle open inline-flex items-center justify-center gap-2 rounded-full border border-primary bg-primary px-10 py-4 text-center text-sm font-semibold text-white shadow-sm transition-all duration-200 hover:border-primary-700 hover:bg-primary-500">CHIUSURA
-                                        CASSA</a>
+                                        GIORNALIERA CASSA</a>
                                     <!-- Password Input Container -->
                                     <div class="duration-300 hs-collapse overflow-hidden transition-[height] w-full hidden flex transition-all justify-center"
                                         id="password-container">
@@ -168,6 +144,31 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+						<!-- Data Picker -->
+                        <!-- Campo per selezionare la data -->
+                        <div class="lg:w-1/4 mb-6">
+                            <h2 class="text-xl text-default-800 font-semibold mb-4">Seleziona una data per stampa report giornaliero</h2>
+                            <div class="relative">
+                                <span class="absolute top-1/2 start-2.5 -translate-y-1/2">
+                                    <i data-lucide="calendar" class="h-4 w-4 text-default-700"></i>
+                                </span>
+                                <span class="absolute top-1/2 end-2.5 -translate-y-1/2">
+                                    <i data-lucide="chevron-down" class="h-4 w-4 text-default-700"></i>
+                                </span>
+                                <input type="text"
+                                    class="py-2 px-9 block w-full bg-transparent rounded-md border-default-200 text-sm text-default-700 font-medium focus:border-default-200 focus:ring-0"
+                                    id="datepicker-basic" />
+                            </div>
+                            <div class="h-14 relative text-center">
+                                <div id="print-box"
+                                    class="absolute w-full top-3 duration-300 hs-collapse overflow-hidden transition-[height] hidden transition-all">
+                                    <a href="javascript:void(0)" id="print-summary"
+                                        class="inline-flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-full bg-primary text-white hover:bg-primary-500 transition-all">STAMPA
+                                        SINTESI GIORNATA</a>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -213,7 +214,11 @@
     <script>
 
         document.addEventListener('DOMContentLoaded', function () {
-            let globalSelectedDate = null; // Variabile globale per la data selezionata
+            fetchAndDisplaySummary();
+            // Aggiorna i valori e la tabella ogni 60 secondi
+            setInterval(fetchAndDisplaySummary, 60000);
+			
+			let globalSelectedDate = null; // Variabile globale per la data selezionata
 
             const dateInput = document.getElementById("datepicker-basic");
 
@@ -243,51 +248,65 @@
                         console.error("Nessuna data selezionata. Seleziona una data prima di stampare.");
                         return;
                     }
-
-                    try {
-                        // Chiamata API per ottenere dati in base alla data selezionata
-                        const response = await fetch("http://" + self.location.host + "/api/getOrderData?date=" + globalSelectedDate);
-                        if (!response.ok) {
-                            throw new Error("Errore nella risposta dell'API");
-                        }
-                        const data = await response.json();
-
-                        // Crea contenuto HTML per la stampa
-                        let htmlContent = `<div id="print-content">`;
-                        htmlContent += `<h4>Ordine N.${data.orderId}</h4>`;
-                        data.items.forEach((item) => {
-                            htmlContent += `
-                        <div>
-                            <span>${item.quantity}x</span>
-                            <span>${item.name}</span>
-                            <span style="margin-left: 20px;">${item.price} €</span>
-                        </div>
-                    `;
-                        });
-                        htmlContent += `<div><h4>TOTALE: ${data.grandTotal} €</h4></div>`;
-                        htmlContent += `</div>`;
-
-                        // Aggiungi contenitore temporaneo al DOM
-                        const printContainer = document.createElement("div");
-                        printContainer.innerHTML = htmlContent;
-                        document.body.appendChild(printContainer);
-
-                        // Usa Print.js per stampare
-                        printJS({
-                            printable: "print-content",
-                            type: "html",
-                            showModal: false,
-                            printer: "POS-58", // Nome della stampante
-                        });
-
-                        // Rimuovi l'elemento temporaneo dopo la stampa
-                        document.body.removeChild(printContainer);
-                    } catch (error) {
-                        console.error("Errore durante il tentativo di stampa:", error);
+                    let response = await fetch("http://" + self.location.host + "/api/print_report", {
+                    method: "POST",
+                    headers: {
+                    "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(globalSelectedDate),
+                    });
+                    let data = await response.json();
+                    if (data.status == "success") {
+                    } else {
+                        toastr.error("Errore nell'invio dell'ordine. Riprovare:");
                     }
                 });
             }
         });
+
+    // Funzione per caricare i dati dal server e aggiornare la tabella
+    async function fetchAndDisplaySummary() {
+      try {
+        response = await fetch(
+            "http://" + self.location.host + "/api/summaryData"
+          );
+        const newSummaryData = await response.json();
+        console.log(newSummaryData);
+        // Mostra dati di sintesi
+        displaySummaryData(newSummaryData);
+      } catch (error) {
+        console.error("Errore nella richiesta API:", error);
+      }
+    }
+
+    // Funzione per visualizzare gli ordini nella tabella
+    function displaySummaryData(newSummaryData) {
+ 	  const NumOrder = newSummaryData.at(0).NumOrder
+ 	  let IncassoContanti = 0
+	  if (newSummaryData.at(0).Cash) {
+	  	  IncassoContanti = newSummaryData.at(0).Cash }
+	  let IncassoPos = 0
+	  if (newSummaryData.at(0).POS) {
+	  	  IncassoPos = newSummaryData.at(0).POS }
+	  const NumOrderVolontari = newSummaryData.at(0).NumOrderVolontari
+	  
+	  const idOrdiniTotali = document.getElementById("ordini_totali");
+      let htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-5 text-center">${NumOrder}</h4>`
+      idOrdiniTotali.innerHTML = htmlContent;
+      
+	  const idIncassoContanti = document.getElementById("incasso_contanti");
+        htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-5 text-center">${IncassoContanti.toLocaleString(undefined,{minimumFractionDigits: 2})} €</h4>`
+      idIncassoContanti.innerHTML = htmlContent;
+	 
+	  const idIncassoPos = document.getElementById("incasso_pos");
+        htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-5 text-center">${IncassoPos.toLocaleString(undefined,{minimumFractionDigits: 2})} €</h4>`
+      idIncassoPos.innerHTML = htmlContent;
+
+	 const idSpeseVolontari = document.getElementById("spese_volontari");
+        htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-5 text-center">${NumOrderVolontari}</h4>`
+      idSpeseVolontari.innerHTML = htmlContent;
+     }
+
 
         // Imposta la durata del blocco a 5 minuti
         const lockoutDuration = 300000;
@@ -311,11 +330,32 @@
         class="px-3 py-1 text-xs font-medium rounded-md bg-green-500/10 text-green-500">${message}</span>`;
         }
 
-        function archiveData() {
+        async function archiveData() {
             // Se la password è corretta, chiama questa funzione
-            resetAll(); // Ripristina tutto come all'inizio
-            showSuccess("Chiusura cassa avvenuta con successo!");
-        }
+            try {
+                response = await fetch(
+                "http://" + self.location.host + "/api/close_archive", {
+                method: "POST",
+                }
+                );
+            } catch (error) {
+                console.error("Errore nella richiesta API:", error);
+            }
+            let data = await response.json();
+                if (data.status == "success") {
+			       resetAll(); // Ripristina tutto come all'inizio
+				   fetchAndDisplaySummary()
+                   showSuccess("Chiusura cassa avvenuta con successo!");
+                }
+				else if (data.status == "orderOpen") {
+				    window.alert("Chiudere gli ordini prima di chiudere la cassa.");
+					resetAll(); // Ripristina tutto come all'inizio
+				}
+				else if (data.status == "noOrder") {
+				    window.alert("Non ci sono ordini da archiviare.");
+					resetAll(); // Ripristina tutto come all'inizio
+				}
+		}
 
         function handlePasswordSubmission() {
             const input = document.getElementById("password-input");
@@ -382,7 +422,8 @@
             enableButton(); // Riattiva il bottone e l'attributo
 
             // Nascondere il password-container
-            const div = document.getElementById("password-container");
+            document.getElementById("password-input").value = "";
+			const div = document.getElementById("password-container");
             div.classList.toggle("hidden");
             document.getElementById("password-container").style.display = "";
             // Resettare gli altri flag e variabili

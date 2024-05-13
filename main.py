@@ -56,6 +56,7 @@ def orders():
         order = request.get_json()
         dbStatus = registerOrderToDatabase(connection, order)
         if (dbStatus == 0):
+            #start print thread
             t = threading.Thread(target=printCommand, args=(connection, order), daemon=True)
             t.start()
             responseData["status"] = "success"
@@ -88,6 +89,43 @@ def getOrders():
 @app.route("/summary")
 def getSummary():
     return render_template('./gestionale/gestionale-popolare-summary.html')
+
+#send open orders to display
+@app.route("/api/summaryData")
+def summaryData():
+    data = retrieveSummaryData(connection)
+    return jsonify(data)
+
+#archive order and items
+@app.route("/api/close_archive", methods = ['POST'])
+def archive():
+    responseData = {'status': ""}
+    if request.method == 'POST':
+        dbStatus = archiveDatabaseData(connection)
+        if (dbStatus == 0):
+            responseData["status"] = "success"
+        elif (dbStatus == 1):
+            responseData["status"] = "orderOpen"
+        elif (dbStatus == 2):
+            responseData["status"] = "noOrder"
+    return jsonify(responseData)
+
+#print daily report
+@app.route("/api/print_report", methods = ['POST'])
+def print_report():
+    responseData = {'status': ""}
+    if request.method == 'POST':
+        selectedDate = request.get_json()
+        printername = config.nomeStampanteCucina
+        printStatus = printReport(connection, selectedDate, printername)
+        #status = archiveDatabaseData(connection)
+        #if (status == 0):
+        #    responseData["status"] = "success"
+        #elif (status == 1):
+        #    responseData["status"] = "orderOpen"
+        #elif (status == 2):
+        #    responseData["status"] = "noOrder"
+    return jsonify(responseData)
 
 #useless function (to remove)
 def startServer():
