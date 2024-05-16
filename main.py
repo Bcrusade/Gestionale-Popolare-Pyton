@@ -7,10 +7,13 @@ import json
 import threading
 from core import *
 import os
+import logging
 
 connection = sqlite3.connect("./data/myDatabase.db", timeout=10, check_same_thread=False)
 app = Flask(__name__, static_folder="assets")
 
+log_file_path = './data/logs/server.log'
+logging.basicConfig(filename=log_file_path, level=logging.DEBUG)
 
 @app.route("/")
 def gestionale():

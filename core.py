@@ -215,6 +215,11 @@ def archiveDatabaseData(conn):
     if (orderOpen > 0):
         return 1
     elif (orderOpen == 0):
+        #backup database file
+        source = r".\data\myDatabase.db"
+        dest = r".\data\backup\dataBackup_" + datetime.now().strftime("%d.%m.%y-%H-%M-%S") + ".db"
+        with open(source, 'rb') as src, open(dest, 'wb') as dst:
+            dst.write(src.read())
         dayId = getDayId(conn)
         # -----------archive orders---------------
         hotOrders = getHotOrders(conn)
