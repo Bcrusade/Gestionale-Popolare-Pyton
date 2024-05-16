@@ -1,4 +1,5 @@
 #!.\venv\Scripts\python.exe
+import sqlite3
 
 from flask import Flask, render_template, jsonify, request
 import json
@@ -193,13 +194,9 @@ def fillMenu():
     f.close()
 
 if __name__ == '__main__':
-    data = """{
-  "orderId": 20,
-  "orderStatus": 2,
-  "tableId": 200
-}"""
     directory = os.path.dirname(os.path.abspath(__file__))
     print(os.getcwd())
+    assert sqlite3.threadsafety == 3, "wrong thread safety (when sharing same connection across threads)"
     #prod server
     #from waitress import serve
     #serve(app, host="0.0.0.0", port=5000)
