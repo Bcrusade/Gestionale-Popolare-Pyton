@@ -283,7 +283,7 @@ def printReport(conn, selectedDate, printername):
     customerType = "Guest"
     costoGuest = getTotalOrdini(conn, paymentType, customerType, selectedDateWildCard)
     #read the html template
-    with open("./serverPrinter/template/invoice.html", "r") as file:
+    with open("./serverPrinter/template/report.html", "r") as file:
         html_template = file.read()
     html_body = "<h1>Report Giorno " + str(selectedDate) + """
     </h1>
@@ -318,11 +318,11 @@ def printReport(conn, selectedDate, printername):
     #save to tmp file the formatted html template
     with open(infilename, "wb") as file:
         file.write(str.encode(html_template))
-    outfilename = filename + "output.pdf"
+    outfilename = filename + "report.pdf"
     commandText = """.\serverPrinter\weasyprint.exe -e utf-8 {} {}""".format(infilename, outfilename)
     #convert html to pdf with weasyprint
     os.popen(commandText)
-    printfilename = ".\\serverPrinter\\tmp\\a" + randomName + "output.pdf"
+    printfilename = ".\\serverPrinter\\tmp\\a" + randomName + "report.pdf"
     time.sleep(3)
     #wait for the pdf outfile before trying to print (maximum 10 seconds)
     counter = 0
