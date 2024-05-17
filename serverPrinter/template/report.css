@@ -62,7 +62,6 @@ th:first-of-type, td:first-of-type {
 }
 th:last-of-type, td:last-of-type {
   text-align: right;
-  font-size: 10pt;
 }
 footer {
   content: '';
