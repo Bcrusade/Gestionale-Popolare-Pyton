@@ -47,7 +47,6 @@ def registerOrderToDatabase(conn, order):
 
 def printCommand(conn, order):
     #divide by item class
-    #divide menu in panino + fries
     #filter out beverages
     #send print instructions to printers with correct data
     cucinaItemList = []
@@ -57,6 +56,7 @@ def printCommand(conn, order):
         if (itemClass == "cucina"):
             itemCategory = resolveItemCategoryById(conn, item["itemId"])
             if(itemCategory == "menu birra" or itemCategory == "menu bibita"):
+                # divide menu in panino + fries
                 cucinaItemList.append({"name": resolveItemNameById(conn, item['itemId']).split("- ")[1], "itemId": item['itemId'], "quantity": item['quantity'], "notes": item['notes']})
                 cucinaItemList.append({"name": "Patatine fritte", "itemId": item['itemId'], "quantity": item['quantity'], "notes": ""})
             else:
@@ -142,7 +142,7 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
         structureOut = shell.ShellExecuteEx(fMask = 256 + 64, lpVerb='printto', lpFile=r"{}".format(printfilename), lpParameters=f'"{printername}"', lpDirectory=".")
         hh = structureOut['hProcess']
         ret = win32event.WaitForSingleObject(hh, -1)
-        if (ret == 0): #print command success
+        if (ret == 0): #print command success (the printer has to handle the actual print yet, the server just sent the command)
             #update order status
             data = {'orderStatus': 1, 'orderId': orderId, 'orderType': orderType}
             updateOrderStatus(conn, data)
@@ -165,7 +165,6 @@ def retrieveOrderNumber(conn):
 
 def retrieveOrderList(conn):
     data = getOrderList(conn)
-    #print(data)
     orderList = []
     for order in data:
         orderId = order[0]
@@ -195,7 +194,6 @@ def retrieveOrderItems(conn, orderId, orderType):
 
 def updateData(conn, data):
     print(data)
-    #check if input exist and valid?
     updateOrderStatus(conn, data)
     updateOrderTable(conn, data)
     return 0
@@ -217,6 +215,11 @@ def archiveDatabaseData(conn):
     if (orderOpen > 0):
         return 1
     elif (orderOpen == 0):
+        #backup database file
+        source = r".\data\myDatabase.db"
+        dest = r".\data\backup\dataBackup_" + datetime.now().strftime("%d.%m.%y-%H-%M-%S") + ".db"
+        with open(source, 'rb') as src, open(dest, 'wb') as dst:
+            dst.write(src.read())
         dayId = getDayId(conn)
         # -----------archive orders---------------
         hotOrders = getHotOrders(conn)
@@ -231,7 +234,7 @@ def archiveDatabaseData(conn):
             deleteHotOrders(conn)
             deleteHotOrdersStatuses(conn)
         else:
-            return 12
+            return 12 #error
         #-------------archive items--------------
         hotItems = getHotItems(conn)
         itemsToArchive = len(hotItems)
@@ -245,7 +248,7 @@ def archiveDatabaseData(conn):
             deleteHotItems(conn)
             resetSqlSequence(conn)
         else:
-            return 13
+            return 13 #error
         return 0
 
 def requestReprint(conn, orderId, orderType):
@@ -285,7 +288,7 @@ def printReport(conn, selectedDate, printername):
     customerType = "Guest"
     costoGuest = getTotalOrdini(conn, paymentType, customerType, selectedDateWildCard)
     #read the html template
-    with open("./serverPrinter/template/invoice.html", "r") as file:
+    with open("./serverPrinter/template/report.html", "r") as file:
         html_template = file.read()
     html_body = "<h1>Report Giorno " + str(selectedDate) + """
     </h1>
@@ -320,11 +323,11 @@ def printReport(conn, selectedDate, printername):
     #save to tmp file the formatted html template
     with open(infilename, "wb") as file:
         file.write(str.encode(html_template))
-    outfilename = filename + "output.pdf"
+    outfilename = filename + "report.pdf"
     commandText = """.\serverPrinter\weasyprint.exe -e utf-8 {} {}""".format(infilename, outfilename)
     #convert html to pdf with weasyprint
     os.popen(commandText)
-    printfilename = ".\\serverPrinter\\tmp\\a" + randomName + "output.pdf"
+    printfilename = ".\\serverPrinter\\tmp\\a" + randomName + "report.pdf"
     time.sleep(3)
     #wait for the pdf outfile before trying to print (maximum 10 seconds)
     counter = 0
