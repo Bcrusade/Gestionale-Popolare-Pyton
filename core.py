@@ -219,7 +219,11 @@ def archiveDatabaseData(conn):
         source = r".\data\myDatabase.db"
         dest = r".\data\backup\dataBackup_" + datetime.now().strftime("%d.%m.%y-%H-%M-%S") + ".db"
         with open(source, 'rb') as src, open(dest, 'wb') as dst:
-            dst.write(src.read())
+            try:
+                dst.write(src.read())
+            except OSError as e:
+                logging.error("Errore scrittura backup database: %s", str(e))
+                return 135
         dayId = getDayId(conn)
         # -----------archive orders---------------
         hotOrders = getHotOrders(conn)

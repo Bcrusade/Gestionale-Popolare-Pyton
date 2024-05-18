@@ -9,11 +9,11 @@ from core import *
 import os
 import logging
 
-connection = sqlite3.connect("./data/myDatabase.db", timeout=10, check_same_thread=False)
+connection = sqlite3.connect("./data/myDatabase.db", timeout=30, check_same_thread=False)
 app = Flask(__name__, static_folder="assets")
 
 log_file_path = './data/logs/server.log'
-logging.basicConfig(filename=log_file_path, level=logging.DEBUG)
+logging.basicConfig(filename=log_file_path, level=logging.DEBUG, format="%(levelname)s | %(asctime)s | %(message)s")
 
 @app.route("/")
 def gestionale():
@@ -70,21 +70,27 @@ def orders():
 #update an order status and/or table id
 @app.route("/api/orderDataUpdate", methods = ['POST'])
 def orderDataUpdate():
+    responseData = {'status': ""}
     if request.method == 'POST':
         r = request.get_json()
         print(r)
-        updateData(connection, r)
-    return "{}"
+        status = updateData(connection, r)
+        if status == 0:
+            responseData["status"] = "success"
+    return jsonify(responseData)
 
 @app.route("/api/orderRequestReprint", methods = ['POST'])
 def orderRequestReprint():
+    responseData = {'status': ""}
     if request.method == 'POST':
         r = request.get_json()
         orderId = request.args.get('orderId')
         orderType = request.args.get('orderType')
         print(r)
-        requestReprint(connection, orderId, orderType)
-    return "{}"
+        status = requestReprint(connection, orderId, orderType)
+        if status == 0:
+            responseData["status"] = "success"
+    return jsonify(responseData)
 
 @app.route("/ordini")
 def getOrders():

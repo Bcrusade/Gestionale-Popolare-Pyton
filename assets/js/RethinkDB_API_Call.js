@@ -605,9 +605,6 @@ function initializeApp(data) {
         menuElement.innerHTML = `
             
         <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
-          <div class="mb-4 mx-auto">
-            <img class="w-full h-full group-hover:scale-105 transition-all" src="${oggetto.img}" />
-          </div>
   
           <div class="pt-2">
             <div id="obj-desc-container" style="flex-flow: column;" class="flex justify-between mb-4">

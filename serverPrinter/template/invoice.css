@@ -64,11 +64,6 @@ th:last-of-type, td:last-of-type {
   text-align: right;
   font-size: 10pt;
 }
-footer {
-  content: '';
-  display: block;
-  height: 6cm;
-}
 table#total {
   background: #f6f6f6;
   border-color: #f6f6f6;
@@ -79,4 +74,10 @@ table#total {
   margin: 0 -3cm;
   position: absolute;
   width: 18cm;
+}
+
+@page {
+   @top-right {
+    content: counter(page) " of " counter(pages);
+   }
 }
