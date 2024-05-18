@@ -76,10 +76,12 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
     #read the html template
     with open("./serverPrinter/template/invoice.html", "r") as file:
         html_template = file.read()
-    html_body = "<h1>Ordine " + str(orderType.capitalize()) + " Nr." + str(orderId) + """
-    </h1>
+    html_body = """
     <table>
       <thead>
+        <td style="border-bottom: 0;">
+          <h1 id="topHeader">Ordine """ + str(orderType.capitalize()) + " Nr." + str(orderId) + """ </h1>
+        </td>
         <tr>
           <th>Nome</th>
           <th>Quantità</th>
