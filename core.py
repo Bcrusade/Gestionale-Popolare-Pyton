@@ -1,3 +1,5 @@
+import logging
+
 from database import *
 from threading import Lock
 from datetime import datetime
@@ -25,24 +27,31 @@ def registerOrderToDatabase(conn, order):
     order["operatorId"] = 0
     order["tableId"] = 0
     orderData = (order["orderId"], order["totalValue"], order["operatorId"], order["paymentType"], order["datetime"], order["customerType"], order["tableId"])
-    insertOrder(conn, orderData)  # insert order in orders table
-    #check if order has pizzeria and/or restaurant (filter out beverages), then put orderStatuses in the db
-    hasCucina = False
-    hasPizza = False
-    for item in order["items"]:
-        itemClass = resolveItemClassById(conn, item["itemId"])
-        if (itemClass == "cucina"):
-            hasCucina = True
-        elif (itemClass == "pizzeria"):
-            hasPizza = True
-    if (hasCucina):
-        insertStatus(conn, orderId, "cucina", 0)
-    if (hasPizza):
-        insertStatus(conn, orderId, "pizzeria", 0)
-
-    for item in order["items"]:
-        item["orderId"] = orderId
-        insertItem(conn, item)  # insert each item in items table
+    try:
+        conn.execute("begin")
+        insertOrder(conn, orderData)  # insert order in orders table
+        #check if order has pizzeria and/or restaurant (filter out beverages), then put orderStatuses in the db
+        hasCucina = False
+        hasPizza = False
+        for item in order["items"]:
+            itemClass = resolveItemClassById(conn, item["itemId"])
+            if (itemClass == "cucina"):
+                hasCucina = True
+            elif (itemClass == "pizzeria"):
+                hasPizza = True
+        if (hasCucina):
+            insertStatus(conn, orderId, "cucina", 0)
+        if (hasPizza):
+            insertStatus(conn, orderId, "pizzeria", 0)
+        #time.sleep(10)
+        for item in order["items"]:
+            item["orderId"] = orderId
+            insertItem(conn, item)  # insert each item in items table
+    except (sqlite3.OperationalError, sqlite3.IntegrityError) as e:
+        logging.error("Could not register order to db")
+        conn.rollback()
+        return 3
+    conn.commit()
     return 0
 
 def printCommand(conn, order):
@@ -79,13 +88,15 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
     html_body = """
     <table>
       <thead>
-        <td style="border-bottom: 0;">
-          <h1 id="topHeader">Ordine """ + str(orderType.capitalize()) + " Nr." + str(orderId) + """ </h1>
-        </td>
         <tr>
-          <th>Nome</th>
-          <th>Quantità</th>
-          <th>Note</th>
+        <th colspan="3" style="border-bottom: 0; text-align: left;">
+          <h1 id="topHeader">Ordine """ + str(orderType.capitalize()) + " Nr." + str(orderId) + """ </h1>
+        </th>
+        </tr>
+        <tr>
+          <th colspan="1" style="width: 40%;">NOME</th>
+          <th colspan="1" style="width: 10%;">QUANTITÀ</th>
+          <th colspan="1" style="width: 50%;">NOTE</th>
         </tr>
       </thead>
       <tbody>
@@ -98,7 +109,7 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
             name = resolveItemNameById(conn, item['itemId'])
         else:
             name = item['name']
-        html_body += "<tr> <td>" + name + "</td><td>" + str(item['quantity']) + "</td><td>" + item['notes'] + "</td></tr>"
+        html_body += "<tr> <td>" + name + "</td><td>" + str(item['quantity']) + '</td><td style="max-width: 50%;">' + item['notes'] + "</td></tr>"
     html_body += """
     </tbody>
     </table>
@@ -160,8 +171,12 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
 
 
 def retrieveOrderNumber(conn):
-    mutex.acquire(timeout=10) #probably useless mutex (there is a write to db)
-    orderId = getOrderId(conn)
+    mutex.acquire(timeout=15) #probably useless mutex (there is a write to db)
+    try:
+        orderId = getOrderId(conn)
+    except sqlite3.OperationalError:
+        mutex.release()
+        raise sqlite3.OperationalError()
     mutex.release()
     return orderId
 
