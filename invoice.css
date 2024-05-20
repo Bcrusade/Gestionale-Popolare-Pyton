@@ -16,30 +16,10 @@ h1 {
   margin: 0;
 }
 
-dl {
-  position: absolute;
-  right: 0;
-  text-align: right;
-  top: 0;
-}
-dt, dd {
-  display: inline;
-  margin: 0;
-}
-dt {
-  color: #a9a;
-}
-dt::before {
-  content: '';
-  display: block;
-}
-dt::after {
-  content: ':';
-}
-
 table {
   border-collapse: collapse;
   width: 100%;
+  table-layout:fixed;
 }
 th {
   border-bottom: .2mm solid #a9a;
@@ -47,7 +27,6 @@ th {
   font-size: 10pt;
   font-weight: 400;
   padding-bottom: .25cm;
-  text-transform: uppercase;
 }
 td {
   padding-top: 5mm;
@@ -63,21 +42,12 @@ th:first-of-type, td:first-of-type {
 th:last-of-type, td:last-of-type {
   text-align: right;
   font-size: 10pt;
-}
-table#total {
-  background: #f6f6f6;
-  border-color: #f6f6f6;
-  border-style: solid;
-  border-width: 2cm 3cm;
-  bottom: 0;
-  font-size: 20pt;
-  margin: 0 -3cm;
-  position: absolute;
-  width: 18cm;
+  word-break: break-all;
+  word-wrap: break-word;
 }
 
 @page {
-   @top-right {
+   @bottom-right {
     content: counter(page) " of " counter(pages);
    }
 }
