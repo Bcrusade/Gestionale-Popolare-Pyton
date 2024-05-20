@@ -10,7 +10,6 @@ def insertOrder(conn, order):
                       VALUES(:orderId, :totalValue, :operatorId, :paymentType, :datetime, :customerType, :tableId) '''
     cur = conn.cursor()
     cur.execute(sql, order)
-    conn.commit()
     return 0
 
 def insertItem(conn, item):
@@ -18,15 +17,17 @@ def insertItem(conn, item):
                   VALUES(:orderId, :itemId, :quantity, :notes) '''
     cur = conn.cursor()
     cur.execute(sql, item)
-    conn.commit()
     return 0
 
 def insertStatus(conn, orderId, orderType, value):
     sql = ''' INSERT INTO orderStatus(orderId, orderType, status)
                       VALUES(?, ?, ?) '''
     cur = conn.cursor()
-    cur.execute(sql, (orderId, orderType, value, ))
-    conn.commit()
+    try:
+        cur.execute(sql, (orderId, orderType, value, ))
+    except sqlite3.OperationalError as e:
+
+        return 11
     return 0
 
 #get order id to use for a new order
