@@ -333,30 +333,35 @@ def printReport(conn, selectedDate, printername):
     costoVolounteer = getTotalOrdini(conn, paymentType, customerType, selectedDateWildCard)
     customerType = "Guest"
     costoGuest = getTotalOrdini(conn, paymentType, customerType, selectedDateWildCard)
+    datereport = datetime.strptime(selectedDate, '%Y-%m-%d').strftime("%d-%m-%Y")
     #read the html template
     with open("./serverPrinter/template/report.html", "r") as file:
         html_template = file.read()
-    html_body = "<h1>Report Giorno " + str(selectedDate) + """
-    </h1>
+    html_body = """
     <table>
       <thead>
         <tr>
-          <th></th>
-          <th></th>
+        <th colspan="2" style="border-bottom: 0; text-align: left;">
+          <h1 id="topHeader">Report """ + str(datereport) + """ </h1>
+        </th>
+        </tr>
+        <tr>
+          <th colspan="1" style="width: 80%;"></th>
+          <th colspan="1" style="width: 20%;"></th>
         </tr>
       </thead>
       <tbody>
     """
     html_body += "<tr> <td>Totale Ordini contanti</td><td>" + str(contanti[0]) + "</td></tr>"
-    html_body += "<tr> <td>Totale Incasso contanti</td><td>" + str(contanti[1]) + " €</td></tr>"
+    html_body += "<tr> <td>Totale Incasso contanti</td><td>" + str(float(0 if contanti[1] is None else contanti[1])) + " €</td></tr>"
     html_body += "<tr> <td>Totale Ordini POS</td><td>" + str(pos[0]) + "</td></tr>"
-    html_body += "<tr> <td>Totale Incasso POS</td><td>" + str(pos[1]) + " €</td></tr>"
+    html_body += "<tr> <td>Totale Incasso POS</td><td>" + str(float(0 if pos[1] is None else pos[1])) + " €</td></tr>"
     html_body += "<tr> <td>Totale Ordini Clienti</td><td>" + str(contanti[0]+pos[0]) + "</td></tr>"
-    html_body += "<tr> <td>Totale Incasso Clienti</td><td>" + str(contanti[1]+pos[1]) + " €</td></tr>"
+    html_body += "<tr> <td>Totale Incasso Clienti</td><td>" + str(float(0 if contanti[1] is None else contanti[1])+float(0 if pos[1] is None else pos[1])) + " €</td></tr>"
     html_body += "<tr> <td>Totale Ordini Volontari</td><td>" + str(costoVolounteer[0]) + "</td></tr>"
-    html_body += "<tr> <td>Totale Costo Volontari</td><td>" + str(costoVolounteer[1]) + " €</td></tr>"
+    html_body += "<tr> <td>Totale Costo Volontari</td><td>" + str(float(0 if costoVolounteer[1] is None else costoVolounteer[1])) + " €</td></tr>"
     html_body += "<tr> <td>Totale Ordini Ospiti</td><td>" + str(costoGuest[0]) + "</td></tr>"
-    html_body += "<tr> <td>Totale Costo Ospiti</td><td>" + str(costoGuest[1]) + " €</td></tr>"
+    html_body += "<tr> <td>Totale Costo Ospiti</td><td>" + str(float(0 if costoGuest[1] is None else costoGuest[1])) + " €</td></tr>"
     html_body += """
     </tbody>
     </table>
