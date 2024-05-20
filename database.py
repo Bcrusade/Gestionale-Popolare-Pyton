@@ -23,22 +23,21 @@ def insertStatus(conn, orderId, orderType, value):
     sql = ''' INSERT INTO orderStatus(orderId, orderType, status)
                       VALUES(?, ?, ?) '''
     cur = conn.cursor()
-    try:
-        cur.execute(sql, (orderId, orderType, value, ))
-    except sqlite3.OperationalError as e:
-
-        return 11
+    cur.execute(sql, (orderId, orderType, value, ))
     return 0
 
 #get order id to use for a new order
 def getOrderId(conn):
-    sql = ''' UPDATE sqlite_sequence SET seq = seq + 1 WHERE name = "orders" '''
-    cur = conn.cursor()
-    cur.execute(sql)
-    conn.commit()
-    sql2 = ''' SELECT seq from sqlite_sequence WHERE name = "orders" '''
-    cur = conn.cursor()
-    cur.execute(sql2)
+    try:
+        sql = ''' UPDATE sqlite_sequence SET seq = seq + 1 WHERE name = "orders" '''
+        cur = conn.cursor()
+        cur.execute(sql)
+        sql2 = ''' SELECT seq from sqlite_sequence WHERE name = "orders" '''
+        cur = conn.cursor()
+        cur.execute(sql2)
+    except sqlite3.OperationalError as e:
+        conn.rollback()
+        raise sqlite3.OperationalError
     conn.commit()
     return cur.fetchone()[0]
 
@@ -81,7 +80,6 @@ def updateOrderStatus(conn, data):
     sql = ''' UPDATE orderStatus SET status = ? WHERE orderId = ? AND orderType = ?'''
     cur = conn.cursor()
     cur.execute(sql, (data['orderStatus'], data['orderId'], data['orderType']))
-    conn.commit()
     return
 
 def makeOrderStatusCoherent(conn, orderId):
@@ -95,7 +93,6 @@ def updateOrderTable(conn, data):
     sql = ''' UPDATE orders SET tableId = ? WHERE orderId = ? '''
     cur = conn.cursor()
     cur.execute(sql, (data['tableId'], data['orderId']))
-    conn.commit()
     return
 
 def getOrderItemsById(conn, id):

@@ -7,13 +7,13 @@ import json
 import threading
 from core import *
 import os
+import sys
 import logging
 
-connection = sqlite3.connect("./data/myDatabase.db", timeout=10, check_same_thread=False)
+connection = sqlite3.connect("./data/myDatabase.db", timeout=10, check_same_thread=False, isolation_level=None)
 app = Flask(__name__, static_folder="assets")
 
-log_file_path = './data/logs/server.log'
-#logging.basicConfig(filename=log_file_path, level=logging.DEBUG, format="%(levelname)s | %(asctime)s | %(message)s")
+
 
 @app.route("/")
 def gestionale():
@@ -46,8 +46,9 @@ def getOrderNumber():
     try:
         data['orderId'] = retrieveOrderNumber(connection)
         data['status'] = "success"
+        app.logger.info("Retrieved order number: %s", data['orderId'])
     except sqlite3.OperationalError as e:
-        logging.error("Could not get order number")
+        app.logger.error("Could not get order number")
         data['status'] = "error"
     return jsonify(data)
 
@@ -60,8 +61,10 @@ def getOrderItems():
     try:
         data['items'] = retrieveOrderItems(connection, orderId, orderType)
         data['status'] = "success"
+        app.logger.info("Items for order %s retrieved", orderId)
     except sqlite3.OperationalError as e:
         data['status'] = "error"
+        app.logger.error("Could not retrieve items for order %s", orderId)
     return jsonify(data)
 
 #register order to database (fill the order data)
@@ -227,6 +230,21 @@ if __name__ == '__main__':
     #set threadsafety to serialized mode to share same db connections across threads and void corruption
     sqlite3.threadsafety = 3
     assert sqlite3.threadsafety == 3, "wrong thread safety (when sharing same connection across threads)"
+    #Logger configs
+    app.logger.setLevel(logging.DEBUG)
+    log_file_path = './data/logs/server.log'
+    stdout = logging.StreamHandler(stream=sys.stdout)
+    fileHandler = logging.FileHandler(log_file_path)
+    stdout.setLevel(logging.INFO)
+    fileHandler.setLevel(logging.DEBUG)
+    fmt = logging.Formatter(
+        "%(name)s: %(asctime)s | %(levelname)s | %(filename)s:%(lineno)s >>> %(message)s"
+    )
+    fileHandler.setFormatter(fmt)
+    stdout.setFormatter(fmt)
+    app.logger.addHandler(stdout)
+    app.logger.addHandler(fileHandler)
+
     #prod server
     #from waitress import serve
     #serve(app, host="0.0.0.0", port=5000)

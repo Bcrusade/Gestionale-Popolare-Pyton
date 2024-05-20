@@ -14,10 +14,14 @@ import os
 import time
 import os.path
 import config
+#----------------
+import logging
 
+logger = logging.getLogger('main.core')
 
 mutex = Lock()
-
+registerOrderMutex = Lock()
+updateDataMutex = Lock()
 def registerOrderToDatabase(conn, order):
     order["status"] = 0 #status: "non stampato"
     orderId = order["orderId"]
@@ -27,8 +31,8 @@ def registerOrderToDatabase(conn, order):
     order["operatorId"] = 0
     order["tableId"] = 0
     orderData = (order["orderId"], order["totalValue"], order["operatorId"], order["paymentType"], order["datetime"], order["customerType"], order["tableId"])
+    registerOrderMutex.acquire()
     try:
-        conn.execute("begin")
         insertOrder(conn, orderData)  # insert order in orders table
         #check if order has pizzeria and/or restaurant (filter out beverages), then put orderStatuses in the db
         hasCucina = False
@@ -47,11 +51,14 @@ def registerOrderToDatabase(conn, order):
         for item in order["items"]:
             item["orderId"] = orderId
             insertItem(conn, item)  # insert each item in items table
-    except (sqlite3.OperationalError, sqlite3.IntegrityError) as e:
-        logging.error("Could not register order to db")
+        conn.commit()
+    except (sqlite3.OperationalError, sqlite3.IntegrityError, sqlite3.DatabaseError) as e:
+        logger.error("Could not register order %s to db", orderId, exc_info=True)
         conn.rollback()
+        registerOrderMutex.release()
         return 3
-    conn.commit()
+    registerOrderMutex.release()
+    logger.info("Order %s registered successfully", orderId)
     return 0
 
 def printCommand(conn, order):
@@ -134,7 +141,8 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
         if (os.path.isfile(outfilename)):
             break
         if (counter > 10):
-            break
+            logger.error("Pdf order command not generated/found for order %s %s", orderId, orderType)
+            return 11
         counter += 1
         time.sleep(1)
     #print the command to the right printer
@@ -163,15 +171,15 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
             #remove tmp files
             os.remove(infilename)
             os.remove(outfilename)
+            logger.info("Print command sent successfully for order %s %s", orderId, orderType)
     except win32api.error as e:
-        #logging here
-        print(e.args[0])
-        print(e.args[2])
-    return
+        logger.error("Server error in sending print command for order %s %s; error code: %s, %s", orderId, orderType, e.args[0], e.args[2])
+        return 11
+    return 0
 
 
 def retrieveOrderNumber(conn):
-    mutex.acquire(timeout=15) #probably useless mutex (there is a write to db)
+    mutex.acquire()
     try:
         orderId = getOrderId(conn)
     except sqlite3.OperationalError:
@@ -210,9 +218,18 @@ def retrieveOrderItems(conn, orderId, orderType):
     return itemList
 
 def updateData(conn, data):
-    print(data)
-    updateOrderStatus(conn, data)
-    updateOrderTable(conn, data)
+    updateDataMutex.acquire()
+    try:
+        status1 = updateOrderStatus(conn, data)
+        status2 = updateOrderTable(conn, data)
+        conn.commit()
+        updateDataMutex.release()
+    except (sqlite3.OperationalError, sqlite3.IntegrityError, sqlite3.DatabaseError) as e:
+        logger.error("Could not update data of order %s %s", data["orderId"], data["orderType"], exc_info=True)
+        conn.rollback()
+        updateDataMutex.release()
+        return 11
+    logger.info("Successfully updated data of order %s %s", data["orderId"], data["orderType"])
     return 0
 
 def retrieveSummaryData(conn):
@@ -239,7 +256,7 @@ def archiveDatabaseData(conn):
             try:
                 dst.write(src.read())
             except OSError as e:
-                logging.error("Errore scrittura backup database: %s", str(e))
+                logger.error("Errore scrittura backup database: %s", str(e))
                 return 135
         dayId = getDayId(conn)
         # -----------archive orders---------------
@@ -255,6 +272,7 @@ def archiveDatabaseData(conn):
             deleteHotOrders(conn)
             deleteHotOrdersStatuses(conn)
         else:
+            logger.error("Could not archive database")
             return 12 #error
         #-------------archive items--------------
         hotItems = getHotItems(conn)
@@ -269,7 +287,10 @@ def archiveDatabaseData(conn):
             deleteHotItems(conn)
             resetSqlSequence(conn)
         else:
+            logger.error("Could not archive database")
             return 13 #error
+
+        logger.info("Archive database success")
         return 0
 
 def requestReprint(conn, orderId, orderType):
@@ -293,7 +314,11 @@ def requestReprint(conn, orderId, orderType):
             else: #item is not a menu
                 printItemList.append({"name": resolveItemNameById(conn, item[0]), "itemId": item[0],
                      "quantity": item[1], "notes": item[2]})
-    printCommandType(conn, orderId, printItemList, printername, orderType)
+    status = printCommandType(conn, orderId, printItemList, printername, orderType)
+    if status == 0:
+        logger.info("Reprint request success for order %s %s", orderId, orderType)
+    else:
+        logger.error("Reprint request error for order %s %s", orderId, orderType)
     return 0
 
 def printReport(conn, selectedDate, printername):
