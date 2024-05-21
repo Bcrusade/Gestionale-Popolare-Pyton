@@ -275,8 +275,6 @@
       // URL dell'API da cui ottenere i dati JSON
       const apiUrl = "http://" + self.location.host + "/api/menu";
       document.getElementById("button-new-order").style.pointerEvents = "none"
-      document.getElementById("preloader-container").style.display = "none"
-      document.getElementById("whole-page").style.display = ""
       // Carica i dati JSON dall'API e avvia l'applicazione
       loadExternalJsonAndInitialize(apiUrl);
     };

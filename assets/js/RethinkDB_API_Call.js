@@ -17,17 +17,27 @@ async function loadExternalJsonAndInitialize(apiUrl) {
     ); // Esegui la chiamata API
     console.log("Chiamata API riuscita:", response2);
     responseObject = await response2.json(); // Estrai i dati JSON dalla risposta
+    if (responseObject.status == "success") {
+    //display page
+      document.getElementById("button-new-order").style.pointerEvents = "none"
+      document.getElementById("preloader-container").style.display = "none"
+      document.getElementById("whole-page").style.display = ""
+    //get order number
     orderNumber = responseObject.orderId;
     console.log(orderNumber);
-
     // Inizializza l'applicazione con il JSON caricato
     initializeApp(data);
-
     // Simula un click sulla prima categoria per avviare il caricamento del menu promozionale
     const primaCategoriaCheckbox = document.querySelector(
       '#category-list input[type="checkbox"]'
     );
     primaCategoriaCheckbox.click();
+    }
+    else {
+     toastr.error("Errore nella richiesta del numero d'ordine");
+     document.getElementById("button-new-order").style.pointerEvents = "all"
+    }
+
   } catch (error) {
     console.error("Errore nel caricamento dei dati dall'API:", error);
   }
@@ -253,6 +263,10 @@ function initializeApp(data) {
       clearDataState();
       location.reload(); //reload the page after submitting the order to the server
     } else {
+      const sendOrderButton = document.querySelector("#send-order");
+      sendOrderButton.style.pointerEvents = "all"
+      sendOrderButton.classList.remove("opacity-50");
+      sendOrderButton.disabled = false
       toastr.error("Errore nell'invio dell'ordine. Riprovare:");
     }
   }
@@ -439,6 +453,9 @@ function initializeApp(data) {
       // Chiama la funzione per inviare i dati dell'ordine al database
       let cleanedData = cleanOrderData(orderData);
       inviaDatiOrdine(cleanedData);
+      sendOrderButton.classList.add("opacity-50");
+      //sendOrderButton.style.pointerEvents = "none"
+      //sendOrderButton.disabled = true
     });
     const closePopupButton = popupContainer.querySelector("#close-button");
     closePopupButton.addEventListener("click", function () {
@@ -608,7 +625,7 @@ function initializeApp(data) {
   
           <div class="pt-2">
             <div id="obj-desc-container" style="flex-flow: column;" class="flex justify-between mb-4">
-              <span class="text-default-800 text-xl font-semibold line-clamp-2 after:absolute after:inset-0">${oggetto.name}</span>
+              <span class="text-default-800 text-xl font-semibold line-clamp-3 after:absolute after:inset-0">${oggetto.name}</span>
               <i class="text-m text-default-500">${oggetto.desc}</i>
               <div class="border border-default-200 inline-flex justify-between mt-2 p-1 relative rounded-full z-10 truncate overflow-auto">
               <input id="input_${menuId}" type="text" placeholder="Inserisci modifiche" class="bg-white border-none dark:bg-default-50 h-3 overflow-auto truncate w-full" />
