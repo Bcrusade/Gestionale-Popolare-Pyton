@@ -562,10 +562,9 @@
         if (!tavoloID) {
           tavoloID = 0;
         }
+        document.getElementById("update-order").style.pointerEvents = "none"
+        document.getElementById("update-order").classList.add("opacity-50");
         updateOrderData(orderID, statoOrdine, tavoloID, orderType);
-        closePopup();
-        //refresh order data
-        fetchAndDisplayOrders();
       });
 
       // Mostra il pop-up
@@ -676,7 +675,7 @@
         closePopup()
     }
 
-    function updateOrderData(orderID, statoOrdine, tavoloID, orderType) {
+    async function updateOrderData(orderID, statoOrdine, tavoloID, orderType) {
       const orderDataUpdated = {
         orderId: orderID,
         orderStatus: statoOrdine,
@@ -684,24 +683,31 @@
         orderType: orderType,
       };
 
-      fetch("http://" + self.location.host + "/api/orderDataUpdate", {
+      const response = await fetch("http://" + self.location.host + "/api/orderDataUpdate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(orderDataUpdated),
       })
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .catch((error) => console.error("Errore:", error));
-
+      const data = await response.json(); // Estrai i dati JSON dalla risposta
+      if (data.status == "success") {
       toastr.success(
         "<b>Ordine Nr." +
         orderID +
         " " +
         orderType +
-        "</b> <br> stato/tavolo aggiornato!"
-      );
+        "</b> <br> stato/tavolo aggiornato!");
+
+        closePopup();
+        //refresh order data
+        fetchAndDisplayOrders();
+      }
+      else {
+      document.getElementById("update-order").style.pointerEvents = "all"
+      document.getElementById("update-order").classList.remove("opacity-50");
+      toastr.error("Errore nell'invio dati al server. Riprovare");
+      }
     }
 
     // Close the dropdown menu if the user clicks outside of it

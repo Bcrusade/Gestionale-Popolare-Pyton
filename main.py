@@ -7,13 +7,13 @@ import json
 import threading
 from core import *
 import os
+import sys
 import logging
 
-connection = sqlite3.connect("./data/myDatabase.db", timeout=30, check_same_thread=False)
+connection = sqlite3.connect("./data/myDatabase.db", timeout=10, check_same_thread=False, isolation_level=None)
 app = Flask(__name__, static_folder="assets")
 
-log_file_path = './data/logs/server.log'
-logging.basicConfig(filename=log_file_path, level=logging.DEBUG, format="%(levelname)s | %(asctime)s | %(message)s")
+
 
 @app.route("/")
 def gestionale():
@@ -42,14 +42,29 @@ def completedOrderList():
 #send open orders to display
 @app.route("/api/requestOrderNumber")
 def getOrderNumber():
-    data = {'orderId': retrieveOrderNumber(connection)}
+    data = {'orderId': "", 'status': ""}
+    try:
+        data['orderId'] = retrieveOrderNumber(connection)
+        data['status'] = "success"
+        app.logger.info("Retrieved order number: %s", data['orderId'])
+    except sqlite3.OperationalError as e:
+        app.logger.error("Could not get order number")
+        data['status'] = "error"
     return jsonify(data)
 
+#retrieve items of an order
 @app.route("/api/getItemsByOrderId")
 def getOrderItems():
     orderId = request.args.get('orderId')
     orderType = request.args.get('orderType')
-    data = {'items': retrieveOrderItems(connection, orderId, orderType)}
+    data = {'items': [], 'status': ""}
+    try:
+        data['items'] = retrieveOrderItems(connection, orderId, orderType)
+        data['status'] = "success"
+        app.logger.info("Items for order %s retrieved", orderId)
+    except sqlite3.OperationalError as e:
+        data['status'] = "error"
+        app.logger.error("Could not retrieve items for order %s", orderId)
     return jsonify(data)
 
 #register order to database (fill the order data)
@@ -64,6 +79,8 @@ def orders():
             t = threading.Thread(target=printCommand, args=(connection, order), daemon=True)
             t.start()
             responseData["status"] = "success"
+        else:
+            responseData["status"] = "error"
         print(order)
     return jsonify(responseData)
 
@@ -74,10 +91,8 @@ def orderDataUpdate():
     if request.method == 'POST':
         r = request.get_json()
         print(r)
-        status = updateData(connection, r)
-        if status == 0:
-            responseData["status"] = "success"
-    return jsonify(responseData)
+        updateData(connection, r)
+    return "{}"
 
 @app.route("/api/orderRequestReprint", methods = ['POST'])
 def orderRequestReprint():
@@ -87,10 +102,8 @@ def orderRequestReprint():
         orderId = request.args.get('orderId')
         orderType = request.args.get('orderType')
         print(r)
-        status = requestReprint(connection, orderId, orderType)
-        if status == 0:
-            responseData["status"] = "success"
-    return jsonify(responseData)
+        requestReprint(connection, orderId, orderType)
+    return "{}"
 
 @app.route("/ordini")
 def getOrders():
@@ -100,10 +113,14 @@ def getOrders():
 def getSummary():
     return render_template('./gestionale/gestionale-popolare-summary.html')
 
-#send open orders to display
+#send summary data to display
 @app.route("/api/summaryData")
 def summaryData():
-    data = retrieveSummaryData(connection)
+    data = []
+    try:
+        data = retrieveSummaryData(connection)
+    except sqlite3.OperationalError as e:
+        pass
     return jsonify(data)
 
 #archive order and items
@@ -128,13 +145,10 @@ def print_report():
         selectedDate = request.get_json()
         printername = config.nomeStampanteCucina
         printStatus = printReport(connection, selectedDate, printername)
-        #status = archiveDatabaseData(connection)
-        #if (status == 0):
-        #    responseData["status"] = "success"
-        #elif (status == 1):
-        #    responseData["status"] = "orderOpen"
-        #elif (status == 2):
-        #    responseData["status"] = "noOrder"
+        if printStatus == 0:
+            responseData["status"] = "success"
+        else:
+            responseData["status"] = "error"
     return jsonify(responseData)
 
 #useless function (to remove)
@@ -205,7 +219,7 @@ def fillMenu():
 if __name__ == '__main__':
     directory = os.path.dirname(os.path.abspath(__file__))
     print(os.getcwd())
-    #assert sqlite3.threadsafety == 3, "wrong thread safety (when sharing same connection across threads)"
+    assert sqlite3.threadsafety == 3, "wrong thread safety (when sharing same connection across threads)"
     #prod server
     #from waitress import serve
     #serve(app, host="0.0.0.0", port=5000)
