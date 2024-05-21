@@ -91,8 +91,12 @@ def orderDataUpdate():
     if request.method == 'POST':
         r = request.get_json()
         print(r)
-        updateData(connection, r)
-    return "{}"
+        status = updateData(connection, r)
+        if status == 0:
+            responseData["status"] = "success"
+        else:
+            responseData["status"] = "error"
+    return jsonify(responseData)
 
 @app.route("/api/orderRequestReprint", methods = ['POST'])
 def orderRequestReprint():
@@ -102,8 +106,12 @@ def orderRequestReprint():
         orderId = request.args.get('orderId')
         orderType = request.args.get('orderType')
         print(r)
-        requestReprint(connection, orderId, orderType)
-    return "{}"
+        status = requestReprint(connection, orderId, orderType)
+        if status == 0:
+            responseData["status"] = "success"
+        else:
+            responseData["status"] = "error"
+    return jsonify(responseData)
 
 @app.route("/ordini")
 def getOrders():
@@ -219,7 +227,24 @@ def fillMenu():
 if __name__ == '__main__':
     directory = os.path.dirname(os.path.abspath(__file__))
     print(os.getcwd())
+    #set threadsafety to serialized mode to share same db connections across threads and void corruption
+    sqlite3.threadsafety = 3
     assert sqlite3.threadsafety == 3, "wrong thread safety (when sharing same connection across threads)"
+    #Logger configs
+    app.logger.setLevel(logging.DEBUG)
+    log_file_path = './data/logs/server.log'
+    stdout = logging.StreamHandler(stream=sys.stdout)
+    fileHandler = logging.FileHandler(log_file_path)
+    stdout.setLevel(logging.INFO)
+    fileHandler.setLevel(logging.DEBUG)
+    fmt = logging.Formatter(
+        "%(name)s: %(asctime)s | %(levelname)s | %(filename)s:%(lineno)s >>> %(message)s"
+    )
+    fileHandler.setFormatter(fmt)
+    stdout.setFormatter(fmt)
+    app.logger.addHandler(stdout)
+    app.logger.addHandler(fileHandler)
+
     #prod server
     #from waitress import serve
     #serve(app, host="0.0.0.0", port=5000)
