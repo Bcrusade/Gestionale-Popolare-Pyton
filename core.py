@@ -88,7 +88,7 @@ def printCommand(conn, order):
         printCommandType(conn, orderId, pizzeriaItemList, config.nomeStampantePizzeria, orderType)
 
 def printCommandType(conn, orderId, printItemList, printername, orderType):
-    print(printItemList)
+    #print(printItemList)
     #read the html template
     with open("./serverPrinter/template/invoice.html", "r") as file:
         html_template = file.read()
@@ -167,7 +167,7 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
             #update order status
             data = {'orderStatus': 1, 'orderId': orderId, 'orderType': orderType}
             updateOrderStatus(conn, data)
-            print("STAMPA COMANDA OK")
+            #print("STAMPA COMANDA OK")
             #remove tmp files
             os.remove(infilename)
             os.remove(outfilename)
@@ -205,7 +205,7 @@ def retrieveRecentCompletedOrderList(conn):
         orderId = order[0]
         info = getOrderInfoById(conn, orderId)
         orderList.append({"orderId": order[0],  "tableId": info[3], "datetime": info[2], "orderType": order[1], "orderStatus": order[2]})
-    print(orderList)
+    #print(orderList)
     return orderList
 
 def retrieveOrderItems(conn, orderId, orderType):
@@ -386,7 +386,8 @@ def printReport(conn, selectedDate, printername):
         if (os.path.isfile(outfilename)):
             break
         if (counter > 10):
-            break
+            logger.error("Pdf report not generated/found for date %s", selectedDate)
+            return 12
         counter += 1
         time.sleep(1)
     #print the command to the right printer
@@ -409,12 +410,12 @@ def printReport(conn, selectedDate, printername):
         ret = win32event.WaitForSingleObject(hh, -1)
         if (ret == 0): #print command success
             #update order status
-            print("STAMPA REPORT OK")
+            #print("STAMPA REPORT OK")
             #remove tmp files
             os.remove(infilename)
             #os.remove(outfilename)
+            logger.info("Print report sent successfully for date %s", selectedDate)
     except win32api.error as e:
-        #logging here
-        print(e.args[0])
-        print(e.args[2])
+        logger.error("Server error in sending print report for date %s; error code: %s, %s", selectedDate, e.args[0], e.args[2])
+        return 11
     return 0
