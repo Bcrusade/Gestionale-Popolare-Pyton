@@ -1,0 +1,301 @@
+{
+  "cucina": [
+    {
+      "name": "Pasta Primavera",
+      "desc": "Pomodoro e Mozzarella",
+      "img": "",
+      "price": "4.50",
+      "productId": 1
+    },
+    {
+      "name": "Primo del Giorno",
+      "desc": "",
+      "img": "",
+      "price": "8.00",
+      "productId": 2
+    },
+    {
+      "name": "Fritto Misto",
+      "desc": "",
+      "img": "",
+      "price": "12.00",
+      "productId": 3
+    },
+    {
+      "name": "Grigliata di Carne",
+      "desc": "",
+      "img": "",
+      "price": "10.00",
+      "productId": 4
+    },
+    {
+      "name": "Contorno del Giorno",
+      "desc": "",
+      "img": "",
+      "price": "4.00",
+      "productId": 5
+    },
+    {
+      "name": "Patatine Fritte",
+      "desc": "",
+      "img": "",
+      "price": "3.50",
+      "productId": 6
+    },
+    {
+      "name": "Fragole",
+      "desc": "",
+      "img": "",
+      "price": "3.50",
+      "productId": 40
+    },
+    {
+      "name": "Piadina alla Nutella",
+      "desc": "",
+      "img": "",
+      "price": "3.50",
+      "productId": 41
+    }
+	],
+  "menu birra": [
+    {
+      "name": "Menu Birra - Hamburger",
+      "desc": "Pomodori e insalata",
+      "img": "",
+      "price": "10.00",
+      "productId": 7
+    },
+    {
+      "name": "Menu Birra - Cheeseburger",
+      "desc": "Formaggio, pomodori e insalata",
+      "img": "",
+      "price": "10.00",
+      "productId": 8
+    },
+    {
+      "name": "Menu Birra - Baconburger",
+      "desc": "Formaggio, bacon, pomodori e insalata",
+      "img": "",
+      "price": "10.00",
+      "productId": 9
+    },
+    {
+      "name": "Menu Birra - Wurstel",
+      "desc": "",
+      "img": "",
+      "price": "10.00",
+      "productId": 10
+    },
+    {
+      "name": "Menu Birra - Wurstel e Crauti",
+      "desc": "",
+      "img": "",
+      "price": "10.00",
+      "productId": 11
+    },
+    {
+      "name": "Menu Birra - Salamella",
+      "desc": "",
+      "img": "",
+      "price": "10.00",
+      "productId": 12
+    },
+    {
+      "name": "Menu Birra - Salamella con Cipolle",
+      "desc": "",
+      "img": "",
+      "price": "10.00",
+      "productId": 13
+    },
+    {
+      "name": "Menu Birra - Green Burger",
+      "desc": "Hamburger vegetale, formaggio, insalata, pomodori",
+      "img": "",
+      "price": "10.00",
+      "productId": 14
+    }
+  ],
+  "menu bibita": [
+    {
+      "name": "Menu Bibita - Hamburger",
+      "desc": "Pomodori e insalata",
+      "img": "",
+      "price": "8.00",
+      "productId": 15
+    },
+    {
+      "name": "Menu Bibita - Cheeseburger",
+      "desc": "Formaggio, pomodori e insalata",
+      "img": "",
+      "price": "8.00",
+      "productId": 16
+    },
+    {
+      "name": "Menu Bibita - Baconburger",
+      "desc": "Formaggio, bacon, pomodori e insalata",
+      "img": "",
+      "price": "8.00",
+      "productId": 17
+    },
+    {
+      "name": "Menu Bibita - Wurstel",
+      "desc": "",
+      "img": "",
+      "price": "8.00",
+      "productId": 18
+    },
+    {
+      "name": "Menu Bibita - Wurstel e Crauti",
+      "desc": "",
+      "img": "",
+      "price": "8.00",
+      "productId": 19
+    },
+    {
+      "name": "Menu Bibita - Salamella",
+      "desc": "",
+      "img": "",
+      "price": "8.00",
+      "productId": 20
+    },
+    {
+      "name": "Menu Bibita - Salamella con Cipolle",
+      "desc": "",
+      "img": "",
+      "price": "8.00",
+      "productId": 21
+    },
+    {
+      "name": "Menu Bibita - Green Burger",
+      "desc": "Hamburger vegetale, formaggio, insalata, pomodori",
+      "img": "",
+      "price": "8.00",
+      "productId": 22
+    }
+  ],
+  "panini": [
+    {
+      "name": "Hamburger",
+      "desc": "Pomodori e insalata",
+      "img": "",
+      "price": "5.00",
+      "productId": 23
+    },
+    {
+      "name": "Cheeseburger",
+      "desc": "Formaggio, pomodori e insalata",
+      "img": "",
+      "price": "5.00",
+      "productId": 24
+    },
+    {
+      "name": "Baconburger",
+      "desc": "Formaggio, bacon, pomodori e insalata",
+      "img": "",
+      "price": "5.00",
+      "productId": 25
+    },
+    {
+      "name": "Wurstel",
+      "desc": "",
+      "img": "",
+      "price": "5.00",
+      "productId": 26
+    },
+    {
+      "name": "Wurstel e Crauti",
+      "desc": "",
+      "img": "",
+      "price": "5.00",
+      "productId": 27
+    },
+    {
+      "name": "Salamella",
+      "desc": "",
+      "img": "",
+      "price": "5.00",
+      "productId": 28
+    },
+    {
+      "name": "Salamella con Cipolle",
+      "desc": "",
+      "img": "",
+      "price": "5.00",
+      "productId": 29
+    },
+    {
+      "name": "Green Burger",
+      "desc": "Hamburger vegetale, formaggio, insalata, pomodori",
+      "img": "",
+      "price": "5.00",
+      "productId": 30
+    }
+  ],
+  "pizza": [
+    {
+      "name": "Pizza Pomodoro",
+      "desc": "",
+      "img": "",
+      "price": "5.00",
+      "productId": 31
+    },
+    {
+      "name": "Pizza 4 Stagioni",
+      "desc": "",
+      "img": "",
+      "price": "5.00",
+      "productId": 32
+    },
+    {
+      "name": "Pizza Margherita",
+      "desc": "",
+      "img": "",
+      "price": "5.00",
+      "productId": 33
+    },
+    {
+      "name": "Pizza Diavola",
+      "desc": "",
+      "img": "",
+      "price": "5.00",
+      "productId": 34
+    }
+  ],
+  "bevande": [
+    {
+      "name": "Acqua",
+      "desc": "",
+      "img": "",
+      "price": "1.00",
+      "productId": 35
+    },
+    {
+      "name": "Bibita in Lattina",
+      "desc": "",
+      "img": "",
+      "price": "2.00",
+      "productId": 36
+    },
+    {
+      "name": "Birra 0,4L",
+      "desc": "",
+      "img": "",
+      "price": "5.00",
+      "productId": 37
+    },
+    {
+      "name": "Vino Sfuso 0,5L",
+      "desc": "",
+      "img": "",
+      "price": "4.00",
+      "productId": 38
+    },
+    {
+      "name": "Vino Sfuso 1L",
+      "desc": "",
+      "img": "",
+      "price": "6.00",
+      "productId": 39
+    }
+  ]
+}
