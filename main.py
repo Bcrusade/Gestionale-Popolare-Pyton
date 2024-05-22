@@ -10,7 +10,7 @@ import os
 import sys
 import logging
 
-connection = sqlite3.connect("./data/myDatabase.db", timeout=10, check_same_thread=False, isolation_level=None)
+connection = sqlite3.connect("./data/myDatabase.db", timeout=7, check_same_thread=False, isolation_level=None)
 app = Flask(__name__, static_folder="assets")
 
 
@@ -246,7 +246,7 @@ if __name__ == '__main__':
     app.logger.addHandler(fileHandler)
 
     #prod server
-    #from waitress import serve
-    #serve(app, host="0.0.0.0", port=5000)
-    app.run(threaded=True, debug=True, host="0.0.0.0")
+    from waitress import serve
+    serve(app, host="0.0.0.0", port=5000)
+    #app.run(threaded=True, debug=True, host="0.0.0.0")
 

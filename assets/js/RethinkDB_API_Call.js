@@ -454,8 +454,8 @@ function initializeApp(data) {
       let cleanedData = cleanOrderData(orderData);
       inviaDatiOrdine(cleanedData);
       sendOrderButton.classList.add("opacity-50");
-      //sendOrderButton.style.pointerEvents = "none"
-      //sendOrderButton.disabled = true
+      sendOrderButton.style.pointerEvents = "none"
+      sendOrderButton.disabled = true
     });
     const closePopupButton = popupContainer.querySelector("#close-button");
     closePopupButton.addEventListener("click", function () {
