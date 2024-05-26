@@ -48,6 +48,7 @@ th:last-of-type, td:last-of-type {
 
 @page {
    @bottom-right {
+    font-weight: bold;
     content: counter(page) " of " counter(pages);
    }
 }

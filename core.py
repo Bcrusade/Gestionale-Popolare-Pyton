@@ -22,15 +22,18 @@ logger = logging.getLogger('main.core')
 mutex = Lock()
 registerOrderMutex = Lock()
 updateDataMutex = Lock()
+
+
 def registerOrderToDatabase(conn, order):
-    order["status"] = 0 #status: "non stampato"
+    order["status"] = 0  #status: "non stampato"
     orderId = order["orderId"]
     #datetime
     order["datetime"] = datetime.now()
     #operatorId(todo)
     order["operatorId"] = 0
     order["tableId"] = 0
-    orderData = (order["orderId"], order["totalValue"], order["operatorId"], order["paymentType"], order["datetime"], order["customerType"], order["tableId"])
+    orderData = (order["orderId"], order["totalValue"], order["operatorId"], order["paymentType"], order["datetime"],
+                 order["customerType"], order["tableId"])
     registerOrderMutex.acquire()
     try:
         insertOrder(conn, orderData)  # insert order in orders table
@@ -61,20 +64,25 @@ def registerOrderToDatabase(conn, order):
     logger.info("Order %s registered successfully", orderId)
     return 0
 
+
 def printCommand(conn, order):
     #divide by item class
     #filter out beverages
     #send print instructions to printers with correct data
+    customerType = order["customerType"]
     cucinaItemList = []
     pizzeriaItemList = []
     for item in order['items']:
         itemClass = resolveItemClassById(conn, item["itemId"])
         if (itemClass == "cucina"):
             itemCategory = resolveItemCategoryById(conn, item["itemId"])
-            if(itemCategory == "menu birra" or itemCategory == "menu bibita"):
+            if (itemCategory == "menu birra" or itemCategory == "menu bibita"):
                 # divide menu in panino + fries
-                cucinaItemList.append({"name": resolveItemNameById(conn, item['itemId']).split("- ")[1], "itemId": item['itemId'], "quantity": item['quantity'], "notes": item['notes']})
-                cucinaItemList.append({"name": "Patatine fritte", "itemId": item['itemId'], "quantity": item['quantity'], "notes": ""})
+                cucinaItemList.append(
+                    {"name": resolveItemNameById(conn, item['itemId']).split("- ")[1], "itemId": item['itemId'],
+                     "quantity": item['quantity'], "notes": item['notes']})
+                cucinaItemList.append(
+                    {"name": "Patatine fritte", "itemId": item['itemId'], "quantity": item['quantity'], "notes": ""})
             else:
                 cucinaItemList.append(item)
         elif (itemClass == "pizzeria"):
@@ -82,12 +90,13 @@ def printCommand(conn, order):
     orderId = order['orderId']
     if len(cucinaItemList) > 0:
         orderType = "cucina"
-        printCommandType(conn, orderId, cucinaItemList, config.nomeStampanteCucina, orderType)
+        printCommandType(conn, orderId, cucinaItemList, config.nomeStampanteCucina, orderType, customerType)
     if len(pizzeriaItemList) > 0:
         orderType = "pizzeria"
-        printCommandType(conn, orderId, pizzeriaItemList, config.nomeStampantePizzeria, orderType)
+        printCommandType(conn, orderId, pizzeriaItemList, config.nomeStampantePizzeria, orderType, customerType)
 
-def printCommandType(conn, orderId, printItemList, printername, orderType):
+
+def printCommandType(conn, orderId, printItemList, printername, orderType, customerType):
     #print(printItemList)
     #read the html template
     with open("./serverPrinter/template/invoice.html", "r") as file:
@@ -97,9 +106,15 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
       <thead>
         <tr>
         <th colspan="3" style="border-bottom: 0; text-align: left;">
-          <h1 id="topHeader">Ordine """ + str(orderType.capitalize()) + " Nr." + str(orderId) + """ </h1>
+          <h1 id="topHeader">Ordine """ + str(orderType.capitalize()) + " Nr." + str(orderId) + """ </h1>    
         </th>
-        </tr>
+        </tr>"""
+    html_body += """<tr>
+               <th colspan="3" style="border-bottom: 0; text-align: left;">
+                 <h2 style="color: #000000;">Volontari/Frati</h2> 
+               </th>
+        </tr>""" if customerType == "Volounteer" else ""
+    html_body += """
         <tr>
           <th colspan="1" style="width: 40%;">NOME</th>
           <th colspan="1" style="width: 10%;">QUANTITÀ</th>
@@ -116,7 +131,8 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
             name = resolveItemNameById(conn, item['itemId'])
         else:
             name = item['name']
-        html_body += "<tr> <td>" + name + "</td><td>" + str(item['quantity']) + '</td><td style="max-width: 50%;">' + item['notes'] + "</td></tr>"
+        html_body += "<tr> <td>" + name + "</td><td>" + str(item['quantity']) + '</td><td style="max-width: 50%;">' + \
+                     item['notes'] + "</td></tr>"
     html_body += """
     </tbody>
     </table>
@@ -148,7 +164,7 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
     #print the command to the right printer
     try:
         #set paper format to A5
-        PRINTER_DEFAULTS = {"DesiredAccess":win32print.PRINTER_ALL_ACCESS}
+        PRINTER_DEFAULTS = {"DesiredAccess": win32print.PRINTER_ALL_ACCESS}
         handle = win32print.OpenPrinter(printername, PRINTER_DEFAULTS)
         properties = win32print.GetPrinter(handle, 2)
         devmode = properties['pDevMode']
@@ -160,10 +176,12 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
         devmode = properties['pDevMode']
         win32print.ClosePrinter(handle)
         #-----------------start printing----------------------
-        structureOut = shell.ShellExecuteEx(fMask = 256 + 64, lpVerb='printto', lpFile=r"{}".format(printfilename), lpParameters=f'"{printername}"', lpDirectory=".")
+        structureOut = shell.ShellExecuteEx(fMask=256 + 64, lpVerb='printto', lpFile=r"{}".format(printfilename),
+                                            lpParameters=f'"{printername}"', lpDirectory=".")
         hh = structureOut['hProcess']
         ret = win32event.WaitForSingleObject(hh, -1)
-        if (ret == 0): #print command success (the printer has to handle the actual print yet, the server just sent the command)
+        if (
+                ret == 0):  #print command success (the printer has to handle the actual print yet, the server just sent the command)
             #update order status
             data = {'orderStatus': 1, 'orderId': orderId, 'orderType': orderType}
             updateOrderStatus(conn, data)
@@ -173,7 +191,8 @@ def printCommandType(conn, orderId, printItemList, printername, orderType):
             os.remove(outfilename)
             logger.info("Print command sent successfully for order %s %s", orderId, orderType)
     except win32api.error as e:
-        logger.error("Server error in sending print command for order %s %s; error code: %s, %s", orderId, orderType, e.args[0], e.args[2])
+        logger.error("Server error in sending print command for order %s %s; error code: %s, %s", orderId, orderType,
+                     e.args[0], e.args[2])
         return 11
     return 0
 
@@ -188,6 +207,7 @@ def retrieveOrderNumber(conn):
     mutex.release()
     return orderId
 
+
 def retrieveOrderList(conn):
     data = getOrderList(conn)
     orderList = []
@@ -195,8 +215,10 @@ def retrieveOrderList(conn):
         orderId = order[0]
         statuses = getOrderStatusById(conn, orderId)
         for status in statuses:
-            orderList.append({"orderId": order[0],  "tableId": order[1], "datetime": order[2], "orderType": status[1], "orderStatus": status[2]})
+            orderList.append({"orderId": order[0], "tableId": order[1], "datetime": order[2], "orderType": status[1],
+                              "orderStatus": status[2]})
     return orderList
+
 
 def retrieveRecentCompletedOrderList(conn):
     data = getRecentCompletedOrders(conn)
@@ -204,9 +226,11 @@ def retrieveRecentCompletedOrderList(conn):
     for order in data:
         orderId = order[0]
         info = getOrderInfoById(conn, orderId)
-        orderList.append({"orderId": order[0],  "tableId": info[3], "datetime": info[2], "orderType": order[1], "orderStatus": order[2]})
+        orderList.append({"orderId": order[0], "tableId": info[3], "datetime": info[2], "orderType": order[1],
+                          "orderStatus": order[2]})
     #print(orderList)
     return orderList
+
 
 def retrieveOrderItems(conn, orderId, orderType):
     data = getOrderItemsById(conn, orderId)
@@ -216,6 +240,7 @@ def retrieveOrderItems(conn, orderId, orderType):
         if (resolveItemClassById(conn, item[0]) == orderType):
             itemList.append({"name": name, "quantity": item[1], "notes": item[2]})
     return itemList
+
 
 def updateData(conn, data):
     updateDataMutex.acquire()
@@ -232,14 +257,17 @@ def updateData(conn, data):
     logger.info("Successfully updated data of order %s %s", data["orderId"], data["orderType"])
     return 0
 
+
 def retrieveSummaryData(conn):
     totalOrderNumber = getTotalOrderNumber(conn)
     totalCash = getTotalCash(conn)
     totalPos = getTotalPos(conn)
     totalOrderNumberVol = getTotalOrderNumberVol(conn)
     orderSummary = []
-    orderSummary.append({"NumOrder": totalOrderNumber, "Cash": totalCash, "POS": totalPos, "NumOrderVolontari": totalOrderNumberVol})
+    orderSummary.append(
+        {"NumOrder": totalOrderNumber, "Cash": totalCash, "POS": totalPos, "NumOrderVolontari": totalOrderNumberVol})
     return orderSummary
+
 
 def archiveDatabaseData(conn):
     orderOpen = checkOrderOpen(conn)
@@ -264,7 +292,8 @@ def archiveDatabaseData(conn):
         ordersToArchive = len(hotOrders)
         counter = 0
         for order in hotOrders:
-            archiveOrder = {'displayId': order[0], 'totalValue': order[1], 'paymentType': order[3], 'datetime': order[4], 'customerType': order[6], 'dayId': dayId}
+            archiveOrder = {'displayId': order[0], 'totalValue': order[1], 'paymentType': order[3],
+                            'datetime': order[4], 'customerType': order[6], 'dayId': dayId}
             status = insertArchiveOrder(conn, archiveOrder)
             if status == 0:
                 counter += 1
@@ -273,13 +302,14 @@ def archiveDatabaseData(conn):
             deleteHotOrdersStatuses(conn)
         else:
             logger.error("Could not archive database")
-            return 12 #error
+            return 12  #error
         #-------------archive items--------------
         hotItems = getHotItems(conn)
         itemsToArchive = len(hotItems)
         counter = 0
         for item in hotItems:
-            archiveItem = {'dayId': dayId, 'displayId': item[0], 'itemId': item[1], 'quantity': item[2], 'notes': item[3]}
+            archiveItem = {'dayId': dayId, 'displayId': item[0], 'itemId': item[1], 'quantity': item[2],
+                           'notes': item[3]}
             status = insertArchiveItem(conn, archiveItem)
             if status == 0:
                 counter += 1
@@ -288,10 +318,11 @@ def archiveDatabaseData(conn):
             resetSqlSequence(conn)
         else:
             logger.error("Could not archive database")
-            return 13 #error
+            return 13  #error
 
         logger.info("Archive database success")
         return 0
+
 
 def requestReprint(conn, orderId, orderType):
     printername = ""
@@ -302,24 +333,27 @@ def requestReprint(conn, orderId, orderType):
     printItemList = []
     items = getOrderItemsById(conn, orderId)
     for item in items:
-        itemClass = resolveItemClassById(conn, item[0]) #item[0] = itemId
-        if (itemClass == orderType): #cucina or pizzeria
+        itemClass = resolveItemClassById(conn, item[0])  #item[0] = itemId
+        if (itemClass == orderType):  #cucina or pizzeria
             itemCategory = resolveItemCategoryById(conn, item[0])
-            if (itemCategory == "menu birra" or itemCategory == "menu bibita"): #if item is a menu, the name is the one of panino; add fries
+            if (
+                    itemCategory == "menu birra" or itemCategory == "menu bibita"):  #if item is a menu, the name is the one of panino; add fries
                 printItemList.append(
                     {"name": resolveItemNameById(conn, item[0]).split("- ")[1], "itemId": item[0],
                      "quantity": item[1], "notes": item[2]})
                 printItemList.append(
                     {"name": "Patatine fritte", "itemId": item[0], "quantity": item[1], "notes": ""})
-            else: #item is not a menu
+            else:  #item is not a menu
                 printItemList.append({"name": resolveItemNameById(conn, item[0]), "itemId": item[0],
-                     "quantity": item[1], "notes": item[2]})
-    status = printCommandType(conn, orderId, printItemList, printername, orderType)
+                                      "quantity": item[1], "notes": item[2]})
+    customerType = getOrderInfoById(conn, orderId)[4]
+    status = printCommandType(conn, orderId, printItemList, printername, orderType, customerType)
     if status == 0:
         logger.info("Reprint request success for order %s %s", orderId, orderType)
     else:
         logger.error("Reprint request error for order %s %s", orderId, orderType)
     return 0
+
 
 def printReport(conn, selectedDate, printername):
     selectedDateWildCard = selectedDate + "%"
@@ -353,15 +387,19 @@ def printReport(conn, selectedDate, printername):
       <tbody>
     """
     html_body += "<tr> <td>Totale Ordini contanti</td><td>" + str(contanti[0]) + "</td></tr>"
-    html_body += "<tr> <td>Totale Incasso contanti</td><td>" + str(float(0 if contanti[1] is None else contanti[1])) + " €</td></tr>"
+    html_body += "<tr> <td>Totale Incasso contanti</td><td>" + str(
+        float(0 if contanti[1] is None else contanti[1])) + " €</td></tr>"
     html_body += "<tr> <td>Totale Ordini POS</td><td>" + str(pos[0]) + "</td></tr>"
     html_body += "<tr> <td>Totale Incasso POS</td><td>" + str(float(0 if pos[1] is None else pos[1])) + " €</td></tr>"
-    html_body += "<tr> <td>Totale Ordini Clienti</td><td>" + str(contanti[0]+pos[0]) + "</td></tr>"
-    html_body += "<tr> <td>Totale Incasso Clienti</td><td>" + str(float(0 if contanti[1] is None else contanti[1])+float(0 if pos[1] is None else pos[1])) + " €</td></tr>"
+    html_body += "<tr> <td>Totale Ordini Clienti</td><td>" + str(contanti[0] + pos[0]) + "</td></tr>"
+    html_body += "<tr> <td>Totale Incasso Clienti</td><td>" + str(
+        float(0 if contanti[1] is None else contanti[1]) + float(0 if pos[1] is None else pos[1])) + " €</td></tr>"
     html_body += "<tr> <td>Totale Ordini Volontari</td><td>" + str(costoVolounteer[0]) + "</td></tr>"
-    html_body += "<tr> <td>Totale Costo Volontari</td><td>" + str(float(0 if costoVolounteer[1] is None else costoVolounteer[1])) + " €</td></tr>"
+    html_body += "<tr> <td>Totale Costo Volontari</td><td>" + str(
+        float(0 if costoVolounteer[1] is None else costoVolounteer[1])) + " €</td></tr>"
     html_body += "<tr> <td>Totale Ordini Ospiti</td><td>" + str(costoGuest[0]) + "</td></tr>"
-    html_body += "<tr> <td>Totale Costo Ospiti</td><td>" + str(float(0 if costoGuest[1] is None else costoGuest[1])) + " €</td></tr>"
+    html_body += "<tr> <td>Totale Costo Ospiti</td><td>" + str(
+        float(0 if costoGuest[1] is None else costoGuest[1])) + " €</td></tr>"
     html_body += """
     </tbody>
     </table>
@@ -393,7 +431,7 @@ def printReport(conn, selectedDate, printername):
     #print the command to the right printer
     try:
         #set paper format to A5
-        PRINTER_DEFAULTS = {"DesiredAccess":win32print.PRINTER_ALL_ACCESS}
+        PRINTER_DEFAULTS = {"DesiredAccess": win32print.PRINTER_ALL_ACCESS}
         handle = win32print.OpenPrinter(printername, PRINTER_DEFAULTS)
         properties = win32print.GetPrinter(handle, 2)
         devmode = properties['pDevMode']
@@ -405,10 +443,11 @@ def printReport(conn, selectedDate, printername):
         devmode = properties['pDevMode']
         win32print.ClosePrinter(handle)
         #-----------------start printing----------------------
-        structureOut = shell.ShellExecuteEx(fMask = 256 + 64, lpVerb='printto', lpFile=r"{}".format(printfilename), lpParameters=f'"{printername}"', lpDirectory=".")
+        structureOut = shell.ShellExecuteEx(fMask=256 + 64, lpVerb='printto', lpFile=r"{}".format(printfilename),
+                                            lpParameters=f'"{printername}"', lpDirectory=".")
         hh = structureOut['hProcess']
         ret = win32event.WaitForSingleObject(hh, -1)
-        if (ret == 0): #print command success
+        if (ret == 0):  #print command success
             #update order status
             #print("STAMPA REPORT OK")
             #remove tmp files
@@ -416,6 +455,7 @@ def printReport(conn, selectedDate, printername):
             #os.remove(outfilename)
             logger.info("Print report sent successfully for date %s", selectedDate)
     except win32api.error as e:
-        logger.error("Server error in sending print report for date %s; error code: %s, %s", selectedDate, e.args[0], e.args[2])
+        logger.error("Server error in sending print report for date %s; error code: %s, %s", selectedDate, e.args[0],
+                     e.args[2])
         return 11
     return 0
