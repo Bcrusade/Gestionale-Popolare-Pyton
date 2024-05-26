@@ -1,4 +1,4 @@
 
-nomeStampanteCucina = "CUCINA-1"
-nomeStampantePizzeria = "PIZZERIA-2"
+nomeStampanteCucina = "XEROX_CUCINA"
+nomeStampantePizzeria = "EPSON_PIZZERIA"
 testMode = True
