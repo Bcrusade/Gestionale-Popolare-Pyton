@@ -34,7 +34,7 @@ async function loadExternalJsonAndInitialize(apiUrl) {
     primaCategoriaCheckbox.click();
     }
     else {
-     toastr.error("Errore nella richiesta del numero d'ordine");
+     toastr.error("Errore nella richiesta del numero d'ordine", "Errore", {timeOut: 10000});
      document.getElementById("button-new-order").style.pointerEvents = "all"
     }
 
@@ -267,7 +267,7 @@ function initializeApp(data) {
       sendOrderButton.style.pointerEvents = "all"
       sendOrderButton.classList.remove("opacity-50");
       sendOrderButton.disabled = false
-      toastr.error("Errore nell'invio dell'ordine. Riprovare:");
+      toastr.error("Errore nell'invio dell'ordine. Riprovare:", "Errore", {timeOut: 10000});
     }
   }
 
@@ -394,8 +394,8 @@ function initializeApp(data) {
     // Mostra il pop-up
     popupContainer.style.display = "flex";
     if (GuestTypeSelectedInput === "Client") {
-      document.getElementById("cash").checked = true;
-      paymentType = "cash";
+      //document.getElementById("cash").checked = true;
+      paymentType = "default";
     } else {
       paymentType = "free";
     }
@@ -466,9 +466,14 @@ function initializeApp(data) {
     });
     const printButton = popupContainer.querySelector("#print-order");
     printButton.addEventListener("click", function () {
+      if (paymentType == "default")
+      { toastr.error("Selezionare un metodo di pagamento prima di stampare lo scontrino", "Errore", {timeOut: 5000});
+      }
+      else {
       sendOrderButton.classList.remove("opacity-50");
       sendOrderButton.disabled = false;
       printOrderData(transformedDataJson, grandTotal, orderNumber);
+      }
     });
   }
 
