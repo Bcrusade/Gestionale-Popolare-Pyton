@@ -4,7 +4,7 @@
       "name": "Pasta Primavera",
       "desc": "Pomodoro e Mozzarella",
       "img": "",
-      "price": "4.50",
+      "price": "4.00",
       "productId": 1
     },
     {
@@ -296,6 +296,13 @@
       "img": "",
       "price": "6.00",
       "productId": 39
+    },
+    {
+      "name": "Vino in bottiglia",
+      "desc": "Montepulciano di Abruzzo",
+      "img": "",
+      "price": "10.00",
+      "productId": 42
     }
   ]
 }
