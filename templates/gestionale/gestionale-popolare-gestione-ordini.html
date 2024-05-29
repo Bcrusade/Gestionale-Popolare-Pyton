@@ -368,6 +368,10 @@
 
         // Create variable to hold the correct span based on the order status
         let orderStatusContent;
+		let orderIdHighLigthed;
+		
+		if (order.customerType == "Volounteer") { orderIdHighLigthed = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-red-500/20 text-red-500">${order.orderId}</span>` }
+		else {orderIdHighLigthed = `<span class="inline-flex items-center gap-1 py-1 px-4 text-sm font-medium ">${order.orderId}</span>`}
 
         switch (order.orderStatus) {
           //Non Stampato
@@ -395,7 +399,7 @@
         else if (order.orderType == "pizzeria") { orderTypeDisplay = "Pizzeria"}
         row.innerHTML = `
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${formattedDate} ${formattedTime}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${order.orderId}</td>
+        <td class="px-6 py-4 whitespace-nowrap">${orderIdHighLigthed}</td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${orderTypeDisplay}</td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${tableId}</td>
         <td class="px-6 py-4 whitespace-nowrap">${orderStatusContent}</td>

@@ -1,5 +1,5 @@
 // Funzione principale che viene eseguita una volta che il DOM è pronto
-document.addEventListener("DOMContentLoaded", function () {});
+document.addEventListener("DOMContentLoaded", function () { });
 toastr.options = {
   timeOut: "1500",
 };
@@ -18,24 +18,24 @@ async function loadExternalJsonAndInitialize(apiUrl) {
     console.log("Chiamata API riuscita:", response2);
     responseObject = await response2.json(); // Estrai i dati JSON dalla risposta
     if (responseObject.status == "success") {
-    //display page
+      //display page
       document.getElementById("button-new-order").style.pointerEvents = "none"
       document.getElementById("preloader-container").style.display = "none"
       document.getElementById("whole-page").style.display = ""
-    //get order number
-    orderNumber = responseObject.orderId;
-    console.log(orderNumber);
-    // Inizializza l'applicazione con il JSON caricato
-    initializeApp(data);
-    // Simula un click sulla prima categoria per avviare il caricamento del menu promozionale
-    const primaCategoriaCheckbox = document.querySelector(
-      '#category-list input[type="checkbox"]'
-    );
-    primaCategoriaCheckbox.click();
+      //get order number
+      orderNumber = responseObject.orderId;
+      console.log(orderNumber);
+      // Inizializza l'applicazione con il JSON caricato
+      initializeApp(data);
+      // Simula un click sulla prima categoria per avviare il caricamento del menu promozionale
+      const primaCategoriaCheckbox = document.querySelector(
+        '#category-list input[type="checkbox"]'
+      );
+      primaCategoriaCheckbox.click();
     }
     else {
-     toastr.error("Errore nella richiesta del numero d'ordine", "Errore", {timeOut: 10000});
-     document.getElementById("button-new-order").style.pointerEvents = "all"
+      toastr.error("Errore nella richiesta del numero d'ordine", "Errore", { timeOut: 10000 });
+      document.getElementById("button-new-order").style.pointerEvents = "all"
     }
 
   } catch (error) {
@@ -267,12 +267,12 @@ function initializeApp(data) {
       sendOrderButton.style.pointerEvents = "all"
       sendOrderButton.classList.remove("opacity-50");
       sendOrderButton.disabled = false
-      toastr.error("Errore nell'invio dell'ordine. Riprovare:", "Errore", {timeOut: 10000});
+      toastr.error("Errore nell'invio dell'ordine. Riprovare:", "Errore", { timeOut: 10000 });
     }
   }
 
   // Aggiungi un listener per l'evento beforeunload per assicurarti che i dati vengano salvati prima di lasciare la pagina
-  window.addEventListener("beforeunload", () => {});
+  window.addEventListener("beforeunload", () => { });
 
   // Funzione per aggiungere numero ordine a orderData (useless at the moment)
   function transformAndSaveOrderData(newOrderData) {
@@ -342,24 +342,20 @@ function initializeApp(data) {
   justify-content: start;
   ">
     <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Piatto:</h4>
-    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${
-      item.name
-    }</span>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${item.name
+        }</span>
     
     <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Quantità:</h4>
-    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${
-      item.quantity
-    }</span>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${item.quantity
+        }</span>
     
     <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Prezzo:</h4>
-    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${
-      item.price
-    } €</span>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${item.price
+        } €</span>
     
     <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Note:</h4>
-    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none text-primary">${
-      item.notes ?? ""
-    }</span>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none text-primary">${item.notes ?? ""
+        }</span>
   </div>
   <hr class="mb-3 mt-3">
 </div>
@@ -373,11 +369,11 @@ function initializeApp(data) {
     <div id="checkbox-paymant" class="flex justify-around mb-5 mx-5">
                       <div>
                         <input class="hs-collapse-toggle open form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="cash" name="all" type="checkbox" onclick="paymentCheckboxMutex('cash', 'pos')">
-                        <label class="hs-collapse-toggle open transition-all ps-3 inline-flex items-center text-default-600 text-sm select-none" for="cash">Contanti</label>
+                        <label class="hs-collapse-toggle open transition-all ps-3 inline-flex items-center text-default-600 font-bold text-sm select-none" for="cash">Contanti</label>
                       </div>
                       <div>
                         <input class="hs-collapse-toggle open form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="pos" name="all" type="checkbox" onclick="paymentCheckboxMutex('pos', 'cash')">
-                        <label class="hs-collapse-toggle open transition-all ps-3 inline-flex items-center text-default-600 text-sm select-none" for="pos">POS</label>
+                        <label class="hs-collapse-toggle open transition-all ps-3 inline-flex items-center text-default-600 font-bold text-sm select-none" for="pos">POS</label>
                       </div>
                 </div>
                 `;
@@ -466,13 +462,13 @@ function initializeApp(data) {
     });
     const printButton = popupContainer.querySelector("#print-order");
     printButton.addEventListener("click", function () {
-      if (paymentType == "default")
-      { toastr.error("Selezionare un metodo di pagamento prima di stampare lo scontrino", "Errore", {timeOut: 5000});
+      if (paymentType == "default") {
+        toastr.error("Selezionare un metodo di pagamento prima di stampare lo scontrino", "Errore", { timeOut: 5000 });
       }
       else {
-      sendOrderButton.classList.remove("opacity-50");
-      sendOrderButton.disabled = false;
-      printOrderData(transformedDataJson, grandTotal, orderNumber);
+        sendOrderButton.classList.remove("opacity-50");
+        sendOrderButton.disabled = false;
+        printOrderData(transformedDataJson, grandTotal, orderNumber);
       }
     });
   }
@@ -522,7 +518,7 @@ function initializeApp(data) {
     });
     let date = new Date()
     let strTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
-    let myDatetime = date.getDate() + "/" + (date.getMonth()+1) + "/" + date.getFullYear() + "  " + strTime
+    let myDatetime = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + "  " + strTime
     htmlContent += `
      <div>
          <h4 style="margin: 0px;" class="mt-1.5 mb-1.5 text-default-600 text-sm text-primary">TOTALE: <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none text-primary">${GragrandTotal} €</span></h4>
@@ -723,8 +719,8 @@ function initializeApp(data) {
 
               toastr.success(
                 "<b>" +
-                  itemProperties.name +
-                  "</b> <br> aggiunto con successo al carrello!"
+                itemProperties.name +
+                "</b> <br> aggiunto con successo al carrello!"
               );
             } else {
               console.log(

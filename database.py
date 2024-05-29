@@ -43,7 +43,7 @@ def getOrderId(conn):
 
 #select all orders with pending status, query only relevant data (status, tableId, orderId, datetime)
 def getOrderList(conn):
-    sql = ''' SELECT orderId, tableId, datetime FROM orders'''
+    sql = ''' SELECT orderId, tableId, datetime, customerType FROM orders'''
     cur = conn.cursor()
     cur.execute(sql)
     return cur.fetchall()
