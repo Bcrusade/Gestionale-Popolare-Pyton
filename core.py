@@ -22,6 +22,7 @@ logger = logging.getLogger('main.core')
 mutex = Lock()
 registerOrderMutex = Lock()
 updateDataMutex = Lock()
+archiveDataMutex = Lock()
 
 
 def registerOrderToDatabase(conn, order):
@@ -216,7 +217,7 @@ def retrieveOrderList(conn):
         statuses = getOrderStatusById(conn, orderId)
         for status in statuses:
             orderList.append({"orderId": order[0], "tableId": order[1], "datetime": order[2], "orderType": status[1],
-                              "orderStatus": status[2]})
+                              "orderStatus": status[2], "customerType": order[3]})
     return orderList
 
 
@@ -270,11 +271,14 @@ def retrieveSummaryData(conn):
 
 
 def archiveDatabaseData(conn):
+    archiveDataMutex.acquire()
     orderOpen = checkOrderOpen(conn)
     orderToArchive = getTotalOrderNumber(conn)
     if (orderToArchive == 0):
+        archiveDataMutex.release()
         return 2
     if (orderOpen > 0):
+        archiveDataMutex.release()
         return 1
     elif (orderOpen == 0):
         #backup database file
@@ -285,6 +289,7 @@ def archiveDatabaseData(conn):
                 dst.write(src.read())
             except OSError as e:
                 logger.error("Errore scrittura backup database: %s", str(e))
+                archiveDataMutex.release()
                 return 135
         dayId = getDayId(conn)
         # -----------archive orders---------------
@@ -302,6 +307,7 @@ def archiveDatabaseData(conn):
             deleteHotOrdersStatuses(conn)
         else:
             logger.error("Could not archive database")
+            archiveDataMutex.release()
             return 12  #error
         #-------------archive items--------------
         hotItems = getHotItems(conn)
@@ -318,8 +324,9 @@ def archiveDatabaseData(conn):
             resetSqlSequence(conn)
         else:
             logger.error("Could not archive database")
+            archiveDataMutex.release()
             return 13  #error
-
+        archiveDataMutex.release()
         logger.info("Archive database success")
         return 0
 
