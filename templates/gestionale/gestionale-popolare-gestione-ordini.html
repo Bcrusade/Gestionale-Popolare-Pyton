@@ -358,9 +358,9 @@
           tableId = "---";
         }
         if (order.orderType == "pizzeria") {
-           const att = document.createAttribute("style");
-           att.value = "background-color:#F2F2F2; ";
-           row.setAttributeNode(att);
+          const att = document.createAttribute("style");
+          att.value = "background-color:#F2F2F2; ";
+          row.setAttributeNode(att);
         }
         row.id = `order-row-${order.orderId}-${order.orderType}`;
         let buttonId1 = "1button" + order.orderId + "-" + order.orderType;
@@ -368,10 +368,10 @@
 
         // Create variable to hold the correct span based on the order status
         let orderStatusContent;
-		let orderIdHighLigthed;
-		
-		if (order.customerType == "Volounteer") { orderIdHighLigthed = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-red-500/20 text-red-500">${order.orderId}</span>` }
-		else {orderIdHighLigthed = `<span class="inline-flex items-center gap-1 py-1 px-4 text-sm font-medium ">${order.orderId}</span>`}
+        let orderIdHighLigthed;
+
+        if (order.customerType == "Volounteer") { orderIdHighLigthed = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-red-500/20 text-red-500">${order.orderId}</span>` }
+        else { orderIdHighLigthed = `<span class="inline-flex items-center gap-1 py-1 px-4 text-sm font-medium ">${order.orderId}</span>` }
 
         switch (order.orderStatus) {
           //Non Stampato
@@ -395,8 +395,8 @@
             break;
         }
         let orderTypeDisplay = ""
-        if (order.orderType == "cucina") { orderTypeDisplay = "Cucina"}
-        else if (order.orderType == "pizzeria") { orderTypeDisplay = "Pizzeria"}
+        if (order.orderType == "cucina") { orderTypeDisplay = "Cucina" }
+        else if (order.orderType == "pizzeria") { orderTypeDisplay = "Pizzeria" }
         row.innerHTML = `
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${formattedDate} ${formattedTime}</td>
         <td class="px-6 py-4 whitespace-nowrap">${orderIdHighLigthed}</td>
@@ -443,6 +443,7 @@
       });
     }
 
+    //showPopupEditDataOrder Mostra il pop-up della modifica del tavolo e dello stato dell'ordine
     function showPopupEditDataOrder(orderID, stato, tavolo, orderType) {
       const popupContainer = document.getElementById("popup-container");
       let OrderNubContent = `<h4 class="text-default-800 text-xl font-semibold text-center line-clamp-1 after:absolute after:inset-0">Ordine ${orderType} N.${orderID}</h4>`;
@@ -575,6 +576,7 @@
       popupContainer.style.display = "block";
     }
 
+    //showPopupViewOrderItem Mostra il pop-up del riepilogo dell'ordine
     async function showPopupViewOrderItem(orderID, orderType) {
       const popupContainer = document.getElementById("popup-container");
       let htmlContent = `<h4 class="font-semibold line-clamp-1 mb-4 text-center text-default-800 text-xl">Ordine ${orderType} N.${orderID}</h4>
@@ -665,8 +667,8 @@
     }
 
     function reprintOrder(orderID, orderType) {
-       fetch("http://" + self.location.host + "/api/orderRequestReprint?orderId=" +
-          orderID + "&orderType=" + orderType , {
+      fetch("http://" + self.location.host + "/api/orderRequestReprint?orderId=" +
+        orderID + "&orderType=" + orderType, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -676,7 +678,7 @@
         .then((response) => response.json())
         .then((data) => console.log(data))
         .catch((error) => console.error("Errore:", error));
-        closePopup()
+      closePopup()
     }
 
     async function updateOrderData(orderID, statoOrdine, tavoloID, orderType) {
@@ -696,21 +698,21 @@
       })
       const data = await response.json(); // Estrai i dati JSON dalla risposta
       if (data.status == "success") {
-      toastr.success(
-        "<b>Ordine Nr." +
-        orderID +
-        " " +
-        orderType +
-        "</b> <br> stato/tavolo aggiornato!");
+        toastr.success(
+          "<b>Ordine Nr." +
+          orderID +
+          " " +
+          orderType +
+          "</b> <br> stato/tavolo aggiornato!");
 
         closePopup();
         //refresh order data
         fetchAndDisplayOrders();
       }
       else {
-      document.getElementById("update-order").style.pointerEvents = "all"
-      document.getElementById("update-order").classList.remove("opacity-50");
-      toastr.error("Errore nell'invio dati al server. Riprovare");
+        document.getElementById("update-order").style.pointerEvents = "all"
+        document.getElementById("update-order").classList.remove("opacity-50");
+        toastr.error("Errore nell'invio dati al server. Riprovare");
       }
     }
 
