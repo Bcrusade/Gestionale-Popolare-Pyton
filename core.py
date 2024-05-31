@@ -228,7 +228,7 @@ def retrieveRecentCompletedOrderList(conn):
         orderId = order[0]
         info = getOrderInfoById(conn, orderId)
         orderList.append({"orderId": order[0], "tableId": info[3], "datetime": info[2], "orderType": order[1],
-                          "orderStatus": order[2]})
+                          "orderStatus": order[2], "customerType": info[4]})
     #print(orderList)
     return orderList
 
