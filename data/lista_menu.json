@@ -8,11 +8,18 @@
       "productId": 1
     },
     {
-      "name": "Primo del Giorno",
+      "name": "Pasta Amatriciana",
       "desc": "",
       "img": "",
       "price": "8.00",
       "productId": 2
+    },
+    {
+      "name": "Pasta pomodorini e gamberetti",
+      "desc": "",
+      "img": "",
+      "price": "8.00",
+      "productId": 43
     },
     {
       "name": "Fritto Misto",
@@ -20,8 +27,7 @@
       "img": "",
       "price": "12.00",
       "productId": 3
-    },
-    {
+    },    {
       "name": "Grigliata di Carne",
       "desc": "",
       "img": "",
