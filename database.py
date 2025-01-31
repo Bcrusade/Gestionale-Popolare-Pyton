@@ -4,6 +4,11 @@ import sqlite3
 def test_conn():
     pass
 
+def getMenu(conn):
+    sql = ''' SELECT * FROM itemProp'''
+    cur = conn.cursor()
+    cur.execute(sql)
+    return cur.fetchall()
 
 def insertOrder(conn, order):
     sql = ''' INSERT INTO orders(orderId, totalValue, operatorId, paymentType, datetime, customerType, tableId) 
@@ -82,6 +87,7 @@ def updateOrderStatus(conn, data):
     cur.execute(sql, (data['orderStatus'], data['orderId'], data['orderType']))
     return
 
+#not used
 def makeOrderStatusCoherent(conn, orderId):
     sql = ''' UPDATE orderStatus SET status = 1 WHERE orderId = ? '''
     cur = conn.cursor()

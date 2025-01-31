@@ -71,7 +71,7 @@ function clearContainers() {
 // Funzione per inizializzare l'applicazione con il JSON (Lista prodotti) fornito
 function initializeApp(data) {
   // Mappa delle categorie ai rispettivi array di menu
-  const json = JSON.parse(data);
+  const json = data;
   console.log(json);
   //key = category, item= list of products
   const categorieMenuMap = {
@@ -102,12 +102,13 @@ function initializeApp(data) {
         : "";
 
     objectDiv.innerHTML = `
-        <!-- <img src="${objectDetails.img}" class="h-20 w-20 me-2"> -->
-        <div>
-          <h4 class="text-sm text-default-600 mb-2 font-bold">${objectDetails.name}</h4>
+    <div>
+        <div style="display: flex; align-items: flex-top">
+          <h4 style="margin:0" class="text-sm text-default-600 mb-2 font-bold">${objectDetails.name}</h4>
+          <button style="margin-left: 1em; margin-bottom: auto" class="text-sm font-bold text-default-950">X</button>
+          </div>
           ${noteHtml}
-          <h4 class="text-sm text-default-400 font-bold">${objectDetails.quantity} x <span class="text-primary font-semibold">€${objectDetails.price}</span>
-          <button style="float: right;" class="font-bold text-default-950">X</button></h4>
+          <h4 class="text-sm text-default-400 font-bold">${objectDetails.quantity} x <span class="text-primary font-semibold">€${objectDetails.price}</span></h4>
         </div>
       `;
 

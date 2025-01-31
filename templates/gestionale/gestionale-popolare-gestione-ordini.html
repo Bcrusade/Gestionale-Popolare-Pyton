@@ -18,8 +18,6 @@
   <!--  Head js -->
   <script type="module" crossorigin src="assets/js/admin-order-list-7159724c.js"></script>
 
-  <link rel="modulepreload" crossorigin href="assets/js/theme-b118ffc1.js" />
-  <link rel="modulepreload" crossorigin href="assets/js/index-a4e39586.js" />
   <link rel="stylesheet" href="assets/css/theme-c9540983.css" />
   <link rel="stylesheet" href="assets/css/custom.css" />
 
@@ -45,8 +43,8 @@
   <!-- End Sidebar -->
   <!-- Start Content -->
   <div
-    class="bg-white border border-default-100 dark:bg-default-50 p-5 rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] transition-[opacity,margin] z-20 hover:shadow-xl transition-all duration-300 h-96"
-    style="overflow: auto; max-height: 90%" id="popup-container">
+    class="bg-white border border-default-100 dark:bg-default-50 p-5 rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] transition-[opacity,margin] z-20 hover:shadow-xl transition-all duration-300"
+    style="display: none; flex-direction: column; max-height: 90%" id="popup-container">
     <span style="right: 10px" class="font-semibold text-lg text-primary" id="close-button" onclick="closePopup()">X
       <button>
         <i data-lucide="x-circle" class="w-5 h-5 text-default-400"></i>
@@ -580,7 +578,7 @@
     async function showPopupViewOrderItem(orderID, orderType) {
       const popupContainer = document.getElementById("popup-container");
       let htmlContent = `<h4 class="font-semibold line-clamp-1 mb-4 text-center text-default-800 text-xl">Ordine ${orderType} N.${orderID}</h4>
-                <button id="reprint-order"
+                <button id="reprint-order" style="margin-bottom: 1em"
                 class="w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-10 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500"
                 onclick="reprintOrder(${orderID}, '${orderType}')">
                 Ristampa
@@ -654,7 +652,7 @@
         tableBody.appendChild(row);
       });
       // Mostra il pop-up
-      popupContainer.style.display = "block";
+      popupContainer.style.display = "flex";
     }
 
     function closePopup() {

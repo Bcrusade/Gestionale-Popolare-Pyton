@@ -22,10 +22,12 @@ def gestionale():
 #send the menu list
 @app.route("/api/menu")
 def menu():
-    f = open("./data/lista_menu.json", "r")
-    data = f.read()
-    f.close()
-    return jsonify(data)
+    #f = open("./data/lista_menu.json", "r")
+    #data = f.read()
+    #f.close()
+    menu = buildMenu(connection)
+#   build from database
+    return jsonify(menu)
 
 
 #send open orders to display
@@ -170,44 +172,6 @@ def print_report():
         else:
             responseData["status"] = "error"
     return jsonify(responseData)
-
-
-#useless function (to remove)
-def startServer():
-    print(connection.total_changes)
-    #test functions
-    orderInJson = """{
-  "operatorId": "cassa1",
-  "datetime": "2024-03-06 15:28:07",
-  "totalValue": 100,
-  "paymentType": "cash",
-  "items": [ {
-  "itemId": 10,
-  "quantity": 2,
-  "notes": "some notes"
-  },
-  {
-  "itemId": 11,
-  "quantity": 1,
-  "notes": "more notes"
-  },
-   {
-  "itemId": 13,
-  "quantity": 1,
-  "notes": "more notes"
-  },
-  {
-  "itemId": 12,
-  "quantity": 1,
-  "notes": "more notes"
-  }]
-}"""
-    orderInJson = json.loads(orderInJson)
-    registerOrderToDatabase(connection, orderInJson)
-    #test functions END
-    print('Avvio del server...')
-    print('Server in esecuzione...')
-
 
 #utility function
 def jsonMenu():

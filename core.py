@@ -65,6 +65,19 @@ def registerOrderToDatabase(conn, order):
     logger.info("Order %s registered successfully", orderId)
     return 0
 
+def buildMenu(conn):
+    data = getMenu(conn)
+    print(data)
+    menu = { "cucina": [],
+             "menu birra": [],
+             "menu bibita": [],
+             "panini": [],
+             "pizza": [],
+             "bevande": [] }
+    for row in data:
+        menu[row[3]].append( { "name": row[0], "desc": row[5], "price": row[4], "productId": row[1]} )
+    return menu
+
 
 def printCommand(conn, order):
     #divide by item class
