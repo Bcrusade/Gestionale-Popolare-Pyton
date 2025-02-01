@@ -87,14 +87,6 @@ def updateOrderStatus(conn, data):
     cur.execute(sql, (data['orderStatus'], data['orderId'], data['orderType']))
     return
 
-#not used
-def makeOrderStatusCoherent(conn, orderId):
-    sql = ''' UPDATE orderStatus SET status = 1 WHERE orderId = ? '''
-    cur = conn.cursor()
-    cur.execute(sql, (orderId, ))
-    conn.commit()
-    return
-
 def updateOrderTable(conn, data):
     sql = ''' UPDATE orders SET tableId = ? WHERE orderId = ? '''
     cur = conn.cursor()

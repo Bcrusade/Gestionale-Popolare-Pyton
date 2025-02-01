@@ -29,6 +29,15 @@ def menu():
 #   build from database
     return jsonify(menu)
 
+#send the menu list
+@app.route("/api/menu-bar")
+def menu_bar():
+    #f = open("./data/lista_menu.json", "r")
+    #data = f.read()
+    #f.close()
+    menu = buildMenu(connection)
+#   build from database
+    return jsonify(menu)
 
 #send open orders to display
 @app.route("/api/ordersList")
@@ -80,6 +89,7 @@ def orders():
     responseData = {'status': ""}
     if request.method == 'POST':
         order = request.get_json()
+        order["operatorId"] = request.remote_addr.replace(".", "")
         dbStatus = registerOrderToDatabase(connection, order)
         if (dbStatus == 0):
             #start print thread
@@ -127,6 +137,9 @@ def orderRequestReprint():
 def getOrders():
     return render_template('./gestionale/gestionale-popolare-gestione-ordini.html')
 
+@app.route("/bar")
+def getBarInterface():
+    return render_template('./gestionale/gestionale-popolare-bar.html')
 
 @app.route("/summary")
 def getSummary():
@@ -193,8 +206,8 @@ def fillMenu():
     for category in data:
         for item in data[category]:
             item["category"] = category
-            sql = ''' INSERT INTO itemProp(name, itemId, itemClass, unitPrice)
-                              VALUES(:name, :productId, :category, :price) '''
+            sql = ''' INSERT INTO itemProp(name, itemId, itemClass, unitPrice, description)
+                              VALUES(:name, :productId, :category, :price, :desc) '''
             cur = connection.cursor()
             cur.execute(sql, item)
             connection.commit()

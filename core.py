@@ -30,8 +30,6 @@ def registerOrderToDatabase(conn, order):
     orderId = order["orderId"]
     #datetime
     order["datetime"] = datetime.now()
-    #operatorId(todo)
-    order["operatorId"] = 0
     order["tableId"] = 0
     orderData = (order["orderId"], order["totalValue"], order["operatorId"], order["paymentType"], order["datetime"],
                  order["customerType"], order["tableId"])
@@ -259,8 +257,13 @@ def retrieveOrderItems(conn, orderId, orderType):
 def updateData(conn, data):
     updateDataMutex.acquire()
     try:
-        status1 = updateOrderStatus(conn, data)
-        status2 = updateOrderTable(conn, data)
+        if (data["dataChanges"] == 1):   #change only status
+            updateOrderStatus(conn, data)
+        elif (data["dataChanges"] == 2): #change only table
+            updateOrderTable(conn, data)
+        elif (data["dataChanges"] == 3): #change both
+            updateOrderStatus(conn, data)
+            updateOrderTable(conn, data)
         conn.commit()
         updateDataMutex.release()
     except (sqlite3.OperationalError, sqlite3.IntegrityError, sqlite3.DatabaseError) as e:
