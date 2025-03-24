@@ -314,7 +314,7 @@ def archiveDatabaseData(conn):
         counter = 0
         for order in hotOrders:
             archiveOrder = {'displayId': order[0], 'totalValue': order[1], 'paymentType': order[3],
-                            'datetime': order[4], 'customerType': order[6], 'dayId': dayId}
+                            'datetime': order[4], 'customerType': order[6], 'dayId': dayId, 'operatorId': order[2]}
             status = insertArchiveOrder(conn, archiveOrder)
             if status == 0:
                 counter += 1

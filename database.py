@@ -150,8 +150,8 @@ def getHotItems(conn):
     return cur.fetchall()
 
 def insertArchiveOrder(conn, order):
-    sql = ''' INSERT INTO orderArchive(displayId, totalValue, paymentType, datetime, customerType, dayId) 
-                      VALUES(:displayId, :totalValue, :paymentType, :datetime, :customerType, :dayId) '''
+    sql = ''' INSERT INTO orderArchive(displayId, totalValue, paymentType, datetime, customerType, dayId, operatorId) 
+                      VALUES(:displayId, :totalValue, :paymentType, :datetime, :customerType, :dayId, :operatorId) '''
     cur = conn.cursor()
     cur.execute(sql, order)
     conn.commit()
