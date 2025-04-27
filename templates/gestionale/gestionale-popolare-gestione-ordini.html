@@ -293,7 +293,7 @@
           );
         }
         const newOrderData = await response.json();
-        console.log(newOrderData);
+        //console.log(newOrderData);
         // Aggiungi solo i nuovi ordini alla tabella
         displayOrdersTable(newOrderData);
       } catch (error) {
@@ -421,7 +421,7 @@
         const ChangeButton1 = document.getElementById(buttonId1);
         ChangeButton1.addEventListener("click", () => {
           // Chiamare la funzione di modifica dati dell'ordine passando l'indice corrente
-          console.log(order.orderId);
+          //console.log(order.orderId);
           //funzione per riempire popup
           showPopupEditDataOrder(
             order.orderId,
@@ -434,7 +434,7 @@
         // Aggiungere il listener di evento al pulsante "O"
         const ChangeButton2 = document.getElementById(buttonId2);
         ChangeButton2.addEventListener("click", () => {
-          console.log(order.orderId);
+          //console.log(order.orderId);
           //funzione per riempire popup
           showPopupViewOrderItem(order.orderId, order.orderType);
         });
@@ -527,7 +527,7 @@
       stato1Button.addEventListener("click", function (event) {
         // Previeni il comportamento di default del link
         event.preventDefault();
-        console.log("In preparazione");
+        //console.log("In preparazione");
         statoOrdine = 1;
         const htmlToUpdate = document.getElementById("stato-ordine");
         htmlToUpdate.innerHTML = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-yellow-500/20 text-yellow-500">${orderStatusMap[statoOrdine]}</span>`;

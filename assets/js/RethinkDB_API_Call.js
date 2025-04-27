@@ -16,7 +16,7 @@ async function loadExternalJsonAndInitialize(apiUrl) {
     const response2 = await fetch(
       "http://" + self.location.host + "/api/requestOrderNumber"
     ); // Esegui la chiamata API
-    console.log("Chiamata API riuscita:", response2);
+    //console.log("Chiamata API riuscita:", response2);
     responseObject = await response2.json(); // Estrai i dati JSON dalla risposta
     if (responseObject.status == "success") {
       //display page
@@ -25,7 +25,7 @@ async function loadExternalJsonAndInitialize(apiUrl) {
       document.getElementById("whole-page").style.display = ""
       //get order number
       orderNumber = responseObject.orderId;
-      console.log(orderNumber);
+      //console.log(orderNumber);
       // Inizializza l'applicazione con il JSON caricato
       initializeApp(data);
       // Simula un click sulla prima categoria per avviare il caricamento del menu promozionale
@@ -63,7 +63,7 @@ function clearContainers() {
     // Rimuovere tutto il contenuto HTML dal div "Totale"
     containerTotale.innerHTML = "";
 
-    console.log("Contenuto dei container eliminato con successo.");
+    //console.log("Contenuto dei container eliminato con successo.");
   } else {
     console.error("Errore: Impossibile trovare uno o entrambi i container.");
   }
@@ -73,7 +73,7 @@ function clearContainers() {
 function initializeApp(data) {
   // Mappa delle categorie ai rispettivi array di menu
   const json = data;
-  console.log(json);
+  //console.log(json);
   //key = category, item= list of products
   const categorieMenuMap = {
     pizza: json["pizza"] || [],
@@ -130,7 +130,7 @@ function initializeApp(data) {
       const divToRemove = document.getElementById(objectDetails.ID);
 
       // Log per il debugging
-      console.log("Elemento da rimuovere:", divToRemove);
+      //console.log("Elemento da rimuovere:", divToRemove);
 
       // Verificare che l'elemento da rimuovere sia un figlio diretto del contenitore
       if (divToRemove && divToRemove.parentNode === container) {
@@ -152,8 +152,8 @@ function initializeApp(data) {
         // Aggiornare il contenuto dell'elemento con la nuova somma totale
         totaleElement.textContent = `€ ${grandTotal.toFixed(2)}`;
 
-        console.log("Totale aggiornato dopo l'eliminazione:", grandTotal);
-        console.log("ID da eliminare:", objectDetails.ID);
+        //console.log("Totale aggiornato dopo l'eliminazione:", grandTotal);
+        //console.log("ID da eliminare:", objectDetails.ID);
 
         // Ottieni il riferimento al bottone "check-out"
         var checkoutButton = document.getElementById("check-out");
@@ -187,17 +187,17 @@ function initializeApp(data) {
     orderData.push(orderDetailsObject);
 
     // Ora puoi utilizzare orderDataJson per ottenere la rappresentazione JSON dei dati dell'ordine
-    console.log("Ordine:", orderDetailsObject);
+    //console.log("Ordine:", orderDetailsObject);
     // Convertire l'oggetto in una stringa JSON e assegnarla a orderDataJson
     const orderDataJson = JSON.stringify(orderData);
 
     // Ora puoi utilizzare orderDataJson per ottenere la rappresentazione JSON dei dati dell'ordine
-    console.log("Ordine JSON:", orderDataJson);
+    //console.log("Ordine JSON:", orderDataJson);
     // Ora puoi utilizzare orderDataJson per ottenere la rappresentazione JSON dei dati dell'ordine
-    console.log("Ordine:", orderData);
+    //console.log("Ordine:", orderData);
 
     grandTotal = calculateTotalOrderValue(orderData);
-    console.log("Totale riepilogo:", grandTotal);
+    //console.log("Totale riepilogo:", grandTotal);
 
     // Selezionare l'elemento <p> con l'ID "Totale"
     const totaleElement = document.getElementById("Totale");
@@ -258,7 +258,7 @@ function initializeApp(data) {
       items: cleanedOrderData,
     };
 
-    console.log("Dati dell'ordine:", datiOrdine);
+    //console.log("Dati dell'ordine:", datiOrdine);
 
     let response = await fetch("http://" + self.location.host + "/api/orders", {
       method: "POST",
@@ -299,7 +299,7 @@ function initializeApp(data) {
     // Convertire l'oggetto in una stringa JSON
     const transformedDataJson = JSON.stringify(transformedData);
     // Ora puoi utilizzare transformedDataJson per ottenere la rappresentazione JSON dei dati trasformati
-    console.log("Dati trasformati JSON:", transformedDataJson);
+    //console.log("Dati trasformati JSON:", transformedDataJson);
     // Restituire la stringa JSON risultante
     return transformedDataJson;
   }
@@ -414,7 +414,7 @@ function initializeApp(data) {
       paymentType = "free";
     }
 
-    console.log(paymentType);
+    //console.log(paymentType);
 
     //Calcolo resto
     function calcolaSottrazione() {
@@ -516,7 +516,7 @@ function initializeApp(data) {
     const jsonData = transformedDataJson;
     // Converti la stringa JSON in un oggetto JavaScript
     const orderItems = JSON.parse(jsonData);
-    console.log(transformedDataJson);
+    //console.log(transformedDataJson);
     // Ottieni il totale
     const GragrandTotal = grandTotal;
 
@@ -594,7 +594,7 @@ function initializeApp(data) {
     categoryId = checkbox.id;
 
     // Esegui le azioni desiderate con l'ID della categoria
-    console.log(`Hai cliccato sulla categoria con ID: ${categoryId}`);
+    //console.log(`Hai cliccato sulla categoria con ID: ${categoryId}`);
 
     // Aggiorna il menu in base alla categoria selezionata
     updateMenu(categoryId);
@@ -833,7 +833,7 @@ function initializeApp(data) {
       if (inputElement) {
         // Aggiungi un listener per il click sull'input
         inputElement.addEventListener("click", function () {
-          console.log(`Input con id ${inputId} cliccato.`);
+          //console.log(`Input con id ${inputId} cliccato.`);
 
           // Salva il valore dell'input nella variabile globale
           globalNote = inputElement.value;
@@ -866,7 +866,7 @@ function initializeApp(data) {
     "Bevande",
   ];
 
-  console.log("Array di categorie:", categories);
+  //console.log("Array di categorie:", categories);
 
   // Get the container element
   const categoryListContainer = document.getElementById("category-list");
