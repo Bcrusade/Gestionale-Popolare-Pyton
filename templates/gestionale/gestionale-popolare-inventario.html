@@ -21,7 +21,7 @@
   <!--  Head js -->
   <script type="module" crossorigin src="assets/js/theme-b118ffc1.js"></script>
   <!-- <script type="module" crossorigin src="assets/js/chiamata-api.js"></script> -->
-  <script type="text/javascript" src="assets/js/RethinkDB_API_Call.js"></script>
+  <script type="text/javascript" src="assets/js/inventario.js"></script>
   <script src="assets/js/print.min.js"></script>
   <link rel="stylesheet" href="assets/css/print.css" />
   <link rel="stylesheet" href="assets/css/theme-c9540983.css" />
@@ -51,9 +51,9 @@
     <div class="flex h-40 justify-center text-center" id="preloader-container">
       <img src="assets/img/Logo_popolare_2024x500_trasparente.png" alt="logo" class="flex dark:hidden" />
       <img src="assets/img/Logo_popolare_2024x500_trasparente.png" alt="logo" class="hidden dark:flex" />
-      <button type="button" id="button-new-order"
+      <button type="button" id="button-apri-inventario"
         class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 items-center justify-center px-6 py-3 rounded-full shadow-lg text-center text-sm text-white transition-all w-1/4 z-10"
-        onclick="init()">NUOVO ORDINE BAR</button>
+        onclick="init()">Apri Inventario</button>
     </div>
     <div class="container" id="whole-page" style="display: none">
       <div id="frontpage" class="lg:flex gap-4">
@@ -114,53 +114,7 @@
           <!-- end grid -->
           <!-- end flex -->
         </div>
-        <div id="right-panel" class="mb-5 lg:w-1/4 w-full">
-          <div
-            class="border border-default-200 duration-300 hover:border-primary hover:shadow-xl order-2 overflow-hidden p-4 rounded-lg transition-all xl:order-1">
-            <h4 class="text-lg font-semibold text-default-700 mb-5">
-              Riepilogo
-            </h4>
-            <div id="container-riepilogo">
-              <!-- Riepilogo Dinamico -->
-            </div>
-            <div class="mb-6">
-              <div class="border-b border-default-200 my-4"></div>
-              <div class="flex justify-between mb-3">
-                <p class="text-base text-default-700 font-bold">Totale</p>
-                <p id="Totale" class="text-base text-default-700 font-medium">
-                  <!-- Totale Dinamico -->
-                </p>
-              </div>
-            </div>
-            <div class="hs-collapse w-full overflow-hidden transition-[height] duration-300 open" id="customerTypes">
-              <div id="checkbox-utente" class="relative flex flex-col space-y-4 mb-6">
-                <div class="flex items-center">
-                  <input
-                    class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer"
-                    id="Client" name="all" type="checkbox" onclick="toggleCheck('Client')">
-                  <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none"
-                    for="Client">Cliente</label>
-                </div>
-                <div class="flex items-center">
-                  <input
-                    class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer"
-                    id="Volounteer" name="all" type="checkbox" onclick="toggleCheck('Volounteer')">
-                  <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none"
-                    for="Volounteer">Volontario/Frate</label>
-                </div>
-                <div class="flex items-center">
-                  <input
-                    class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer"
-                    id="Guest" name="all" type="checkbox" onclick="toggleCheck('Guest')">
-                  <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none"
-                    for="Guest">Ospite</label>
-                </div>
-              </div>
-              <button id="check-out"
-                class="opacity-50 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-10 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500"
-                onclick="saveSelectedInput()">
-                Pagamento
-              </button>
+
             </div>
           </div>
         </div>
@@ -190,7 +144,7 @@
       cursor: pointer;
     }
 
-    #button-new-order {
+    #button-apri-inventario {
       flex-direction: column;
       position: fixed;
       top: 50%;
@@ -213,57 +167,11 @@
 
   <script>
 
-    let GuestTypeSelectedInput = null;
-    let paymentType = null;
-
-    function toggleCheck(checkedId) {
-      const checkboxes = document.querySelectorAll(
-        '#checkbox-utente input[type="checkbox"]:checked'
-      );
-      checkboxes.forEach((customerType) => {
-        customerType.checked = false;
-      });
-      const selectedType = event.currentTarget
-      selectedType.checked = true;
-      GuestTypeSelectedInput = checkedId
-      console.log(GuestTypeSelectedInput)
-    }
-
-    // Imposta il checkbox "Client" & "cash" come selezionato di default
-    document.getElementById('Client').checked = true;
-    // Aggiorna la variabile globale
-    GuestTypeSelectedInput = 'Client';
-
-
-    function paymentCheckboxMutex(checkedId, uncheckedId) {
-      var checkedCheckbox = document.getElementById(checkedId);
-      var uncheckedCheckbox = document.getElementById(uncheckedId);
-      checkedCheckbox.checked = true
-      uncheckedCheckbox.checked = false
-      if (checkedId === "pos") {
-        paymentType = "pos"
-        const changeContainer = document.getElementById("change-container");
-        changeContainer.style.opacity = "0";
-        setTimeout(() => {
-          changeContainer.style.height = "0";
-        }, 200);
-      }
-      else if (checkedId === "cash") {
-        paymentType = "cash"
-        const changeContainer = document.getElementById("change-container");
-        changeContainer.style.height = "";
-        setTimeout(() => {
-          changeContainer.style.opacity = "1";
-        }, 50);
-
-      }
-      console.log(paymentType)
-    }
 
     function init() {
       // URL dell'API da cui ottenere i dati JSON
-      const apiUrl = "http://" + self.location.host + "/api/menu-bar";
-      document.getElementById("button-new-order").style.pointerEvents = "none"
+      const apiUrl = "http://" + self.location.host + "/api/menu";
+      document.getElementById("button-apri-inventario").style.pointerEvents = "none"
       // Carica i dati JSON dall'API e avvia l'applicazione
       loadExternalJsonAndInitialize(apiUrl);
     };

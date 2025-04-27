@@ -24,6 +24,12 @@ def insertItem(conn, item):
     cur.execute(sql, item)
     return 0
 
+def reduceInventoryForItem(conn, item):
+    sql = '''UPDATE itemProp SET availability = availability - ? WHERE itemId = ? '''
+    cur = conn.cursor()
+    cur.execute(sql, (item["quantity"], item["itemId"], ))
+    return 0
+
 def insertStatus(conn, orderId, orderType, value):
     sql = ''' INSERT INTO orderStatus(orderId, orderType, status)
                       VALUES(?, ?, ?) '''
@@ -86,6 +92,13 @@ def updateOrderStatus(conn, data):
     cur = conn.cursor()
     cur.execute(sql, (data['orderStatus'], data['orderId'], data['orderType']))
     return
+
+def updateInventoryItem(conn, data):
+    sql = ''' UPDATE itemProp SET availability = ?, inventoryCheck = ? WHERE itemId = ?'''
+    cur = conn.cursor()
+    cur.execute(sql, (data['availability'], data['inventoryCheck'], data['itemId']))
+    #todo handle errors
+    return 0
 
 def updateOrderTable(conn, data):
     sql = ''' UPDATE orders SET tableId = ? WHERE orderId = ? '''

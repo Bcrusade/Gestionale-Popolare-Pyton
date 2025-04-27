@@ -53,6 +53,7 @@ def registerOrderToDatabase(conn, order):
         for item in order["items"]:
             item["orderId"] = orderId
             insertItem(conn, item)  # insert each item in items table
+            reduceInventoryForItem(conn, item)
         conn.commit()
     except (sqlite3.OperationalError, sqlite3.IntegrityError, sqlite3.DatabaseError) as e:
         logger.error("Could not register order %s to db", orderId, exc_info=True)
@@ -73,7 +74,7 @@ def buildMenu(conn):
              "pizza": [],
              "bevande": [] }
     for row in data:
-        menu[row[3]].append( { "name": row[0], "desc": row[5], "price": row[4], "productId": row[1]} )
+        menu[row[3]].append( { "name": row[0], "desc": row[5], "price": row[4], "productId": row[1], "availability": row[6], "inventoryCheck": row[7]} )
     return menu
 
 

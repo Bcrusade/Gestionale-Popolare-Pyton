@@ -101,6 +101,20 @@ def orders():
         print(order)
     return jsonify(responseData)
 
+#update inventory data for an item
+@app.route("/api/updateInventory", methods=['POST'])
+def updateInventoryWeb():
+    responseData = {'status': ""}
+    if request.method == 'POST':
+        update = request.get_json()
+        print(update)
+        dbStatus = updateInventoryItem(connection, update)
+        if (dbStatus == 0):
+            responseData["status"] = "success"
+        else:
+            responseData["status"] = "error"
+    return jsonify(responseData)
+
 
 #update an order status and/or table id
 @app.route("/api/orderDataUpdate", methods=['POST'])
@@ -137,9 +151,9 @@ def orderRequestReprint():
 def getOrders():
     return render_template('./gestionale/gestionale-popolare-gestione-ordini.html')
 
-@app.route("/bar")
-def getBarInterface():
-    return render_template('./gestionale/gestionale-popolare-bar.html')
+@app.route("/inventario")
+def getInventarioInterface():
+    return render_template('./gestionale/gestionale-popolare-inventario.html')
 
 @app.route("/summary")
 def getSummary():
