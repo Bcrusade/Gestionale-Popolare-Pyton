@@ -692,7 +692,7 @@ function initializeApp(data) {
       margin-bottom: 8px;
       display: inline-block;
     ">
-      Esaurito
+      Prodotto esaurito
     </div>
   `;
   menuElement.innerHTML = warningLabel + menuElement.innerHTML;
@@ -718,7 +718,7 @@ function initializeApp(data) {
     margin-bottom: 8px;
     display: inline-block;
   ">
-    Verificare disponibilità, rimanenti: ${oggetto.availability}
+    In esaurimento: ${oggetto.availability}
   </div>
 `
     menuElement.innerHTML = warningLabel + menuElement.innerHTML;

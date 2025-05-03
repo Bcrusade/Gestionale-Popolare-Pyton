@@ -227,7 +227,7 @@ function updateMenu(categoryId) {
               <span class="text-default-800 text-xl font-semibold line-clamp-3 after:absolute after:inset-0">${oggetto.name}</span>
 
             </div>
-            <label for="enableCheckbox_${menuId}">Abilitato</label>
+            <label for="enableCheckbox_${menuId}">Abilita disponibilità</label>
             <input type="checkbox" disabled id="enableCheckbox_${menuId}" style="width: 20px; height: 20px; border: 2px solid #333; border-radius: 3px; cursor: pointer; position: relative;">
 
             <br>
@@ -277,7 +277,7 @@ function openModifyPopup(oggetto){
     let htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-5 text-center">${oggetto.name}</h4>
                         <hr>
                         <label style="display: flex; align-items: center; gap: 10px; font-size: 18px; margin: 5px 0;">
-  Abilitato
+  Abilita disponibilità
   <input type="checkbox" id="modificaCheck"
          style="width: 20px; height: 20px; cursor: pointer;">
 </label>
