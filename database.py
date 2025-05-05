@@ -224,10 +224,16 @@ def getOrderByDayId(conn, dayId):
     return cur.fetchall()
 
 #get total data contanti
-def getTotalOrdini(conn, paymentType, customerType, selectedDate):
-    sql = ''' SELECT count(*), SUM(totalValue) FROM orderArchive WHERE paymentType = ? AND customerType = ? AND datetime LIKE ?'''
+def getIncasso(conn, paymentType, selectedDate):
+    sql = ''' SELECT count(*), SUM(totalValue) FROM orderArchive WHERE paymentType = ? AND datetime LIKE ?'''
     cur = conn.cursor()
-    cur.execute(sql, (paymentType, customerType, selectedDate))
+    cur.execute(sql, (paymentType, selectedDate))
+    return cur.fetchone()
+
+def getTotalOrdini(conn, customerType, selectedDate):
+    sql = ''' SELECT count(*), SUM(totalValue) FROM orderArchive WHERE customerType = ? AND datetime LIKE ?'''
+    cur = conn.cursor()
+    cur.execute(sql, (customerType, selectedDate))
     return cur.fetchone()
 
 def getTotalOrderNumberVol(conn):
