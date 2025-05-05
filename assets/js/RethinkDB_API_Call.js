@@ -553,7 +553,7 @@ function initializeApp(data) {
         htmlContent += `
          <div>
             <span>1x</span>
-            <span> Voucher</span><br>
+            <span> Voucher Volontario</span><br>
             <span style="margin-left:20px">      -${volounteerVoucher} €</span>
          </div>
      `;
