@@ -243,7 +243,7 @@ function initializeApp(data) {
         const transformedOrderData = transformAndSaveOrderData(orderDataJson);
 
         // Chiamare la funzione showPopupOrderData con i dati trasformati
-        showPopupOrderData(transformedOrderData, grandTotal);
+        showPopupOrderData(transformedOrderData);
       } else {
         // Alert o messaggio che informa l'utente che non può effettuare il check-out
         toastr.error("Il carrello è vuoto!", "Errore");
@@ -318,7 +318,7 @@ function initializeApp(data) {
   }
 
   // Funzione per creare e mostrare il pop-up con i dati trasformati
-  function showPopupOrderData(transformedDataJson, grandTotal) {
+  function showPopupOrderData(transformedDataJson) {
     // Converti la stringa JSON in un oggetto JavaScript
     const orderItems = JSON.parse(transformedDataJson);
     // Ottieni il contenitore del pop-up
