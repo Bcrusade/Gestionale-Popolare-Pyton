@@ -50,6 +50,10 @@ let grandTotal = 0;
 let orderData = [];
 // variabile per il numero dell'ordine
 let orderNumber = -1;
+//variabile sconto volontario
+let volounteerVoucher = 0
+//variabile soglia avviso disponibilità
+let availabilityWarningThreshold = 10
 
 //clear html containers of cart
 function clearContainers() {
@@ -73,7 +77,7 @@ function clearContainers() {
 function initializeApp(data) {
   // Mappa delle categorie ai rispettivi array di menu
   const json = data;
-  //console.log(json);
+  volounteerVoucher = json["volounteerVoucher"]
   //key = category, item= list of products
   const categorieMenuMap = {
     pizza: json["pizza"] || [],
@@ -320,8 +324,8 @@ function initializeApp(data) {
     // Ottieni il contenitore del pop-up
     const popupContainer = document.getElementById("popup-container");
     let volounteerPay = 0;
-    if(GuestTypeSelectedInput === "Volounteer" && grandTotal > 8){
-     grandTotal -= 8;
+    if(GuestTypeSelectedInput === "Volounteer" && grandTotal > volounteerVoucher){
+     grandTotal -= volounteerVoucher;
      volounteerPay = 1;
 } else if (GuestTypeSelectedInput === "Volounteer") {
         grandTotal = 0; }
@@ -697,7 +701,7 @@ function initializeApp(data) {
   `;
   menuElement.innerHTML = warningLabel + menuElement.innerHTML;
             }
-            else if(oggetto.availability < 10 && oggetto.inventoryCheck){
+            else if(oggetto.availability < availabilityWarningThreshold && oggetto.inventoryCheck){
             menuElement.style.backgroundColor = "rgba(255, 165, 0, 0.15)";
               menuElement.className = `
   xl:order-1 order-2
