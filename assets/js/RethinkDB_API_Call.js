@@ -385,6 +385,17 @@ function initializeApp(data) {
 </div>
     `;
     });
+    if (GuestTypeSelectedInput == "Volounteer"){
+    htmlContent += `<div class="mx-5">
+  <div style="
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  ">
+    <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none font-bold">Voucher volontario:</h4>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">-${volounteerVoucher
+        } €</span>`
+    }
     htmlContent += noteHtml;
     if (GuestTypeSelectedInput === "Client" || volounteerPay === 1) {
       htmlContent += `
@@ -538,6 +549,15 @@ function initializeApp(data) {
          </div>
      `;
     });
+    if(GuestTypeSelectedInput == "Volounteer") {
+        htmlContent += `
+         <div>
+            <span>1x</span>
+            <span> Voucher</span><br>
+            <span style="margin-left:20px">      -${volounteerVoucher} €</span>
+         </div>
+     `;
+    }
     let date = new Date()
     let strTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
     let myDatetime = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + "  " + strTime
