@@ -47,7 +47,7 @@ function initializeApp(data) {
     panini_singoli: json["panini"] || [],
     menu_birra: json["menu birra"] || [],
     cucina: json["cucina"] || [],
-    bevande: json["bevande"] || [],
+    bar: json["bevande"] || [],
     menu_bibita: json["menu bibita"] || [],
   };
 
@@ -89,7 +89,7 @@ function initializeApp(data) {
     "Menu Bibita",
     "Panini Singoli",
     "Pizza",
-    "Bevande",
+    "Bar",
   ];
 
   console.log("Array di categorie:", categories);
