@@ -76,6 +76,7 @@ def buildMenu(conn):
     for row in data:
         menu[row[3]].append( { "name": row[0], "desc": row[5], "price": row[4], "productId": row[1], "availability": row[6], "inventoryCheck": row[7]} )
     menu["volounteerVoucher"] = config.volounteerVoucher
+    menu["animatorVoucher"] = config.animatorVoucher
     return menu
 
 
@@ -420,7 +421,7 @@ def printReport(conn, selectedDate, printername):
     html_body += "<tr> <td>Totale Incasso Clienti</td><td>" + str(
         float(0 if clienti[1] is None else clienti[1])) + " €</td></tr>"
     html_body += "<tr> <td>Totale Ordini Volontari</td><td>" + str(volontari[0]) + "</td></tr>"
-    html_body += "<tr> <td>Totale Costo Volontari</td><td>" + str(
+    html_body += "<tr> <td>Totale Incasso Volontari</td><td>" + str(
         float(0 if volontari[1] is None else volontari[1])) + " €</td></tr>"
     html_body += "<tr> <td>Totale Ordini Ospiti</td><td>" + str(ospiti[0]) + "</td></tr>"
     html_body += "<tr> <td>Totale Costo Ospiti</td><td>" + str(

@@ -52,8 +52,12 @@ let orderData = [];
 let orderNumber = -1;
 //variabile sconto volontario
 let volounteerVoucher = 0
+let animatorVoucher = 0
 //variabile soglia avviso disponibilità
 let availabilityWarningThreshold = 10
+
+let numeroVoucherV = 1
+let numeroVoucherA = 0
 
 //clear html containers of cart
 function clearContainers() {
@@ -78,6 +82,7 @@ function initializeApp(data) {
   // Mappa delle categorie ai rispettivi array di menu
   const json = data;
   volounteerVoucher = json["volounteerVoucher"]
+  animatorVoucher = json["animatorVoucher"]
   //key = category, item= list of products
   const categorieMenuMap = {
     pizza: json["pizza"] || [],
@@ -324,8 +329,8 @@ function initializeApp(data) {
     // Ottieni il contenitore del pop-up
     const popupContainer = document.getElementById("popup-container");
     let volounteerPay = 0;
-    if(GuestTypeSelectedInput === "Volounteer" && grandTotal > volounteerVoucher){
-     grandTotal -= volounteerVoucher;
+    if(GuestTypeSelectedInput === "Volounteer" && grandTotal > (volounteerVoucher * numeroVoucherV + animatorVoucher * numeroVoucherA)){
+     grandTotal -= volounteerVoucher * numeroVoucherV + animatorVoucher * numeroVoucherA;
      volounteerPay = 1;
 } else if (GuestTypeSelectedInput === "Volounteer") {
         grandTotal = 0; }
@@ -392,9 +397,8 @@ function initializeApp(data) {
   grid-template-columns: auto auto;
   justify-content: start;
   ">
-    <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none font-bold">Voucher volontario:</h4>
-    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">-${volounteerVoucher
-        } €</span>`
+    <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none font-bold">Voucher:</h4>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${volounteerVoucher*numeroVoucherV+ animatorVoucher*numeroVoucherA} €</span>`
     }
     htmlContent += noteHtml;
     if (GuestTypeSelectedInput === "Client" || volounteerPay === 1) {
@@ -552,9 +556,9 @@ function initializeApp(data) {
     if(GuestTypeSelectedInput == "Volounteer") {
         htmlContent += `
          <div>
-            <span>1x</span>
-            <span> Voucher Volontario</span><br>
-            <span style="margin-left:20px">      -${volounteerVoucher} €</span>
+            <span>  </span>
+            <span> Voucher </span><br>
+            <span style="margin-left:20px">      -${volounteerVoucher*numeroVoucherV + animatorVoucher*numeroVoucherA} €</span>
          </div>
      `;
     }
