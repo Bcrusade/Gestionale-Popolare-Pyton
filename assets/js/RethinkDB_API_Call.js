@@ -1,9 +1,9 @@
 // Funzione principale che viene eseguita una volta che il DOM è pronto
-document.addEventListener("DOMContentLoaded", function () {
-});
+document.addEventListener("DOMContentLoaded", function () { });
 toastr.options = {
-  "timeOut": "1500"
-}
+  timeOut: "1500",
+};
+let categoryId = 1
 
 // Modifica la funzione loadExternalJsonAndInitialize per utilizzare la chiamata API
 async function loadExternalJsonAndInitialize(apiUrl) {
@@ -13,20 +13,32 @@ async function loadExternalJsonAndInitialize(apiUrl) {
     const data = await response.json(); // Estrai i dati JSON dalla risposta
     //console.log(data);
 
-    const response2 = await fetch("http://" + self.location.host + "/api/requestOrderNumber"); // Esegui la chiamata API
-    console.log("Chiamata API riuscita:", response2);
+    const response2 = await fetch(
+      "http://" + self.location.host + "/api/requestOrderNumber"
+    ); // Esegui la chiamata API
+    //console.log("Chiamata API riuscita:", response2);
     responseObject = await response2.json(); // Estrai i dati JSON dalla risposta
-    orderNumber = responseObject.orderId
-    console.log(orderNumber)
+    if (responseObject.status == "success") {
+      //display page
+      document.getElementById("button-new-order").style.pointerEvents = "none"
+      document.getElementById("preloader-container").style.display = "none"
+      document.getElementById("whole-page").style.display = ""
+      //get order number
+      orderNumber = responseObject.orderId;
+      //console.log(orderNumber);
+      // Inizializza l'applicazione con il JSON caricato
+      initializeApp(data);
+      // Simula un click sulla prima categoria per avviare il caricamento del menu promozionale
+      const primaCategoriaCheckbox = document.querySelector(
+        '#category-list input[type="checkbox"]'
+      );
+      primaCategoriaCheckbox.click();
+    }
+    else {
+      toastr.error("Errore nella richiesta del numero d'ordine", "Errore", { timeOut: 10000 });
+      document.getElementById("button-new-order").style.pointerEvents = "all"
+    }
 
-    // Inizializza l'applicazione con il JSON caricato
-    initializeApp(data);
-
-    // Simula un click sulla prima categoria per avviare il caricamento del menu promozionale
-    const primaCategoriaCheckbox = document.querySelector(
-      '#category-list input[type="checkbox"]'
-    );
-    primaCategoriaCheckbox.click();
   } catch (error) {
     console.error("Errore nel caricamento dei dati dall'API:", error);
   }
@@ -38,6 +50,14 @@ let grandTotal = 0;
 let orderData = [];
 // variabile per il numero dell'ordine
 let orderNumber = -1;
+//variabile sconto volontario
+let volounteerVoucher = 0
+let animatorVoucher = 0
+//variabile soglia avviso disponibilità
+let availabilityWarningThreshold = 10
+
+let numeroVoucherV = 1
+let numeroVoucherA = 0
 
 //clear html containers of cart
 function clearContainers() {
@@ -51,7 +71,7 @@ function clearContainers() {
     // Rimuovere tutto il contenuto HTML dal div "Totale"
     containerTotale.innerHTML = "";
 
-    console.log("Contenuto dei container eliminato con successo.");
+    //console.log("Contenuto dei container eliminato con successo.");
   } else {
     console.error("Errore: Impossibile trovare uno o entrambi i container.");
   }
@@ -60,21 +80,17 @@ function clearContainers() {
 // Funzione per inizializzare l'applicazione con il JSON (Lista prodotti) fornito
 function initializeApp(data) {
   // Mappa delle categorie ai rispettivi array di menu
-  const json = JSON.parse(data);
-  console.log(json)
+  const json = data;
+  volounteerVoucher = json["volounteerVoucher"]
+  animatorVoucher = json["animatorVoucher"]
   //key = category, item= list of products
   const categorieMenuMap = {
     pizza: json["pizza"] || [],
-    panini_singoli:
-      json["panini"] || [],
-    menu_birra:
-      json["menu birra"] || [],
-    cucina:
-      json["cucina"] || [],
-    bevande:
-      json["bevande"] || [],
-    menu_bibita:
-      json["menu bibita"] || [],
+    panini_singoli: json["panini"] || [],
+    menu_birra: json["menu birra"] || [],
+    cucina: json["cucina"] || [],
+    bar: json["bevande"] || [],
+    menu_bibita: json["menu bibita"] || [],
   };
 
   // Funzione per generare HTML dinamico basato sulle >variabili globali< (NEL RIEPILOGO a lato)
@@ -96,12 +112,13 @@ function initializeApp(data) {
         : "";
 
     objectDiv.innerHTML = `
-        <!-- <img src="${objectDetails.img}" class="h-20 w-20 me-2"> -->
-        <div>
-          <h4 class="text-sm text-default-600 mb-2 font-bold">${objectDetails.name}</h4>
+    <div>
+        <div style="display: flex; align-items: flex-top">
+          <h4 style="margin:0" class="text-sm text-default-600 mb-2 font-bold">${objectDetails.name}</h4>
+          <button style="margin-left: 1em; margin-bottom: auto" class="text-sm font-bold text-default-950">X</button>
+          </div>
           ${noteHtml}
-          <h4 class="text-sm text-default-400 font-bold">${objectDetails.quantity} x <span class="text-primary font-semibold">€${objectDetails.price}</span>
-          <button style="float: right;" class="font-bold text-default-950">X</button></h4>
+          <h4 class="text-sm text-default-400 font-bold">${objectDetails.quantity} x <span class="text-primary font-semibold">€${objectDetails.price}</span></h4>
         </div>
       `;
 
@@ -122,21 +139,30 @@ function initializeApp(data) {
       const divToRemove = document.getElementById(objectDetails.ID);
 
       // Log per il debugging
-      console.log("Elemento da rimuovere:", divToRemove);
+      //console.log("Elemento da rimuovere:", divToRemove);
 
       // Verificare che l'elemento da rimuovere sia un figlio diretto del contenitore
       if (divToRemove && divToRemove.parentNode === container) {
         // Rimuovere l'elemento corrispondente dall'array di dettagli dell'oggetto
-        orderData = orderData.filter(item => item.ID != objectDetails.ID)
-        grandTotal = calculateTotalOrderValue(orderData)
+        Object.values(categorieMenuMap).forEach(arrayMenu => {
+        for (let i = 0; i < arrayMenu.length; i++) {
+  if (arrayMenu[i].productId === objectDetails.productId) {
+    arrayMenu[i].availability += objectDetails.quantity;
+    break; // Exit the loop after the update
+  }
+}
+})
+        updateMenu(categoryId)
+        orderData = orderData.filter((item) => item.ID != objectDetails.ID);
+        grandTotal = calculateTotalOrderValue(orderData);
         // Rimuovere il div dal DOM
         container.removeChild(divToRemove);
 
         // Aggiornare il contenuto dell'elemento con la nuova somma totale
         totaleElement.textContent = `€ ${grandTotal.toFixed(2)}`;
 
-        console.log("Totale aggiornato dopo l'eliminazione:", grandTotal);
-        console.log("ID da eliminare:", objectDetails.ID)
+        //console.log("Totale aggiornato dopo l'eliminazione:", grandTotal);
+        //console.log("ID da eliminare:", objectDetails.ID);
 
         // Ottieni il riferimento al bottone "check-out"
         var checkoutButton = document.getElementById("check-out");
@@ -144,7 +170,6 @@ function initializeApp(data) {
           // Toggle della classe opacity-50 sul div del bottone "check-out"
           checkoutButton.classList.add("opacity-50");
         }
-
       } else {
         // Log se l'elemento non è stato trovato o non è un figlio diretto del contenitore
         console.error(
@@ -160,28 +185,28 @@ function initializeApp(data) {
       price: itemProperties.price,
       notes: "",
       ID: itemProperties.ID,
-      itemId: itemProperties.productId
+      itemId: itemProperties.productId,
     };
 
     if (itemProperties.note) {
-      orderDetailsObject["notes"] = itemProperties.note
+      orderDetailsObject["notes"] = itemProperties.note;
     }
 
     // Aggiungere i dati correnti alla variabile globale orderData
     orderData.push(orderDetailsObject);
 
     // Ora puoi utilizzare orderDataJson per ottenere la rappresentazione JSON dei dati dell'ordine
-    console.log("Ordine:", orderDetailsObject);
+    //console.log("Ordine:", orderDetailsObject);
     // Convertire l'oggetto in una stringa JSON e assegnarla a orderDataJson
     const orderDataJson = JSON.stringify(orderData);
 
     // Ora puoi utilizzare orderDataJson per ottenere la rappresentazione JSON dei dati dell'ordine
-    console.log("Ordine JSON:", orderDataJson);
+    //console.log("Ordine JSON:", orderDataJson);
     // Ora puoi utilizzare orderDataJson per ottenere la rappresentazione JSON dei dati dell'ordine
-    console.log("Ordine:", orderData);
+    //console.log("Ordine:", orderData);
 
-    grandTotal = calculateTotalOrderValue(orderData)
-    console.log("Totale riepilogo:", grandTotal);
+    grandTotal = calculateTotalOrderValue(orderData);
+    //console.log("Totale riepilogo:", grandTotal);
 
     // Selezionare l'elemento <p> con l'ID "Totale"
     const totaleElement = document.getElementById("Totale");
@@ -202,9 +227,15 @@ function initializeApp(data) {
     checkoutButton.addEventListener("click", function () {
       if (grandTotal !== 0) {
         //make screen unclickable
-        const MenuContainer1 = document.getElementById("container-menu").style.pointerEvents = "none"
-        const MenuContainer2 = document.getElementById("filter_Offcanvas").style.pointerEvents = "none"
-        const MenuContainer3 = document.getElementById("right-panel").style.pointerEvents = "none"
+        const MenuContainer1 = (document.getElementById(
+          "container-menu"
+        ).style.pointerEvents = "none");
+        const MenuContainer2 = (document.getElementById(
+          "filter_Offcanvas"
+        ).style.pointerEvents = "none");
+        const MenuContainer3 = (document.getElementById(
+          "right-panel"
+        ).style.pointerEvents = "none");
         // Chiamare la funzione per pulire il carrello
         clearContainers();
         // Toggle della classe opacity-50 sul div del bottone "check-out"
@@ -217,9 +248,7 @@ function initializeApp(data) {
         const transformedOrderData = transformAndSaveOrderData(orderDataJson);
 
         // Chiamare la funzione showPopupOrderData con i dati trasformati
-        showPopupOrderData(transformedOrderData, grandTotal);
-
-
+        showPopupOrderData(transformedOrderData);
       } else {
         // Alert o messaggio che informa l'utente che non può effettuare il check-out
         toastr.error("Il carrello è vuoto!", "Errore");
@@ -235,10 +264,10 @@ function initializeApp(data) {
       paymentType: paymentType,
       orderId: orderNumber,
       totalValue: grandTotal,
-      items: cleanedOrderData
+      items: cleanedOrderData,
     };
 
-    console.log("Dati dell'ordine:", datiOrdine);
+    //console.log("Dati dell'ordine:", datiOrdine);
 
     let response = await fetch("http://" + self.location.host + "/api/orders", {
       method: "POST",
@@ -246,25 +275,24 @@ function initializeApp(data) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(datiOrdine),
-    })
-    let data = await response.json()
-    if(data.status == "success") {
+    });
+    let data = await response.json();
+    if (data.status == "success") {
       // Svuotare le variabile dopo l'invio dell'ordine
-      closePopup()
-      clearDataState()
-      location.reload() //reload the page after submitting the order to the server
+      closePopup();
+      clearDataState();
+      location.reload(); //reload the page after submitting the order to the server
+    } else {
+      const sendOrderButton = document.querySelector("#send-order");
+      sendOrderButton.style.pointerEvents = "all"
+      sendOrderButton.classList.remove("opacity-50");
+      sendOrderButton.disabled = false
+      toastr.error("Errore nell'invio dell'ordine. Riprovare:", "Errore", { timeOut: 10000 });
     }
-    else {
-    toastr.error("Errore nell'invio dell'ordine. Riprovare:");
-    }
-
-
   }
 
   // Aggiungi un listener per l'evento beforeunload per assicurarti che i dati vengano salvati prima di lasciare la pagina
-  window.addEventListener("beforeunload", () => {
-
-  });
+  window.addEventListener("beforeunload", () => { });
 
   // Funzione per aggiungere numero ordine a orderData (useless at the moment)
   function transformAndSaveOrderData(newOrderData) {
@@ -280,48 +308,54 @@ function initializeApp(data) {
     // Convertire l'oggetto in una stringa JSON
     const transformedDataJson = JSON.stringify(transformedData);
     // Ora puoi utilizzare transformedDataJson per ottenere la rappresentazione JSON dei dati trasformati
-    console.log("Dati trasformati JSON:", transformedDataJson);
+    //console.log("Dati trasformati JSON:", transformedDataJson);
     // Restituire la stringa JSON risultante
     return transformedDataJson;
   }
 
   function cleanOrderData(data) {
     data.forEach((item) => {
-      delete item["name"]  //remove useless data used only for visualization
-      delete item["price"]
-      delete item["ID"]
-    })
+      delete item["name"]; //remove useless data used only for visualization
+      delete item["price"];
+      delete item["ID"];
+    });
     return data;
   }
 
-
-
-
   // Funzione per creare e mostrare il pop-up con i dati trasformati
-  function showPopupOrderData(transformedDataJson, grandTotal) {
+  function showPopupOrderData(transformedDataJson) {
     // Converti la stringa JSON in un oggetto JavaScript
     const orderItems = JSON.parse(transformedDataJson);
     // Ottieni il contenitore del pop-up
     const popupContainer = document.getElementById("popup-container");
+    let volounteerPay = 0;
+    if(GuestTypeSelectedInput === "Volounteer" && grandTotal > (volounteerVoucher * numeroVoucherV + animatorVoucher * numeroVoucherA)){
+     grandTotal -= volounteerVoucher * numeroVoucherV + animatorVoucher * numeroVoucherA;
+     volounteerPay = 1;
+} else if (GuestTypeSelectedInput === "Volounteer") {
+        grandTotal = 0; }
+
     // Creare HTML dinamico con i dati mappati
-    let htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-3 text-center">Ordine Nr. ${orderNumber}</h4>
+    let htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-5 text-center">Ordine Nr. ${orderNumber}</h4>
     <div style="overflow:auto;">`;
     let noteHtml = `
     </div>
-    <div class="flex justify-between m-3">
-      <div id="grandTotal-container" class="flex gap-3 items-center">
-        <p class="text-base text-default-700 font-bold">Totale: </p>
-        <p class="text-base text-default-700 font-medium">${grandTotal} €</p>
+    <div class="mt-5 mx-5">
+      <div id="grandTotal-container" class="flex flex-shrink-0 gap-3 items-center justify-center mb-5 text-xl">
+        <p class="text-default-700 font-bold">Totale: </p>
+        <p class="text-default-700 font-medium">${grandTotal} €</p>
       </div>
 
       `;
-    if (GuestTypeSelectedInput === "Client") {
+
+
+    if (paymentType = "cash" && (GuestTypeSelectedInput === "Client" || volounteerPay === 1)) {
       noteHtml += `
-      <div id="change-container" class="flex gap-2 items-center">
+      <div id="change-container" class="flex gap-2 items-center justify-between mb-5 hs-collapse open w-full overflow-hidden transition-all duration-300">
         <label for="num1">Contante:</label>
-        <input type="text" id="num1" class="border duration-500 font-medium items-center px-2.5 py-1.5 rounded-full shadow-sm text-center text-sm transition-all w-16" onkeydown="handleKeyPress(event)" />
-        <button class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500  items-center  px-6 py-1.5 relative rounded-full shadow-sm text-center text-sm text-white transition-all" onclick="calcolaSottrazione()">RESTO</button>
-        <h3 id="risultato" class="font-bold mt-2 py-1.5 text-center text-primary"></h3>
+        <input type="text" id="num1" class="border dark:bg-default-50 duration-500 font-medium items-center px-2.5 py-1.5 rounded-full shadow-sm text-center text-sm w-16" />
+        <button class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 items-center px-6 py-1.5 relative rounded-full shadow-sm text-center text-sm text-white" id="resto-btn">RESTO</button>
+        <div id="risultato" class="font-bold text-center flex-grow text-primary"></div>
       </div>
     </div>
     `;
@@ -329,88 +363,101 @@ function initializeApp(data) {
     orderItems.forEach((item) => {
       htmlContent += `
 
-      <div>
+      <div class="mx-5">
   <div style="
   display: grid;
   grid-template-columns: auto auto;
   column-gap: 40px;
-  padding:0 20px;
   justify-content: start;
   ">
     <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Piatto:</h4>
-    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${item.name}</span>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${item.name
+        }</span>
     
     <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Quantità:</h4>
-    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${item.quantity}</span>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${item.quantity
+        }</span>
     
     <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Prezzo:</h4>
-    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${item.price} €</span>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${item.price
+        } €</span>
     
     <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none">Note:</h4>
-    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none text-primary">${item.notes ?? ''}</span>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none text-primary">${item.notes ?? ""
+        }</span>
   </div>
   <hr class="mb-3 mt-3">
 </div>
-
-
     `;
     });
+    if (GuestTypeSelectedInput == "Volounteer"){
+    htmlContent += `<div class="mx-5">
+  <div style="
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  ">
+    <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none font-bold">Voucher:</h4>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${volounteerVoucher*numeroVoucherV+ animatorVoucher*numeroVoucherA} €</span>`
+    }
     htmlContent += noteHtml;
-    if (GuestTypeSelectedInput === "Client") {
+    if (GuestTypeSelectedInput === "Client" || volounteerPay === 1) {
       htmlContent += `
-    <div id="checkbox-paymant" class="flex justify-around m-3">
+    <div id="checkbox-paymant" class="flex justify-around mb-5 mx-5">
                       <div>
-                        <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="cash" name="all" type="checkbox" onclick="paymentCheckboxMutex('cash', 'pos')">
-                        <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="cash">Contanti</label>
+                        <input class="hs-collapse-toggle open form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="cash" name="all" type="checkbox" onclick="paymentCheckboxMutex('cash', 'pos')">
+                        <label class="hs-collapse-toggle open transition-all ps-3 inline-flex items-center text-default-600 font-bold text-sm select-none" for="cash">Contanti</label>
                       </div>
                       <div>
-                        <input class="form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="pos" name="all" type="checkbox" onclick="paymentCheckboxMutex('pos', 'cash')">
-                        <label class="ps-3 inline-flex items-center text-default-600 text-sm select-none" for="pos">POS</label>
+                        <input class="hs-collapse-toggle open form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="pos" name="all" type="checkbox" onclick="paymentCheckboxMutex('pos', 'cash')">
+                        <label class="hs-collapse-toggle open transition-all ps-3 inline-flex items-center text-default-600 font-bold text-sm select-none" for="pos">POS</label>
                       </div>
-
                 </div>
-                ` }
+                `;
+    }
     htmlContent += `
-    <div id="button-order-container" class="flex gap-12 justify-around m-3">
-    <a id="send-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full" href="#">INVIA</a>
-    <button id="btn-confirm-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full">Stampa</button>
+    <div id="button-order-container" class="flex gap-12 justify-around  mx-5">
+    <button id="send-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full opacity-50" disabled>INVIO A CUCINA</a>
+    <button id="print-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full">STAMPA SCONTRINO</button>
     </div>
-    `
+    `;
     // Assegna l'HTML al contenitore del pop-up
-    popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" >X</span>${htmlContent}`;
+    popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" ><button><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x-circle" class="lucide lucide-x-circle w-5 h-5 text-primary text-default-400"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg></button></span>${htmlContent}`;
 
     // Mostra il pop-up
     popupContainer.style.display = "flex";
-    if (GuestTypeSelectedInput === "Client") {
-      document.getElementById('cash').checked = true;
-      paymentType = 'cash'
+    if (GuestTypeSelectedInput === "Client" || volounteerPay === 1) {
+      //document.getElementById("cash").checked = true;
+      paymentType = "default";
     } else {
-      paymentType = 'free'
+      paymentType = "free";
     }
+
+    //console.log(paymentType);
 
     //Calcolo resto
     function calcolaSottrazione() {
-      var num1 = parseFloat(document.getElementById("num1").value);
+      var num1 = parseFloat(
+        document.getElementById("num1").value.replace(",", ".")
+      );
 
       var risultatoElement = document.getElementById("risultato");
 
-      if (isNaN(num1) || isNaN(GrandTotal)) {
-        risultatoElement.textContent =
-          "Inserisci un numero valido e assicurati che il numero esterno sia definito.";
+      if (isNaN(num1) || isNaN(grandTotal)) {
+        alert("Inserisci un numero valido.");
         return;
       }
 
-      if (num1 < GrandTotal) {
+      if (num1 < grandTotal) {
         alert(
           "C'è un errore sul pagamento. Il numero inserito è inferiore al totale."
         );
         return;
       }
 
-      var risultato = Math.abs(GrandTotal - num1);
+      var risultato = Math.abs(grandTotal - num1);
 
-      risultatoElement.textContent =
-        "Resto: " + risultato.toFixed(2) + " €";
+      risultatoElement.textContent = "Resto: " + risultato.toFixed(2) + " €";
     }
 
     function handleKeyPress(event) {
@@ -419,6 +466,16 @@ function initializeApp(data) {
       }
     }
 
+    if (GuestTypeSelectedInput === "Client" || volounteerPay === 1) {
+      const restoButton = document.getElementById("resto-btn");
+      restoButton.addEventListener("click", function () {
+        calcolaSottrazione();
+      });
+      const restoInputField = document.getElementById("num1");
+      restoInputField.addEventListener("keydown", function (event) {
+        handleKeyPress(event);
+      });
+    }
 
     // Aggiungi il codice per mostrare l'overlay
     const overlay = document.getElementById("overlay");
@@ -426,55 +483,67 @@ function initializeApp(data) {
 
     const sendOrderButton = popupContainer.querySelector("#send-order");
     sendOrderButton.addEventListener("click", function (event) {
-      // Previeni il comportamento di default del link
-      event.preventDefault();
       // Chiama la funzione per inviare i dati dell'ordine al database
-      let cleanedData = cleanOrderData(orderData)
+      let cleanedData = cleanOrderData(orderData);
       inviaDatiOrdine(cleanedData);
-    }
-    )
+      sendOrderButton.classList.add("opacity-50");
+      sendOrderButton.style.pointerEvents = "none"
+      sendOrderButton.disabled = true
+    });
     const closePopupButton = popupContainer.querySelector("#close-button");
     closePopupButton.addEventListener("click", function () {
       // Svuotare le variabile dopo l'invio dell'ordine
 
-      closePopup()
-      clearDataState()
-    }
-    )
-    const printButton = popupContainer.querySelector("#btn-confirm-order");
+      closePopup();
+      clearDataState();
+    });
+    const printButton = popupContainer.querySelector("#print-order");
     printButton.addEventListener("click", function () {
-      printOrderData(transformedDataJson, grandTotal, orderNumber)
-    }
-    )
-
+      if (paymentType == "default") {
+        toastr.error("Selezionare un metodo di pagamento prima di stampare lo scontrino", "Errore", { timeOut: 5000 });
+      }
+      else {
+        sendOrderButton.classList.remove("opacity-50");
+        sendOrderButton.disabled = false;
+        printOrderData(transformedDataJson, grandTotal, orderNumber);
+      }
+    });
   }
 
-// Funzione per chiudere il pop-up
-function closePopup() {
-      const popupContainer = document.getElementById('popup-container');
-      const overlay = document.getElementById("overlay");
-      popupContainer.style.display = 'none';
-      //make clickable everything again
-      const MenuContainer1 = document.getElementById("container-menu").style.pointerEvents = ""
-      const MenuContainer2 = document.getElementById("filter_Offcanvas").style.pointerEvents = ""
-      const MenuContainer3 = document.getElementById("right-panel").style.pointerEvents = ""
-      // Nascondi il popup e l'overlay
-      popupContainer.style.display = "none";
-      overlay.style.display = "none";
-}
+  // Funzione per chiudere il pop-up
+  function closePopup() {
+    const popupContainer = document.getElementById("popup-container");
+    const overlay = document.getElementById("overlay");
+    popupContainer.style.display = "none";
+    //make clickable everything again
+    const MenuContainer1 = (document.getElementById(
+      "container-menu"
+    ).style.pointerEvents = "");
+    const MenuContainer2 = (document.getElementById(
+      "filter_Offcanvas"
+    ).style.pointerEvents = "");
+    const MenuContainer3 = (document.getElementById(
+      "right-panel"
+    ).style.pointerEvents = "");
+    // Nascondi il popup e l'overlay
+    popupContainer.style.display = "none";
+    overlay.style.display = "none";
+  }
 
   function printOrderData(transformedDataJson, grandTotal, idOrdineCreato) {
     // JSON da parsare
     const jsonData = transformedDataJson;
     // Converti la stringa JSON in un oggetto JavaScript
     const orderItems = JSON.parse(jsonData);
-    console.log(transformedDataJson)
+    //console.log(transformedDataJson);
     // Ottieni il totale
     const GragrandTotal = grandTotal;
 
     // Creare HTML dinamico con i dati mappati
     let htmlContent = `<div id="print-content">`;
-    htmlContent += `<h4 class="text-base text-default-700 font-bold">Ordine N.${idOrdineCreato}</h4>`;
+    //<img src="assets/img/Logo_popolare_2024x500_trasparente.png" alt="logo" class="center-block"/>
+    htmlContent += `
+    <h4 style="margin: 0px;" class="text-base text-default-700 font-bold">Ordine N.${idOrdineCreato}</h4>`;
     orderItems.forEach((item) => {
       htmlContent += `
          <div>
@@ -484,9 +553,24 @@ function closePopup() {
          </div>
      `;
     });
+    if(GuestTypeSelectedInput == "Volounteer") {
+        htmlContent += `
+         <div>
+            <span>  </span>
+            <span> Voucher </span><br>
+            <span style="margin-left:20px">      -${volounteerVoucher*numeroVoucherV + animatorVoucher*numeroVoucherA} €</span>
+         </div>
+     `;
+    }
+    let date = new Date()
+    let strTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
+    let myDatetime = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + "  " + strTime
     htmlContent += `
      <div>
-         <h4 class="mt-1.5 mb-1.5 text-default-600 text-sm text-primary">TOTALE: <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none text-primary">${GragrandTotal} €</span></h4>
+         <h4 style="margin: 0px;" class="mt-1.5 mb-1.5 text-default-600 text-sm text-primary">TOTALE: <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none text-primary">${GragrandTotal} €</span></h4>
+     </div>
+     <div>
+         <h6 style="margin: 2px;" class="mt-1.5 mb-1.5 text-default-600 text-sm text-primary">${myDatetime}</h6>
      </div>
  `;
     htmlContent += `</div>`;
@@ -515,7 +599,7 @@ function closePopup() {
 
   function clearDataState() {
     orderData = [];
-    paymentType = ""
+    paymentType = "";
     grandTotal = 0;
   }
   // Funzione per gestire il click sulla categoria
@@ -535,10 +619,10 @@ function closePopup() {
     checkbox.checked = true;
 
     // Ottieni l'ID della categoria cliccata
-    const categoryId = checkbox.id;
+    categoryId = checkbox.id;
 
     // Esegui le azioni desiderate con l'ID della categoria
-    console.log(`Hai cliccato sulla categoria con ID: ${categoryId}`);
+    //console.log(`Hai cliccato sulla categoria con ID: ${categoryId}`);
 
     // Aggiorna il menu in base alla categoria selezionata
     updateMenu(categoryId);
@@ -563,7 +647,10 @@ function closePopup() {
       // Funzione per generare un ID univoco basato sul nome e sull'ID della categoria senza spazi
       function generateUniqueId(name, categoryId) {
         // Sostituisci gli spazi con l'underscore, convergi tutto in minuscolo e aggiungi un prefisso
-        const cleanedName = name.replace(/\s/g, "_").replace(',', "-").toLowerCase();
+        const cleanedName = name
+          .replace(/\s/g, "_")
+          .replace(",", "-")
+          .toLowerCase();
         const cleanedCategoryId = categoryId.replace(/\s/g, "_").toLowerCase();
         return `${cleanedCategoryId}-${cleanedName}`;
       }
@@ -582,13 +669,10 @@ function closePopup() {
         menuElement.innerHTML = `
             
         <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
-          <div class="mb-4 mx-auto">
-            <img class="w-full h-full group-hover:scale-105 transition-all" src="${oggetto.img}" />
-          </div>
   
           <div class="pt-2">
             <div id="obj-desc-container" style="flex-flow: column;" class="flex justify-between mb-4">
-              <span class="text-default-800 text-xl font-semibold line-clamp-2 after:absolute after:inset-0">${oggetto.name}</span>
+              <span class="text-default-800 text-xl font-semibold line-clamp-3 after:absolute after:inset-0">${oggetto.name}</span>
               <i class="text-m text-default-500">${oggetto.desc}</i>
               <div class="border border-default-200 inline-flex justify-between mt-2 p-1 relative rounded-full z-10 truncate overflow-auto">
               <input id="input_${menuId}" type="text" placeholder="Inserisci modifiche" class="bg-white border-none dark:bg-default-50 h-3 overflow-auto truncate w-full" />
@@ -605,11 +689,68 @@ function closePopup() {
 
             </div>
   
-            <a id="add-cart" class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="cart.html">Aggiungi al carrello</a>
+            <button id="add-cart" class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500">Aggiungi al carrello</a>
           </div>
         </div>
       
             `;
+
+            if(oggetto.availability < 1 && oggetto.inventoryCheck){
+            const addToCartBtn = menuElement.querySelector("#add-cart");
+            addToCartBtn.setAttribute("disabled", "true");
+            addToCartBtn.classList.add("opacity-50", "cursor-not-allowed");
+
+            menuElement.className = `
+    xl:order-1 order-2
+    border border-gray-700
+    rounded-lg p-4 overflow-hidden
+    hover:border-gray-900 hover:shadow-xl
+    transition-all duration-300
+  `;
+  menuElement.style.backgroundColor = "rgba(0, 0, 0, 0.075)";
+  menuElement.style.border = "1px solid #374151";
+    const warningLabel = `
+    <div style="
+      font-size: 14px;
+      font-weight: bold;
+      color: #1f2937; /* Tailwind gray-800 */
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 4px 8px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      display: inline-block;
+    ">
+      Prodotto esaurito
+    </div>
+  `;
+  menuElement.innerHTML = warningLabel + menuElement.innerHTML;
+            }
+            else if(oggetto.availability < availabilityWarningThreshold && oggetto.inventoryCheck){
+            menuElement.style.backgroundColor = "rgba(255, 165, 0, 0.15)";
+              menuElement.className = `
+  xl:order-1 order-2
+  border border-orange-400
+  bg-[rgba(255,165,0,0.2)]
+  rounded-lg p-4 overflow-hidden
+  hover:border-primary hover:shadow-xl
+  transition-all duration-300
+`;
+              const warningLabel = `
+  <div style="
+    font-size: 14px;
+    font-weight: bold;
+    color: #b45309;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    display: inline-block;
+  ">
+    In esaurimento: ${oggetto.availability}
+  </div>
+`
+    menuElement.innerHTML = warningLabel + menuElement.innerHTML;
+        }
 
         // Aggiungi eventi di click ai pulsanti e all'elemento "add-cart"
         const minusButton = menuElement.querySelector(".minus");
@@ -627,16 +768,22 @@ function closePopup() {
               parseInt(quantityInput.value, 10) - 1,
               0
             );
-
           }
         });
 
         plusButton.addEventListener("click", function () {
           // Aumenta la quantità, assicurandoti che non superi il massimo
+          if(oggetto.inventoryCheck){
+          quantityInput.value = Math.min(
+            parseInt(quantityInput.value, 10) + 1,
+            oggetto.availability
+          );
+          } else {
           quantityInput.value = Math.min(
             parseInt(quantityInput.value, 10) + 1,
             100
           );
+          }
         });
 
         // Aggiungi l'event listener all'elemento "add-cart" solo se è stato trovato
@@ -656,37 +803,44 @@ function closePopup() {
             const noteInput = document.getElementById(inputId);
 
             // Verifica se la quantità è maggiore di 0 prima di procedere con l'aggiunta al carrello
-
-            if (parseInt(quantityInput.value, 10) > 0) {
+            let acceptFlag = true;
+            if (parseInt(quantityInput.value, 10) > oggetto.availability && oggetto.inventoryCheck ){
+                acceptFlag = false;
+            }
+            if (acceptFlag) {
+              oggetto.availability -= parseInt(quantityInput.value, 10)
               let itemProperties = {
                 price: oggetto.price,
                 quantity: Math.max(parseInt(quantityInput.value, 10), 0),
                 image: oggetto.img,
                 name: oggetto.name,
-                ID: menuId + Date.now().toString(36) + Math.random().toString(36).substr(2), //true random id for <div>
+                ID:
+                  menuId +
+                  Date.now().toString(36) +
+                  Math.random().toString(36).substr(2), //true random id for <div>
                 productId: oggetto.productId,
-                note: ""
-              }
+                note: "",
+              };
 
               // Ottieni il valore dall'input solo se la lunghezza è maggiore di 0
               if (noteInput && noteInput.value.trim().length > 0) {
                 itemProperties.note = noteInput.value.trim();
               }
               //reset input data after adding item to cart (notes and quantities) by updating menu to same category
-              updateMenu(categoryId)
+              updateMenu(categoryId);
               // Chiama la funzione per generare l'HTML dinamico
               generateDynamicHTML(itemProperties);
 
               toastr.success(
-                "<b>" + itemProperties.name + "</b> <br> aggiunto con successo al carrello!"
+                "<b>" +
+                itemProperties.name +
+                "</b> <br> aggiunto con successo al carrello!"
               );
             } else {
               console.log(
-                "Impossibile aggiungere al riepilogo. La quantità è 0."
+                "Impossibile aggiungere al riepilogo. La quantità è maggiore della disponibilità."
               );
-              toastr.error("Impossibile aggiungere prodotto: la quantità è 0.");
-              // Aggiungi qui il codice per visualizzare un toast con l'avviso
-              // Ad esempio, usando una libreria di toast come Toastify o simile
+              toastr.error("Impossibile aggiungere prodotto: la quantità è maggiore della disponibilità.");
             }
           });
         }
@@ -707,7 +861,7 @@ function closePopup() {
       if (inputElement) {
         // Aggiungi un listener per il click sull'input
         inputElement.addEventListener("click", function () {
-          console.log(`Input con id ${inputId} cliccato.`);
+          //console.log(`Input con id ${inputId} cliccato.`);
 
           // Salva il valore dell'input nella variabile globale
           globalNote = inputElement.value;
@@ -720,26 +874,14 @@ function closePopup() {
       }
     }
 
-    // Funzione per salvare le variabili globali
-    function saveGlobalVariables() {
-      // Puoi fare quello che vuoi con le variabili globali qui
-      // Ad esempio, puoi inviarle a un'altra funzione o eseguire altre operazioni
-      console.log("Global Price:", globalPrice);
-      console.log("Global Quantity:", globalQuantity);
-      console.log("Global Image:", globalImage);
-      console.log("Global Name:", globalName);
-      console.log("Global ID:", globalID);
-      console.log("Global Note:", globalNote);
-    }
-
   }
 
   function calculateTotalOrderValue(data) {
-    let totalValue = 0
-    data.forEach(item => {
-      totalValue += item.quantity * item.price
-    })
-    return totalValue
+    let totalValue = 0;
+    data.forEach((item) => {
+      totalValue += item.quantity * item.price;
+    });
+    return totalValue;
   }
 
   // Your array of categories menu laterale
@@ -749,10 +891,10 @@ function closePopup() {
     "Menu Bibita",
     "Panini Singoli",
     "Pizza",
-    "Bevande",
+    "Bar",
   ];
 
-  console.log("Array di categorie:", categories);
+  //console.log("Array di categorie:", categories);
 
   // Get the container element
   const categoryListContainer = document.getElementById("category-list");

@@ -4,48 +4,81 @@ import sqlite3
 def test_conn():
     pass
 
+def getMenu(conn):
+    sql = ''' SELECT * FROM itemProp'''
+    cur = conn.cursor()
+    cur.execute(sql)
+    return cur.fetchall()
 
 def insertOrder(conn, order):
     sql = ''' INSERT INTO orders(orderId, totalValue, operatorId, paymentType, datetime, customerType, tableId) 
                       VALUES(:orderId, :totalValue, :operatorId, :paymentType, :datetime, :customerType, :tableId) '''
     cur = conn.cursor()
     cur.execute(sql, order)
-    conn.commit()
-    return
+    return 0
 
 def insertItem(conn, item):
     sql = ''' INSERT INTO items(orderId, itemId, quantity, notes)
                   VALUES(:orderId, :itemId, :quantity, :notes) '''
     cur = conn.cursor()
     cur.execute(sql, item)
-    conn.commit()
-    return
+    return 0
+
+def reduceInventoryForItem(conn, item):
+    sql = '''UPDATE itemProp SET availability = availability - ? WHERE itemId = ? '''
+    cur = conn.cursor()
+    cur.execute(sql, (item["quantity"], item["itemId"], ))
+    return 0
 
 def insertStatus(conn, orderId, orderType, value):
     sql = ''' INSERT INTO orderStatus(orderId, orderType, status)
                       VALUES(?, ?, ?) '''
     cur = conn.cursor()
     cur.execute(sql, (orderId, orderType, value, ))
-    conn.commit()
+    return 0
 
 #get order id to use for a new order
 def getOrderId(conn):
-    sql = ''' UPDATE sqlite_sequence SET seq = seq + 1 WHERE name = "orders" '''
-    cur = conn.cursor()
-    cur.execute(sql)
-    conn.commit()
-    sql2 = ''' SELECT seq from sqlite_sequence WHERE name = "orders" '''
-    cur = conn.cursor()
-    cur.execute(sql2)
+    try:
+        sql = ''' UPDATE sqlite_sequence SET seq = seq + 1 WHERE name = "orders" '''
+        cur = conn.cursor()
+        cur.execute(sql)
+        sql2 = ''' SELECT seq from sqlite_sequence WHERE name = "orders" '''
+        cur = conn.cursor()
+        cur.execute(sql2)
+    except sqlite3.OperationalError as e:
+        conn.rollback()
+        raise sqlite3.OperationalError
     conn.commit()
     return cur.fetchone()[0]
 
 #select all orders with pending status, query only relevant data (status, tableId, orderId, datetime)
 def getOrderList(conn):
-    sql = ''' SELECT orderId, tableId, datetime FROM orders'''
+    sql = ''' SELECT orderId, tableId, datetime, customerType FROM orders'''
     cur = conn.cursor()
     cur.execute(sql)
     return cur.fetchall()
+
+#get total number of orders
+def getTotalOrderNumber(conn):
+    sql = ''' SELECT count(*) FROM orders'''
+    cur = conn.cursor()
+    cur.execute(sql)
+    return cur.fetchone()[0]
+
+#get total cash collection
+def getTotalCash(conn):
+    sql = ''' SELECT SUM(totalValue) FROM orders where paymentType = "cash"'''
+    cur = conn.cursor()
+    cur.execute(sql)
+    return cur.fetchone()[0]
+
+#get total pos collection
+def getTotalPos(conn):
+    sql = ''' SELECT SUM(totalValue) FROM orders where paymentType = "pos"'''
+    cur = conn.cursor()
+    cur.execute(sql)
+    return cur.fetchone()[0]
 
 # filter out status = 3
 def getOrderStatusById(conn, orderId):
@@ -58,21 +91,19 @@ def updateOrderStatus(conn, data):
     sql = ''' UPDATE orderStatus SET status = ? WHERE orderId = ? AND orderType = ?'''
     cur = conn.cursor()
     cur.execute(sql, (data['orderStatus'], data['orderId'], data['orderType']))
-    conn.commit()
     return
 
-def makeOrderStatusCoherent(conn, orderId):
-    sql = ''' UPDATE orderStatus SET status = 1 WHERE orderId = ? '''
+def updateInventoryItem(conn, data):
+    sql = ''' UPDATE itemProp SET availability = ?, inventoryCheck = ? WHERE itemId = ?'''
     cur = conn.cursor()
-    cur.execute(sql, (orderId, ))
-    conn.commit()
-    return
+    cur.execute(sql, (data['availability'], data['inventoryCheck'], data['itemId']))
+    #todo handle errors
+    return 0
 
 def updateOrderTable(conn, data):
     sql = ''' UPDATE orders SET tableId = ? WHERE orderId = ? '''
     cur = conn.cursor()
     cur.execute(sql, (data['tableId'], data['orderId']))
-    conn.commit()
     return
 
 def getOrderItemsById(conn, id):
@@ -82,7 +113,7 @@ def getOrderItemsById(conn, id):
     return cur.fetchall()
 
 def getRecentCompletedOrders(conn):
-    sql = ''' SELECT * FROM orderStatus WHERE status = 3 ORDER BY orderId DESC LIMIT 30'''
+    sql = ''' SELECT * FROM orderStatus WHERE status = 3 ORDER BY orderId DESC'''
     cur = conn.cursor()
     cur.execute(sql)
     return cur.fetchall()
@@ -92,6 +123,7 @@ def getOrderInfoById(conn, orderId):
     cur = conn.cursor()
     cur.execute(sql, (orderId, ))
     return cur.fetchone()
+
 
 def resolveItemNameById(conn, id):
     sql = ''' SELECT name FROM itemProp WHERE itemId = ? '''
@@ -105,7 +137,19 @@ def resolveItemClassById(conn, id):
     cur.execute(sql, (id, ))
     return cur.fetchone()[0]
 
+def resolveItemCategoryById(conn, id):
+    sql = ''' SELECT category FROM itemProp WHERE itemId = ? '''
+    cur = conn.cursor()
+    cur.execute(sql, (id,))
+    return cur.fetchone()[0]
+
 #-------------------archive functions------------------------------
+def checkOrderOpen(conn):
+    sql = ''' SELECT count(*) FROM orderStatus WHERE status IN (0, 1, 2)'''
+    cur = conn.cursor()
+    cur.execute(sql)
+    return cur.fetchone()[0]
+
 def getHotOrders(conn):
     sql = ''' SELECT * FROM orders'''
     cur = conn.cursor()
@@ -119,20 +163,20 @@ def getHotItems(conn):
     return cur.fetchall()
 
 def insertArchiveOrder(conn, order):
-    sql = ''' INSERT INTO orders(displayId, totalValue, paymentType, datetime, customerType) 
-                      VALUES(:displayId, :totalValue, :paymentType, :datetime, :customerType) '''
+    sql = ''' INSERT INTO orderArchive(displayId, totalValue, paymentType, datetime, customerType, dayId, operatorId) 
+                      VALUES(:displayId, :totalValue, :paymentType, :datetime, :customerType, :dayId, :operatorId) '''
     cur = conn.cursor()
     cur.execute(sql, order)
     conn.commit()
-    return
+    return 0
 
 def insertArchiveItem(conn, item):
-    sql = ''' INSERT INTO items(dayId, displayId, itemId, quantity, notes) 
+    sql = ''' INSERT INTO itemArchive(dayId, displayId, itemId, quantity, notes) 
                       VALUES(:dayId, :displayId, :itemId, :quantity, :notes) '''
     cur = conn.cursor()
     cur.execute(sql, item)
     conn.commit()
-    return
+    return 0
 
 def deleteHotOrders(conn):
     sql = ''' DELETE FROM orders'''
@@ -178,3 +222,22 @@ def getOrderByDayId(conn, dayId):
     cur = conn.cursor()
     cur.execute(sql, dayId)
     return cur.fetchall()
+
+#get total data contanti
+def getIncasso(conn, paymentType, selectedDate):
+    sql = ''' SELECT count(*), SUM(totalValue) FROM orderArchive WHERE paymentType = ? AND datetime LIKE ?'''
+    cur = conn.cursor()
+    cur.execute(sql, (paymentType, selectedDate))
+    return cur.fetchone()
+
+def getTotalOrdini(conn, customerType, selectedDate):
+    sql = ''' SELECT count(*), SUM(totalValue) FROM orderArchive WHERE customerType = ? AND datetime LIKE ?'''
+    cur = conn.cursor()
+    cur.execute(sql, (customerType, selectedDate))
+    return cur.fetchone()
+
+def getTotalOrderNumberVol(conn):
+    sql = ''' SELECT count(*) FROM orders WHERE customerType = "Guest" OR customerType = "Volounteer" '''
+    cur = conn.cursor()
+    cur.execute(sql)
+    return cur.fetchone()[0]
