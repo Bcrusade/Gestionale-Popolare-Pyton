@@ -18,8 +18,6 @@
   <!--  Head js -->
   <script type="module" crossorigin src="assets/js/admin-order-list-7159724c.js"></script>
 
-  <link rel="modulepreload" crossorigin href="assets/js/theme-b118ffc1.js" />
-  <link rel="modulepreload" crossorigin href="assets/js/index-a4e39586.js" />
   <link rel="stylesheet" href="assets/css/theme-c9540983.css" />
   <link rel="stylesheet" href="assets/css/custom.css" />
 
@@ -45,8 +43,8 @@
   <!-- End Sidebar -->
   <!-- Start Content -->
   <div
-    class="bg-white border border-default-100 dark:bg-default-50 p-5 rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] transition-[opacity,margin] z-20 hover:shadow-xl transition-all duration-300 h-96"
-    style="overflow: auto; max-height: 90%" id="popup-container">
+    class="bg-white border border-default-100 dark:bg-default-50 p-5 rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] transition-[opacity,margin] z-20 hover:shadow-xl transition-all duration-300"
+    style="display: none; flex-direction: column; max-height: 90%" id="popup-container">
     <span style="right: 10px" class="font-semibold text-lg text-primary" id="close-button" onclick="closePopup()">X
       <button>
         <i data-lucide="x-circle" class="w-5 h-5 text-default-400"></i>
@@ -370,8 +368,8 @@
         let orderStatusContent;
         let orderIdHighLigthed;
 
-        if (order.customerType == "Volounteer") { orderIdHighLigthed = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-red-500/20 text-red-500">${order.orderId}</span>` }
-        else { orderIdHighLigthed = `<span class="inline-flex items-center gap-1 py-1 px-4 text-sm font-medium ">${order.orderId}</span>` }
+        if (order.customerType == "Volounteer") { orderIdHighLigthed = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full font-medium bg-red-500/20 text-red-500">${order.orderId}</span>` }
+        else { orderIdHighLigthed = `<span class="inline-flex items-center gap-1 py-1 px-4 font-medium ">${order.orderId}</span>` }
 
         switch (order.orderStatus) {
           //Non Stampato
@@ -398,7 +396,7 @@
         if (order.orderType == "cucina") { orderTypeDisplay = "Cucina" }
         else if (order.orderType == "pizzeria") { orderTypeDisplay = "Pizzeria" }
         row.innerHTML = `
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${formattedDate} ${formattedTime}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500"><div class="text-default-800 ml-1">${formattedTime}</div></td>
         <td class="px-6 py-4 whitespace-nowrap">${orderIdHighLigthed}</td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${orderTypeDisplay}</td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${tableId}</td>
@@ -445,6 +443,8 @@
 
     //showPopupEditDataOrder Mostra il pop-up della modifica del tavolo e dello stato dell'ordine
     function showPopupEditDataOrder(orderID, stato, tavolo, orderType) {
+      let oldState = stato;
+      let oldTavolo = tavolo;
       const popupContainer = document.getElementById("popup-container");
       let OrderNubContent = `<h4 class="text-default-800 text-xl font-semibold text-center line-clamp-1 after:absolute after:inset-0">Ordine ${orderType} N.${orderID}</h4>`;
       var statoOrdine = stato;
@@ -483,27 +483,18 @@
           <div class="flex items-center justify-center mb-4">
             ${OrderNubContent}
           </div>
-          <div class="flex items-center mb-4">
-            <label class="text-base text-default-950 me-3" for="tavolo">Tavolo:</label>
+          <div class="flex items-center mb-1">
+            <label class="text-base text-default-950 me-1 font-semibold" for="tavolo">Tavolo:</label>
             <div class="relative z-10 inline-flex justify-between p-1">
               <input class="border border-default-300 dark:bg-default-50 px-3 py-1.5 rounded-full text-center w-14" type="text" id="tavoloID" name="tavolo" value=${tavolo}><br>
             </div>
           </div>
+    <hr>
+    <h5 class="mt-1 font-semibold">Stato:</h5>
     <div class="flex items-center justify-center mb-4 gap-3">
-      <div class="hs-dropdown relative inline-flex">
-                        <div>
-                          <button type="button"
-                            class="hs-dropdown-toggle flex items-center gap-2 font-medium text-default-700 text-sm py-2.5 px-4 xl:px-5 rounded-md bg-default-100 transition-all">
-                            Stato
-                            <i data-lucide="chevron-down" class="h-4 w-4"></i>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-down" class="lucide lucide-chevron-down h-4 w-4"><path d="m6 9 6 6 6-6"></path></svg>
-                          </button>
-                        </div>
-
-                        <!-- end dropdown button -->
-
+      <div class="relative inline-flex">
                         <div
-                          class="hs-dropdown-menu hs-dropdown-open:opacity-100 min-w-[200px] transition-[opacity,margin] mt-4 opacity-0 z-20 bg-white shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-lg border border-default-100 p-1.5 dark:bg-default-50 hidden">
+                          class=" min-w-[200px] transition-all z-20 bg-white rounded-lg border border-default-300 p-1.5 dark:bg-default-50 hover:border-primary">
                           <ul class="flex flex-col gap-1">
                             <li>
                               <a id="stato1" href="#stato1" class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
@@ -518,9 +509,7 @@
                                 >Evaso</a>
                             </li>
                           </ul>
-                          <!-- end dropdown items -->
                         </div>
-                        <!-- end dropdown menu -->
                       </div>
      <div id="stato-ordine">
         <h4 class="text-base text-default-700 font-bold">${orderStatusContent}</h4>
@@ -569,7 +558,11 @@
         }
         document.getElementById("update-order").style.pointerEvents = "none"
         document.getElementById("update-order").classList.add("opacity-50");
-        updateOrderData(orderID, statoOrdine, tavoloID, orderType);
+        let dataChanges = 0;
+        if(statoOrdine != oldState){ dataChanges += 1; } //lo stato e' stato cambiato
+        if(oldTavolo != tavoloID){ dataChanges += 2; } //il tavolo e' stato cambiato
+        console.log(dataChanges);
+        updateOrderData(orderID, statoOrdine, tavoloID, orderType, dataChanges);
       });
 
       // Mostra il pop-up
@@ -580,7 +573,7 @@
     async function showPopupViewOrderItem(orderID, orderType) {
       const popupContainer = document.getElementById("popup-container");
       let htmlContent = `<h4 class="font-semibold line-clamp-1 mb-4 text-center text-default-800 text-xl">Ordine ${orderType} N.${orderID}</h4>
-                <button id="reprint-order"
+                <button id="reprint-order" style="margin-bottom: 1em"
                 class="w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-10 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500"
                 onclick="reprintOrder(${orderID}, '${orderType}')">
                 Ristampa
@@ -654,7 +647,7 @@
         tableBody.appendChild(row);
       });
       // Mostra il pop-up
-      popupContainer.style.display = "block";
+      popupContainer.style.display = "flex";
     }
 
     function closePopup() {
@@ -681,12 +674,13 @@
       closePopup()
     }
 
-    async function updateOrderData(orderID, statoOrdine, tavoloID, orderType) {
+    async function updateOrderData(orderID, statoOrdine, tavoloID, orderType, dataChanges) {
       const orderDataUpdated = {
         orderId: orderID,
         orderStatus: statoOrdine,
         tableId: tavoloID,
         orderType: orderType,
+        dataChanges: dataChanges,
       };
 
       const response = await fetch("http://" + self.location.host + "/api/orderDataUpdate", {
@@ -698,13 +692,18 @@
       })
       const data = await response.json(); // Estrai i dati JSON dalla risposta
       if (data.status == "success") {
-        toastr.success(
+        oggetto = ""
+        if(dataChanges == 1) { oggetto = "stato aggiornato!";}
+        else if(dataChanges == 2){ oggetto = "tavolo aggiornato!";}
+        else if(dataChanges == 3){ oggetto = "stato e tavolo aggiornati!";}
+        if(dataChanges != 0){
+          toastr.success(
           "<b>Ordine Nr." +
           orderID +
           " " +
           orderType +
-          "</b> <br> stato/tavolo aggiornato!");
-
+          "</b> <br>" + oggetto );
+        }
         closePopup();
         //refresh order data
         fetchAndDisplayOrders();

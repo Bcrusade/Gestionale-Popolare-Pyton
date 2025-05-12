@@ -30,8 +30,6 @@ def registerOrderToDatabase(conn, order):
     orderId = order["orderId"]
     #datetime
     order["datetime"] = datetime.now()
-    #operatorId(todo)
-    order["operatorId"] = 0
     order["tableId"] = 0
     orderData = (order["orderId"], order["totalValue"], order["operatorId"], order["paymentType"], order["datetime"],
                  order["customerType"], order["tableId"])
@@ -55,6 +53,7 @@ def registerOrderToDatabase(conn, order):
         for item in order["items"]:
             item["orderId"] = orderId
             insertItem(conn, item)  # insert each item in items table
+            reduceInventoryForItem(conn, item)
         conn.commit()
     except (sqlite3.OperationalError, sqlite3.IntegrityError, sqlite3.DatabaseError) as e:
         logger.error("Could not register order %s to db", orderId, exc_info=True)
@@ -64,6 +63,21 @@ def registerOrderToDatabase(conn, order):
     registerOrderMutex.release()
     logger.info("Order %s registered successfully", orderId)
     return 0
+
+def buildMenu(conn):
+    data = getMenu(conn)
+    print(data)
+    menu = { "cucina": [],
+             "menu birra": [],
+             "menu bibita": [],
+             "panini": [],
+             "pizza": [],
+             "bevande": [] }
+    for row in data:
+        menu[row[3]].append( { "name": row[0], "desc": row[5], "price": row[4], "productId": row[1], "availability": row[6], "inventoryCheck": row[7]} )
+    menu["volounteerVoucher"] = config.volounteerVoucher
+    menu["animatorVoucher"] = config.animatorVoucher
+    return menu
 
 
 def printCommand(conn, order):
@@ -246,8 +260,13 @@ def retrieveOrderItems(conn, orderId, orderType):
 def updateData(conn, data):
     updateDataMutex.acquire()
     try:
-        status1 = updateOrderStatus(conn, data)
-        status2 = updateOrderTable(conn, data)
+        if (data["dataChanges"] == 1):   #change only status
+            updateOrderStatus(conn, data)
+        elif (data["dataChanges"] == 2): #change only table
+            updateOrderTable(conn, data)
+        elif (data["dataChanges"] == 3): #change both
+            updateOrderStatus(conn, data)
+            updateOrderTable(conn, data)
         conn.commit()
         updateDataMutex.release()
     except (sqlite3.OperationalError, sqlite3.IntegrityError, sqlite3.DatabaseError) as e:
@@ -298,7 +317,7 @@ def archiveDatabaseData(conn):
         counter = 0
         for order in hotOrders:
             archiveOrder = {'displayId': order[0], 'totalValue': order[1], 'paymentType': order[3],
-                            'datetime': order[4], 'customerType': order[6], 'dayId': dayId}
+                            'datetime': order[4], 'customerType': order[6], 'dayId': dayId, 'operatorId': order[2]}
             status = insertArchiveOrder(conn, archiveOrder)
             if status == 0:
                 counter += 1
@@ -365,15 +384,15 @@ def requestReprint(conn, orderId, orderType):
 def printReport(conn, selectedDate, printername):
     selectedDateWildCard = selectedDate + "%"
     paymentType = "cash"
-    customerType = "Client"
-    contanti = getTotalOrdini(conn, paymentType, customerType, selectedDateWildCard)
+    contanti = getIncasso(conn, paymentType, selectedDateWildCard)
     paymentType = "pos"
-    pos = getTotalOrdini(conn, paymentType, customerType, selectedDateWildCard)
-    paymentType = "free"
+    pos = getIncasso(conn, paymentType, selectedDateWildCard)
+    customerType = "Client"
+    clienti = getTotalOrdini(conn, customerType, selectedDateWildCard)
     customerType = "Volounteer"
-    costoVolounteer = getTotalOrdini(conn, paymentType, customerType, selectedDateWildCard)
+    volontari = getTotalOrdini(conn, customerType, selectedDateWildCard)
     customerType = "Guest"
-    costoGuest = getTotalOrdini(conn, paymentType, customerType, selectedDateWildCard)
+    ospiti = getTotalOrdini(conn, customerType, selectedDateWildCard)
     datereport = datetime.strptime(selectedDate, '%Y-%m-%d').strftime("%d-%m-%Y")
     #read the html template
     with open("./serverPrinter/template/report.html", "r") as file:
@@ -398,15 +417,15 @@ def printReport(conn, selectedDate, printername):
         float(0 if contanti[1] is None else contanti[1])) + " €</td></tr>"
     html_body += "<tr> <td>Totale Ordini POS</td><td>" + str(pos[0]) + "</td></tr>"
     html_body += "<tr> <td>Totale Incasso POS</td><td>" + str(float(0 if pos[1] is None else pos[1])) + " €</td></tr>"
-    html_body += "<tr> <td>Totale Ordini Clienti</td><td>" + str(contanti[0] + pos[0]) + "</td></tr>"
+    html_body += "<tr> <td>Totale Ordini Clienti</td><td>" + str(clienti[0]) + "</td></tr>"
     html_body += "<tr> <td>Totale Incasso Clienti</td><td>" + str(
-        float(0 if contanti[1] is None else contanti[1]) + float(0 if pos[1] is None else pos[1])) + " €</td></tr>"
-    html_body += "<tr> <td>Totale Ordini Volontari</td><td>" + str(costoVolounteer[0]) + "</td></tr>"
-    html_body += "<tr> <td>Totale Costo Volontari</td><td>" + str(
-        float(0 if costoVolounteer[1] is None else costoVolounteer[1])) + " €</td></tr>"
-    html_body += "<tr> <td>Totale Ordini Ospiti</td><td>" + str(costoGuest[0]) + "</td></tr>"
+        float(0 if clienti[1] is None else clienti[1])) + " €</td></tr>"
+    html_body += "<tr> <td>Totale Ordini Volontari</td><td>" + str(volontari[0]) + "</td></tr>"
+    html_body += "<tr> <td>Totale Incasso Volontari</td><td>" + str(
+        float(0 if volontari[1] is None else volontari[1])) + " €</td></tr>"
+    html_body += "<tr> <td>Totale Ordini Ospiti</td><td>" + str(ospiti[0]) + "</td></tr>"
     html_body += "<tr> <td>Totale Costo Ospiti</td><td>" + str(
-        float(0 if costoGuest[1] is None else costoGuest[1])) + " €</td></tr>"
+        float(0 if ospiti[1] is None else ospiti[1])) + " €</td></tr>"
     html_body += """
     </tbody>
     </table>
