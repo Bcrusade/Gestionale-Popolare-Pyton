@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () { });
 toastr.options = {
   timeOut: "1500",
 };
+let categoryId = 1
 
 // Modifica la funzione loadExternalJsonAndInitialize per utilizzare la chiamata API
 async function loadExternalJsonAndInitialize(apiUrl) {
@@ -49,6 +50,14 @@ let grandTotal = 0;
 let orderData = [];
 // variabile per il numero dell'ordine
 let orderNumber = -1;
+//variabile sconto volontario
+let volounteerVoucher = 0
+let animatorVoucher = 0
+//variabile soglia avviso disponibilità
+let availabilityWarningThreshold = 10
+
+let numeroVoucherV = 1
+let numeroVoucherA = 0
 
 //clear html containers of cart
 function clearContainers() {
@@ -71,15 +80,16 @@ function clearContainers() {
 // Funzione per inizializzare l'applicazione con il JSON (Lista prodotti) fornito
 function initializeApp(data) {
   // Mappa delle categorie ai rispettivi array di menu
-  const json = JSON.parse(data);
-  //console.log(json);
+  const json = data;
+  volounteerVoucher = json["volounteerVoucher"]
+  animatorVoucher = json["animatorVoucher"]
   //key = category, item= list of products
   const categorieMenuMap = {
     pizza: json["pizza"] || [],
     panini_singoli: json["panini"] || [],
     menu_birra: json["menu birra"] || [],
     cucina: json["cucina"] || [],
-    bevande: json["bevande"] || [],
+    bar: json["bevande"] || [],
     menu_bibita: json["menu bibita"] || [],
   };
 
@@ -102,12 +112,13 @@ function initializeApp(data) {
         : "";
 
     objectDiv.innerHTML = `
-        <!-- <img src="${objectDetails.img}" class="h-20 w-20 me-2"> -->
-        <div>
-          <h4 class="text-sm text-default-600 mb-2 font-bold">${objectDetails.name}</h4>
+    <div>
+        <div style="display: flex; align-items: flex-top">
+          <h4 style="margin:0" class="text-sm text-default-600 mb-2 font-bold">${objectDetails.name}</h4>
+          <button style="margin-left: 1em; margin-bottom: auto" class="text-sm font-bold text-default-950">X</button>
+          </div>
           ${noteHtml}
-          <h4 class="text-sm text-default-400 font-bold">${objectDetails.quantity} x <span class="text-primary font-semibold">€${objectDetails.price}</span>
-          <button style="float: right;" class="font-bold text-default-950">X</button></h4>
+          <h4 class="text-sm text-default-400 font-bold">${objectDetails.quantity} x <span class="text-primary font-semibold">€${objectDetails.price}</span></h4>
         </div>
       `;
 
@@ -133,6 +144,15 @@ function initializeApp(data) {
       // Verificare che l'elemento da rimuovere sia un figlio diretto del contenitore
       if (divToRemove && divToRemove.parentNode === container) {
         // Rimuovere l'elemento corrispondente dall'array di dettagli dell'oggetto
+        Object.values(categorieMenuMap).forEach(arrayMenu => {
+        for (let i = 0; i < arrayMenu.length; i++) {
+  if (arrayMenu[i].productId === objectDetails.productId) {
+    arrayMenu[i].availability += objectDetails.quantity;
+    break; // Exit the loop after the update
+  }
+}
+})
+        updateMenu(categoryId)
         orderData = orderData.filter((item) => item.ID != objectDetails.ID);
         grandTotal = calculateTotalOrderValue(orderData);
         // Rimuovere il div dal DOM
@@ -228,7 +248,7 @@ function initializeApp(data) {
         const transformedOrderData = transformAndSaveOrderData(orderDataJson);
 
         // Chiamare la funzione showPopupOrderData con i dati trasformati
-        showPopupOrderData(transformedOrderData, grandTotal);
+        showPopupOrderData(transformedOrderData);
       } else {
         // Alert o messaggio che informa l'utente che non può effettuare il check-out
         toastr.error("Il carrello è vuoto!", "Errore");
@@ -303,11 +323,18 @@ function initializeApp(data) {
   }
 
   // Funzione per creare e mostrare il pop-up con i dati trasformati
-  function showPopupOrderData(transformedDataJson, grandTotal) {
+  function showPopupOrderData(transformedDataJson) {
     // Converti la stringa JSON in un oggetto JavaScript
     const orderItems = JSON.parse(transformedDataJson);
     // Ottieni il contenitore del pop-up
     const popupContainer = document.getElementById("popup-container");
+    let volounteerPay = 0;
+    if(GuestTypeSelectedInput === "Volounteer" && grandTotal > (volounteerVoucher * numeroVoucherV + animatorVoucher * numeroVoucherA)){
+     grandTotal -= volounteerVoucher * numeroVoucherV + animatorVoucher * numeroVoucherA;
+     volounteerPay = 1;
+} else if (GuestTypeSelectedInput === "Volounteer") {
+        grandTotal = 0; }
+
     // Creare HTML dinamico con i dati mappati
     let htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-5 text-center">Ordine Nr. ${orderNumber}</h4>
     <div style="overflow:auto;">`;
@@ -320,7 +347,9 @@ function initializeApp(data) {
       </div>
 
       `;
-    if ((paymentType = "cash" && GuestTypeSelectedInput === "Client")) {
+
+
+    if (paymentType = "cash" && (GuestTypeSelectedInput === "Client" || volounteerPay === 1)) {
       noteHtml += `
       <div id="change-container" class="flex gap-2 items-center justify-between mb-5 hs-collapse open w-full overflow-hidden transition-all duration-300">
         <label for="num1">Contante:</label>
@@ -359,12 +388,20 @@ function initializeApp(data) {
   </div>
   <hr class="mb-3 mt-3">
 </div>
-
-
     `;
     });
+    if (GuestTypeSelectedInput == "Volounteer"){
+    htmlContent += `<div class="mx-5">
+  <div style="
+  display: grid;
+  grid-template-columns: auto auto;
+  justify-content: start;
+  ">
+    <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none font-bold">Voucher:</h4>
+    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${volounteerVoucher*numeroVoucherV+ animatorVoucher*numeroVoucherA} €</span>`
+    }
     htmlContent += noteHtml;
-    if (GuestTypeSelectedInput === "Client") {
+    if (GuestTypeSelectedInput === "Client" || volounteerPay === 1) {
       htmlContent += `
     <div id="checkbox-paymant" class="flex justify-around mb-5 mx-5">
                       <div>
@@ -389,7 +426,7 @@ function initializeApp(data) {
 
     // Mostra il pop-up
     popupContainer.style.display = "flex";
-    if (GuestTypeSelectedInput === "Client") {
+    if (GuestTypeSelectedInput === "Client" || volounteerPay === 1) {
       //document.getElementById("cash").checked = true;
       paymentType = "default";
     } else {
@@ -429,7 +466,7 @@ function initializeApp(data) {
       }
     }
 
-    if (GuestTypeSelectedInput === "Client") {
+    if (GuestTypeSelectedInput === "Client" || volounteerPay === 1) {
       const restoButton = document.getElementById("resto-btn");
       restoButton.addEventListener("click", function () {
         calcolaSottrazione();
@@ -516,6 +553,15 @@ function initializeApp(data) {
          </div>
      `;
     });
+    if(GuestTypeSelectedInput == "Volounteer") {
+        htmlContent += `
+         <div>
+            <span>  </span>
+            <span> Voucher </span><br>
+            <span style="margin-left:20px">      -${volounteerVoucher*numeroVoucherV + animatorVoucher*numeroVoucherA} €</span>
+         </div>
+     `;
+    }
     let date = new Date()
     let strTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
     let myDatetime = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + "  " + strTime
@@ -573,7 +619,7 @@ function initializeApp(data) {
     checkbox.checked = true;
 
     // Ottieni l'ID della categoria cliccata
-    const categoryId = checkbox.id;
+    categoryId = checkbox.id;
 
     // Esegui le azioni desiderate con l'ID della categoria
     //console.log(`Hai cliccato sulla categoria con ID: ${categoryId}`);
@@ -643,11 +689,68 @@ function initializeApp(data) {
 
             </div>
   
-            <a id="add-cart" class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="cart.html">Aggiungi al carrello</a>
+            <button id="add-cart" class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500">Aggiungi al carrello</a>
           </div>
         </div>
       
             `;
+
+            if(oggetto.availability < 1 && oggetto.inventoryCheck){
+            const addToCartBtn = menuElement.querySelector("#add-cart");
+            addToCartBtn.setAttribute("disabled", "true");
+            addToCartBtn.classList.add("opacity-50", "cursor-not-allowed");
+
+            menuElement.className = `
+    xl:order-1 order-2
+    border border-gray-700
+    rounded-lg p-4 overflow-hidden
+    hover:border-gray-900 hover:shadow-xl
+    transition-all duration-300
+  `;
+  menuElement.style.backgroundColor = "rgba(0, 0, 0, 0.075)";
+  menuElement.style.border = "1px solid #374151";
+    const warningLabel = `
+    <div style="
+      font-size: 14px;
+      font-weight: bold;
+      color: #1f2937; /* Tailwind gray-800 */
+      background-color: rgba(255, 255, 255, 0.7);
+      padding: 4px 8px;
+      border-radius: 6px;
+      margin-bottom: 8px;
+      display: inline-block;
+    ">
+      Prodotto esaurito
+    </div>
+  `;
+  menuElement.innerHTML = warningLabel + menuElement.innerHTML;
+            }
+            else if(oggetto.availability < availabilityWarningThreshold && oggetto.inventoryCheck){
+            menuElement.style.backgroundColor = "rgba(255, 165, 0, 0.15)";
+              menuElement.className = `
+  xl:order-1 order-2
+  border border-orange-400
+  bg-[rgba(255,165,0,0.2)]
+  rounded-lg p-4 overflow-hidden
+  hover:border-primary hover:shadow-xl
+  transition-all duration-300
+`;
+              const warningLabel = `
+  <div style="
+    font-size: 14px;
+    font-weight: bold;
+    color: #b45309;
+    background-color: rgba(255, 255, 255, 0.7);
+    padding: 4px 8px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    display: inline-block;
+  ">
+    In esaurimento: ${oggetto.availability}
+  </div>
+`
+    menuElement.innerHTML = warningLabel + menuElement.innerHTML;
+        }
 
         // Aggiungi eventi di click ai pulsanti e all'elemento "add-cart"
         const minusButton = menuElement.querySelector(".minus");
@@ -670,10 +773,17 @@ function initializeApp(data) {
 
         plusButton.addEventListener("click", function () {
           // Aumenta la quantità, assicurandoti che non superi il massimo
+          if(oggetto.inventoryCheck){
+          quantityInput.value = Math.min(
+            parseInt(quantityInput.value, 10) + 1,
+            oggetto.availability
+          );
+          } else {
           quantityInput.value = Math.min(
             parseInt(quantityInput.value, 10) + 1,
             100
           );
+          }
         });
 
         // Aggiungi l'event listener all'elemento "add-cart" solo se è stato trovato
@@ -693,8 +803,12 @@ function initializeApp(data) {
             const noteInput = document.getElementById(inputId);
 
             // Verifica se la quantità è maggiore di 0 prima di procedere con l'aggiunta al carrello
-
-            if (parseInt(quantityInput.value, 10) > 0) {
+            let acceptFlag = true;
+            if (parseInt(quantityInput.value, 10) > oggetto.availability && oggetto.inventoryCheck ){
+                acceptFlag = false;
+            }
+            if (acceptFlag) {
+              oggetto.availability -= parseInt(quantityInput.value, 10)
               let itemProperties = {
                 price: oggetto.price,
                 quantity: Math.max(parseInt(quantityInput.value, 10), 0),
@@ -723,10 +837,10 @@ function initializeApp(data) {
                 "</b> <br> aggiunto con successo al carrello!"
               );
             } else {
-              //console.log("Impossibile aggiungere al riepilogo. La quantità è 0.");
-              toastr.error("Impossibile aggiungere prodotto: la quantità è 0.");
-              // Aggiungi qui il codice per visualizzare un toast con l'avviso
-              // Ad esempio, usando una libreria di toast come Toastify o simile
+              console.log(
+                "Impossibile aggiungere al riepilogo. La quantità è maggiore della disponibilità."
+              );
+              toastr.error("Impossibile aggiungere prodotto: la quantità è maggiore della disponibilità.");
             }
           });
         }
@@ -760,17 +874,6 @@ function initializeApp(data) {
       }
     }
 
-    // Funzione per salvare le variabili globali
-    function saveGlobalVariables() {
-      // Puoi fare quello che vuoi con le variabili globali qui
-      // Ad esempio, puoi inviarle a un'altra funzione o eseguire altre operazioni
-      //console.log("Global Price:", globalPrice);
-      //console.log("Global Quantity:", globalQuantity);
-      //console.log("Global Image:", globalImage);
-      //console.log("Global Name:", globalName);
-      //console.log("Global ID:", globalID);
-      //console.log("Global Note:", globalNote);
-    }
   }
 
   function calculateTotalOrderValue(data) {
@@ -788,7 +891,7 @@ function initializeApp(data) {
     "Menu Bibita",
     "Panini Singoli",
     "Pizza",
-    "Bevande",
+    "Bar",
   ];
 
   //console.log("Array di categorie:", categories);

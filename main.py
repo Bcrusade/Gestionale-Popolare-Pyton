@@ -22,11 +22,22 @@ def gestionale():
 #send the menu list
 @app.route("/api/menu")
 def menu():
-    f = open("./data/lista_menu.json", "r")
-    data = f.read()
-    f.close()
-    return jsonify(data)
+    #f = open("./data/lista_menu.json", "r")
+    #data = f.read()
+    #f.close()
+    menu = buildMenu(connection)
+#   build from database
+    return jsonify(menu)
 
+#send the menu list
+@app.route("/api/menu-bar")
+def menu_bar():
+    #f = open("./data/lista_menu.json", "r")
+    #data = f.read()
+    #f.close()
+    menu = buildMenu(connection)
+#   build from database
+    return jsonify(menu)
 
 #send open orders to display
 @app.route("/api/ordersList")
@@ -78,6 +89,7 @@ def orders():
     responseData = {'status': ""}
     if request.method == 'POST':
         order = request.get_json()
+        order["operatorId"] = request.remote_addr.replace(".", "")
         dbStatus = registerOrderToDatabase(connection, order)
         if (dbStatus == 0):
             #start print thread
@@ -87,6 +99,20 @@ def orders():
         else:
             responseData["status"] = "error"
         print(order)
+    return jsonify(responseData)
+
+#update inventory data for an item
+@app.route("/api/updateInventory", methods=['POST'])
+def updateInventoryWeb():
+    responseData = {'status': ""}
+    if request.method == 'POST':
+        update = request.get_json()
+        print(update)
+        dbStatus = updateInventoryItem(connection, update)
+        if (dbStatus == 0):
+            responseData["status"] = "success"
+        else:
+            responseData["status"] = "error"
     return jsonify(responseData)
 
 
@@ -125,6 +151,9 @@ def orderRequestReprint():
 def getOrders():
     return render_template('./gestionale/gestionale-popolare-gestione-ordini.html')
 
+@app.route("/inventario")
+def getInventarioInterface():
+    return render_template('./gestionale/gestionale-popolare-inventario.html')
 
 @app.route("/summary")
 def getSummary():
@@ -171,44 +200,6 @@ def print_report():
             responseData["status"] = "error"
     return jsonify(responseData)
 
-
-#useless function (to remove)
-def startServer():
-    print(connection.total_changes)
-    #test functions
-    orderInJson = """{
-  "operatorId": "cassa1",
-  "datetime": "2024-03-06 15:28:07",
-  "totalValue": 100,
-  "paymentType": "cash",
-  "items": [ {
-  "itemId": 10,
-  "quantity": 2,
-  "notes": "some notes"
-  },
-  {
-  "itemId": 11,
-  "quantity": 1,
-  "notes": "more notes"
-  },
-   {
-  "itemId": 13,
-  "quantity": 1,
-  "notes": "more notes"
-  },
-  {
-  "itemId": 12,
-  "quantity": 1,
-  "notes": "more notes"
-  }]
-}"""
-    orderInJson = json.loads(orderInJson)
-    registerOrderToDatabase(connection, orderInJson)
-    #test functions END
-    print('Avvio del server...')
-    print('Server in esecuzione...')
-
-
 #utility function
 def jsonMenu():
     f = open("./data/lista_menu.json", "r+")
@@ -229,8 +220,8 @@ def fillMenu():
     for category in data:
         for item in data[category]:
             item["category"] = category
-            sql = ''' INSERT INTO itemProp(name, itemId, itemClass, unitPrice)
-                              VALUES(:name, :productId, :category, :price) '''
+            sql = ''' INSERT INTO itemProp(name, itemId, itemClass, unitPrice, description)
+                              VALUES(:name, :productId, :category, :price, :desc) '''
             cur = connection.cursor()
             cur.execute(sql, item)
             connection.commit()
