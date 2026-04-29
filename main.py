@@ -200,7 +200,7 @@ def print_report():
             responseData["status"] = "error"
     return jsonify(responseData)
 
-#utility function
+#utility function, not used
 def jsonMenu():
     f = open("./data/lista_menu.json", "r+")
     data = json.loads(f.read())
@@ -213,7 +213,7 @@ def jsonMenu():
     f.write(data)
     f.close()
 
-
+#utility function, not used
 def fillMenu():
     f = open("./data/lista_menu.json", "r")
     data = json.loads(f.read())

@@ -41,7 +41,8 @@ def registerOrderToDatabase(conn, order):
         hasPizza = False
         for item in order["items"]:
             itemClass = resolveItemClassById(conn, item["itemId"])
-            if (itemClass == "cucina"):
+            #TODO cambiare cucina -> primo
+            if (itemClass == "cucina" or itemClass == "secondo"):
                 hasCucina = True
             elif (itemClass == "pizzeria"):
                 hasPizza = True
@@ -75,8 +76,6 @@ def buildMenu(conn):
              "bevande": [] }
     for row in data:
         menu[row[3]].append( { "name": row[0], "desc": row[5], "price": row[4], "productId": row[1], "availability": row[6], "inventoryCheck": row[7]} )
-    menu["volounteerVoucher"] = config.volounteerVoucher
-    menu["animatorVoucher"] = config.animatorVoucher
     return menu
 
 

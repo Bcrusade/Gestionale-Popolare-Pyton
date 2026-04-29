@@ -1,23 +1,18 @@
-// Funzione principale che viene eseguita una volta che il DOM è pronto
-document.addEventListener("DOMContentLoaded", function () { });
+//config messaggi su interfaccia
 toastr.options = {
   timeOut: "1500",
 };
+//preseleziona la categoria alla prima
 let categoryId = 1
 
-// Modifica la funzione loadExternalJsonAndInitialize per utilizzare la chiamata API
 async function loadExternalJsonAndInitialize(apiUrl) {
   try {
-    const response = await fetch(apiUrl); // Esegui la chiamata API
-    //console.log("Chiamata API riuscita:", response);
-    const data = await response.json(); // Estrai i dati JSON dalla risposta
-    //console.log(data);
-
+    const response = await fetch(apiUrl);
+    const data = await response.json();
     const response2 = await fetch(
       "http://" + self.location.host + "/api/requestOrderNumber"
-    ); // Esegui la chiamata API
-    //console.log("Chiamata API riuscita:", response2);
-    responseObject = await response2.json(); // Estrai i dati JSON dalla risposta
+    );
+    responseObject = await response2.json();
     if (responseObject.status == "success") {
       //display page
       document.getElementById("button-new-order").style.pointerEvents = "none"
@@ -26,9 +21,9 @@ async function loadExternalJsonAndInitialize(apiUrl) {
       //get order number
       orderNumber = responseObject.orderId;
       //console.log(orderNumber);
-      // Inizializza l'applicazione con il JSON caricato
+      // Inizializza l'applicazione con il menu ed eventuali parametri
       initializeApp(data);
-      // Simula un click sulla prima categoria per avviare il caricamento del menu promozionale
+      // Simula un click sulla prima categoria per visualizzare il menu
       const primaCategoriaCheckbox = document.querySelector(
         '#category-list input[type="checkbox"]'
       );
@@ -36,7 +31,7 @@ async function loadExternalJsonAndInitialize(apiUrl) {
     }
     else {
       toastr.error("Errore nella richiesta del numero d'ordine", "Errore", { timeOut: 10000 });
-      document.getElementById("button-new-order").style.pointerEvents = "all"
+      document.getElementById("button-new-order").style.pointerEvents = "all" //riabilita il bottone "nuovo ordine"
     }
 
   } catch (error) {
@@ -48,18 +43,12 @@ async function loadExternalJsonAndInitialize(apiUrl) {
 let grandTotal = 0;
 // variabile globale per i dati dell'ordine da portare in JSON
 let orderData = [];
-// variabile per il numero dell'ordine
+// variabile per il numero dell'ordine, inizializzata a valore invalido
 let orderNumber = -1;
-//variabile sconto volontario
-let volounteerVoucher = 0
-let animatorVoucher = 0
-//variabile soglia avviso disponibilità
+//todo: spsotare in config. variabile soglia avviso disponibilità
 let availabilityWarningThreshold = 10
 
-let numeroVoucherV = 1
-let numeroVoucherA = 0
-
-//clear html containers of cart
+//pulisce html del carrello
 function clearContainers() {
   const containerRiepilogo = document.getElementById("container-riepilogo");
   const containerTotale = document.getElementById("Totale");
@@ -81,31 +70,26 @@ function clearContainers() {
 function initializeApp(data) {
   // Mappa delle categorie ai rispettivi array di menu
   const json = data;
-  volounteerVoucher = json["volounteerVoucher"]
-  animatorVoucher = json["animatorVoucher"]
   //key = category, item= list of products
   const categorieMenuMap = {
     pizza: json["pizza"] || [],
     panini_singoli: json["panini"] || [],
-    menu_birra: json["menu birra"] || [],
     cucina: json["cucina"] || [],
     bar: json["bevande"] || [],
-    menu_bibita: json["menu bibita"] || [],
   };
 
   // Funzione per generare HTML dinamico basato sulle >variabili globali< (NEL RIEPILOGO a lato)
   function generateDynamicHTML(itemProperties) {
-    // Creare un array di dettagli dell'oggetto basato sulle variabili globali
     const objectDetails = itemProperties;
     // Selezionare il container in cui si desidera aggiungere l'HTML (sostituire 'container-id' con il tuo effettivo ID del container)
     const container = document.getElementById("container-riepilogo");
-    // Creare un nuovo div per ogni oggetto
+    // Creare un nuovo div per ogni elemento
     const objectDiv = document.createElement("div");
     // Impostare l'ID univoco
     objectDiv.id = objectDetails.ID;
     objectDiv.className = "flex items-center mb-4";
 
-    // Verifica se objectDetails.note è maggiore di 0 prima di aggiungere l'elemento <i>
+    // Verifica se objectDetails.note length è maggiore di 0 prima di aggiungere l'elemento <i>
     const noteHtml =
       objectDetails.note && objectDetails.note.trim().length > 0
         ? `<i class="text-sm text-default-600 font-bold text-primary">- ${objectDetails.note}</i>`
@@ -145,15 +129,14 @@ function initializeApp(data) {
       if (divToRemove && divToRemove.parentNode === container) {
         // Rimuovere l'elemento corrispondente dall'array di dettagli dell'oggetto
         Object.values(categorieMenuMap).forEach(arrayMenu => {
-        for (let i = 0; i < arrayMenu.length; i++) {
-  if (arrayMenu[i].productId === objectDetails.productId) {
-    arrayMenu[i].availability += objectDetails.quantity;
-    break; // Exit the loop after the update
-  }
-}
-})
-        updateMenu(categoryId)
-        orderData = orderData.filter((item) => item.ID != objectDetails.ID);
+          for (let i = 0; i < arrayMenu.length; i++) {
+            if (arrayMenu[i].productId === objectDetails.productId) {
+                arrayMenu[i].availability += objectDetails.quantity; //faccio in modo di non alterare la disponibilità
+                break; // Exit the loop after the update
+            }
+         }
+        })
+        orderData = orderData.filter((item) => item.ID != objectDetails.ID); //filtro l'item appena rimosso
         grandTotal = calculateTotalOrderValue(orderData);
         // Rimuovere il div dal DOM
         container.removeChild(divToRemove);
@@ -161,12 +144,9 @@ function initializeApp(data) {
         // Aggiornare il contenuto dell'elemento con la nuova somma totale
         totaleElement.textContent = `€ ${grandTotal.toFixed(2)}`;
 
-        //console.log("Totale aggiornato dopo l'eliminazione:", grandTotal);
-        //console.log("ID da eliminare:", objectDetails.ID);
-
         // Ottieni il riferimento al bottone "check-out"
         var checkoutButton = document.getElementById("check-out");
-        if (grandTotal == 0) {
+        if (grandTotal == 0) { //se il totale torna zero, oscuro il bottone per inviare l'ordine
           // Toggle della classe opacity-50 sul div del bottone "check-out"
           checkoutButton.classList.add("opacity-50");
         }
@@ -184,30 +164,18 @@ function initializeApp(data) {
       quantity: itemProperties.quantity,
       price: itemProperties.price,
       notes: "",
-      ID: itemProperties.ID,
+      ID: itemProperties.ID, //id per html
       itemId: itemProperties.productId,
     };
 
     if (itemProperties.note) {
       orderDetailsObject["notes"] = itemProperties.note;
     }
-
     // Aggiungere i dati correnti alla variabile globale orderData
     orderData.push(orderDetailsObject);
-
-    // Ora puoi utilizzare orderDataJson per ottenere la rappresentazione JSON dei dati dell'ordine
-    //console.log("Ordine:", orderDetailsObject);
-    // Convertire l'oggetto in una stringa JSON e assegnarla a orderDataJson
     const orderDataJson = JSON.stringify(orderData);
-
-    // Ora puoi utilizzare orderDataJson per ottenere la rappresentazione JSON dei dati dell'ordine
-    //console.log("Ordine JSON:", orderDataJson);
-    // Ora puoi utilizzare orderDataJson per ottenere la rappresentazione JSON dei dati dell'ordine
-    //console.log("Ordine:", orderData);
-
     grandTotal = calculateTotalOrderValue(orderData);
-    //console.log("Totale riepilogo:", grandTotal);
-
+    //todo fare l'aggiornamento del totale in una funzione (viene usata piu volte)
     // Selezionare l'elemento <p> con l'ID "Totale"
     const totaleElement = document.getElementById("Totale");
 
@@ -243,12 +211,8 @@ function initializeApp(data) {
 
         // Ottenere il JSON risultante dalla variabile globale orderData
         const orderDataJson = JSON.stringify(orderData);
-
-        // Chiamare la funzione transformAndSaveOrderData con il JSON risultante
-        const transformedOrderData = transformAndSaveOrderData(orderDataJson);
-
-        // Chiamare la funzione showPopupOrderData con i dati trasformati
-        showPopupOrderData(transformedOrderData);
+        //Mostra il popup con i dati dell'ordine
+        showPopupOrderData(orderDataJson);
       } else {
         // Alert o messaggio che informa l'utente che non può effettuare il check-out
         toastr.error("Il carrello è vuoto!", "Errore");
@@ -294,28 +258,10 @@ function initializeApp(data) {
   // Aggiungi un listener per l'evento beforeunload per assicurarti che i dati vengano salvati prima di lasciare la pagina
   window.addEventListener("beforeunload", () => { });
 
-  // Funzione per aggiungere numero ordine a orderData (useless at the moment)
-  function transformAndSaveOrderData(newOrderData) {
-    // Convertire la stringa JSON in un array di oggetti
-    const orderArray = JSON.parse(newOrderData);
-    const transformedData = [];
-
-    // Riempire l'array dell'oggetto contenitore
-    orderArray.forEach((orderDetails) => {
-      transformedData.push(orderDetails);
-    });
-
-    // Convertire l'oggetto in una stringa JSON
-    const transformedDataJson = JSON.stringify(transformedData);
-    // Ora puoi utilizzare transformedDataJson per ottenere la rappresentazione JSON dei dati trasformati
-    //console.log("Dati trasformati JSON:", transformedDataJson);
-    // Restituire la stringa JSON risultante
-    return transformedDataJson;
-  }
-
+//remove useless data fields used only for visualization
   function cleanOrderData(data) {
     data.forEach((item) => {
-      delete item["name"]; //remove useless data used only for visualization
+      delete item["name"];
       delete item["price"];
       delete item["ID"];
     });
@@ -329,10 +275,7 @@ function initializeApp(data) {
     // Ottieni il contenitore del pop-up
     const popupContainer = document.getElementById("popup-container");
     let volounteerPay = 0;
-    if(GuestTypeSelectedInput === "Volounteer" && grandTotal > (volounteerVoucher * numeroVoucherV + animatorVoucher * numeroVoucherA)){
-     grandTotal -= volounteerVoucher * numeroVoucherV + animatorVoucher * numeroVoucherA;
-     volounteerPay = 1;
-} else if (GuestTypeSelectedInput === "Volounteer") {
+    if (GuestTypeSelectedInput === "Volounteer") {
         grandTotal = 0; }
 
     // Creare HTML dinamico con i dati mappati
@@ -349,9 +292,9 @@ function initializeApp(data) {
       `;
 
 
-    if (paymentType = "cash" && (GuestTypeSelectedInput === "Client" || volounteerPay === 1)) {
+    if (paymentType = "cash" && GuestTypeSelectedInput === "Client") {
       noteHtml += `
-      <div id="change-container" class="flex gap-2 items-center justify-between mb-5 hs-collapse open w-full overflow-hidden transition-all duration-300">
+      <div id="change-container" class="flex gap-2 items-center justify-between mb-5 hs-collapse open w-full overflow-hidden transition-all duration-300" style="opacity: 0; height: 0px;">
         <label for="num1">Contante:</label>
         <input type="text" id="num1" class="border dark:bg-default-50 duration-500 font-medium items-center px-2.5 py-1.5 rounded-full shadow-sm text-center text-sm w-16" />
         <button class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 items-center px-6 py-1.5 relative rounded-full shadow-sm text-center text-sm text-white" id="resto-btn">RESTO</button>
@@ -390,20 +333,10 @@ function initializeApp(data) {
 </div>
     `;
     });
-    if (GuestTypeSelectedInput == "Volounteer"){
-    htmlContent += `<div class="mx-5">
-  <div style="
-  display: grid;
-  grid-template-columns: auto auto;
-  justify-content: start;
-  ">
-    <h4 class="mt-0.5 mb-0.5 text-default-600 text-lg select-none font-bold">Voucher:</h4>
-    <span class="ps-3 inline-flex items-center text-default-600 text-lg select-none">${volounteerVoucher*numeroVoucherV+ animatorVoucher*numeroVoucherA} €</span>`
-    }
     htmlContent += noteHtml;
-    if (GuestTypeSelectedInput === "Client" || volounteerPay === 1) {
+    if (GuestTypeSelectedInput === "Client") {
       htmlContent += `
-    <div id="checkbox-paymant" class="flex justify-around mb-5 mx-5">
+    <div id="checkbox-payment" class="flex justify-around mb-5 mx-5">
                       <div>
                         <input class="hs-collapse-toggle open form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" id="cash" name="all" type="checkbox" onclick="paymentCheckboxMutex('cash', 'pos')">
                         <label class="hs-collapse-toggle open transition-all ps-3 inline-flex items-center text-default-600 font-bold text-sm select-none" for="cash">Contanti</label>
@@ -426,14 +359,12 @@ function initializeApp(data) {
 
     // Mostra il pop-up
     popupContainer.style.display = "flex";
-    if (GuestTypeSelectedInput === "Client" || volounteerPay === 1) {
+    if (GuestTypeSelectedInput === "Client") {
       //document.getElementById("cash").checked = true;
       paymentType = "default";
     } else {
       paymentType = "free";
     }
-
-    //console.log(paymentType);
 
     //Calcolo resto
     function calcolaSottrazione() {
@@ -466,7 +397,7 @@ function initializeApp(data) {
       }
     }
 
-    if (GuestTypeSelectedInput === "Client" || volounteerPay === 1) {
+    if (GuestTypeSelectedInput === "Client") {
       const restoButton = document.getElementById("resto-btn");
       restoButton.addEventListener("click", function () {
         calcolaSottrazione();
@@ -492,8 +423,7 @@ function initializeApp(data) {
     });
     const closePopupButton = popupContainer.querySelector("#close-button");
     closePopupButton.addEventListener("click", function () {
-      // Svuotare le variabile dopo l'invio dell'ordine
-
+      // Svuotare le variabili dopo l'invio dell'ordine
       closePopup();
       clearDataState();
     });
@@ -553,15 +483,6 @@ function initializeApp(data) {
          </div>
      `;
     });
-    if(GuestTypeSelectedInput == "Volounteer") {
-        htmlContent += `
-         <div>
-            <span>  </span>
-            <span> Voucher </span><br>
-            <span style="margin-left:20px">      -${volounteerVoucher*numeroVoucherV + animatorVoucher*numeroVoucherA} €</span>
-         </div>
-     `;
-    }
     let date = new Date()
     let strTime = date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds()
     let myDatetime = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear() + "  " + strTime
@@ -575,15 +496,10 @@ function initializeApp(data) {
  `;
     htmlContent += `</div>`;
 
-    // Chiamata alla funzione per inviare i dati al server
-    //sendDataToServer();
     // Creazione di un elemento div temporaneo nel DOM
     const printContainer = document.createElement("div");
     printContainer.innerHTML = htmlContent;
     document.body.appendChild(printContainer);
-
-    // Chiamata alla funzione per inviare l'HTML  Comanda al server
-    //sendHTMLToServer(htmlContent);
 
     // Stampare l'elemento HTML utilizzando Print.js con la stampante specificata
     printJS({
@@ -597,6 +513,7 @@ function initializeApp(data) {
     document.body.removeChild(printContainer);
   }
 
+//svuota variabili globali
   function clearDataState() {
     orderData = [];
     paymentType = "";
@@ -617,13 +534,8 @@ function initializeApp(data) {
       'input[type="checkbox"]'
     );
     checkbox.checked = true;
-
     // Ottieni l'ID della categoria cliccata
     categoryId = checkbox.id;
-
-    // Esegui le azioni desiderate con l'ID della categoria
-    //console.log(`Hai cliccato sulla categoria con ID: ${categoryId}`);
-
     // Aggiorna il menu in base alla categoria selezionata
     updateMenu(categoryId);
   }
@@ -639,7 +551,6 @@ function initializeApp(data) {
     // Dichiarare la variabile addCartButton fuori dal ciclo
     let addCartButton;
 
-    // Controlla se l'array esiste e ha una proprietà 'length'
     if (Array.isArray(arrayMenu) && arrayMenu.length > 0) {
       // Pulisci il container del menu
       containerMenu.innerHTML = "";
@@ -849,31 +760,6 @@ function initializeApp(data) {
         containerMenu.appendChild(menuElement);
       }
     }
-
-    function editInput(menuId) {
-      // Costruisci l'id dell'input
-      const inputId = `input_${menuId}`;
-
-      // Seleziona l'elemento input
-      const inputElement = document.getElementById(inputId);
-
-      // Verifica se l'elemento input esiste
-      if (inputElement) {
-        // Aggiungi un listener per il click sull'input
-        inputElement.addEventListener("click", function () {
-          //console.log(`Input con id ${inputId} cliccato.`);
-
-          // Salva il valore dell'input nella variabile globale
-          globalNote = inputElement.value;
-        });
-
-        // Imposta il focus sull'input per attivare la modalità di modifica
-        inputElement.focus();
-      } else {
-        console.error(`Elemento input con id ${inputId} non trovato.`);
-      }
-    }
-
   }
 
   function calculateTotalOrderValue(data) {
@@ -884,17 +770,13 @@ function initializeApp(data) {
     return totalValue;
   }
 
-  // Your array of categories menu laterale
+  //Categorie menu laterale
   const categories = [
     "Cucina",
-    "Menu Birra",
-    "Menu Bibita",
     "Panini Singoli",
     "Pizza",
     "Bar",
   ];
-
-  //console.log("Array di categorie:", categories);
 
   // Get the container element
   const categoryListContainer = document.getElementById("category-list");

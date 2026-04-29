@@ -156,22 +156,6 @@
                     for="Guest">Ospite</label>
                 </div>
               </div>
-			  <div id="voucherV_choice" class="items-center justify-between mb-4 hidden">
-                <h6 class="font-semibold text-sm">Voucher volontario</h6>
-                <div class="relative z-15 inline-flex justify-between border border-default-200 p-1 rounded-full">
-                  <button class="minus flex-shrink-0 bg-default-200 rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button" onclick="changeVoucherNumber('minus', 'quantity_VV')">–</button>
-                  <input id="quantity_VV" class="w-8 border-0 text-sm text-center  focus:ring-0 p-0 bg-transparent" max="100" min="0" readonly="" type="text" value="1" />
-                  <button class="plus flex-shrink-0 bg-default-200  rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button" onclick="changeVoucherNumber('plus', 'quantity_VV')">+</button>
-                </div>
-			  </div>
-			  <div id="voucherA_choice" class="items-center justify-between mb-4 hidden">
-                <h6 class="font-semibold text-sm">Voucher animatore</h6>
-                <div class="relative z-15 inline-flex justify-between border border-default-200 p-1 rounded-full">
-                  <button class="minus flex-shrink-0 bg-default-200  rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button" onclick="changeVoucherNumber('minus', 'quantity_VA')">–</button>
-                  <input id="quantity_VA" class="w-8 border-0 text-sm text-center  focus:ring-0 p-0 bg-transparent" max="100" min="0" readonly="" type="text" value="0" />
-                  <button class="plus flex-shrink-0 bg-default-200  rounded-full h-6 w-6 text-sm inline-flex items-center justify-center" type="button" onclick="changeVoucherNumber('plus', 'quantity_VA')">+</button>
-                </div>
-			  </div>
               <button id="check-out"
                 class="opacity-50 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-10 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500"
                 >
@@ -242,20 +226,6 @@
       const selectedType = event.currentTarget
       selectedType.checked = true;
       GuestTypeSelectedInput = checkedId
-      console.log(GuestTypeSelectedInput)
-	  if (GuestTypeSelectedInput == "Volounteer") {
-	      const voucherVChoice = document.getElementById("voucherV_choice");
-        voucherVChoice.classList.replace("hidden", "flex")
-	      const voucherAChoice = document.getElementById("voucherA_choice");
-        voucherAChoice.classList.replace("hidden", "flex")
-
-      }
-      else 	  {
-	     const voucherVChoice = document.getElementById("voucherV_choice");
-           voucherVChoice.classList.replace("flex", "hidden")
-	     const voucherAChoice = document.getElementById("voucherA_choice");
-           voucherAChoice.classList.replace("flex", "hidden")
-      }
     }
 
     // Imposta il checkbox "Client" & "cash" come selezionato di default
@@ -288,90 +258,6 @@
       }
       console.log(paymentType)
     }
-
-    function changeVoucherNumber(sign, voucherId) {
-      const changeContainer = document.getElementById(voucherId);
-//	  const valoreVoucher = document.getElementById("display-voucher");
-//	  const valoreOrder = document.getElementById("grandTotal-container-value");
-//	  let display_total = grandTotal
-	  
-      if (sign == "minus") {
-		  if (parseInt(changeContainer.value, 10) > 0) {
-            // Riduci la quantità, assicurandoti che non scenda al di sotto del minimo
-            changeContainer.value = Math.max(
-              parseInt(changeContainer.value, 10) - 1,
-              0
-            );
-			if (voucherId == "quantity_VV") {numeroVoucherV = changeContainer.value}
-			else {numeroVoucherA = changeContainer.value}
-//			totalVoucherValue = changeContainer.value * volounteerVoucher
-//			valoreVoucher.innerHTML = totalVoucherValue + " €"
-			
-//			display_total -= totalVoucherValue
-//		if (display_total < 0) { display_total = 0; volounteerPay = 0; const changeContainer = document.getElementById("change-container");
-//        changeContainer.style.opacity = "0";
-//       setTimeout(() => {
-//          changeContainer.style.height = "0";
-//        }, 200);
-//		const paymentContainer = document.getElementById("checkbox-payment");
-//		paymentContainer.style.opacity = "0";
-//					paymentContainer.style.height = "0"
-//		const posContainer = document.getElementById("pos");
-//		posContainer.checked = false;
-//		const cashContainer = document.getElementById("cash");
-//		cashContainer.checked = false;
-//		} else { 
-//		paymentType = "default"
-//		const changeContainer = document.getElementById("change-container");
-//				 const paymentContainer = document.getElementById("checkbox-payment");
-//					paymentContainer.style.height = ""
-//					paymentContainer.style.opacity = "1";
-//        changeContainer.style.height = "";
-//        setTimeout(() => {
-//          changeContainer.style.opacity = "1";
-//        }, 50);
-//		}
-//			valoreOrder.innerHTML = display_total + " €"
-         }
-		  }
-      else if (sign == "plus") {
-	        changeContainer.value = Math.min(
-              parseInt(changeContainer.value, 10) + 1,
-              100
-            );
-			if (voucherId == "quantity_VV") {numeroVoucherV = changeContainer.value}
-			else {numeroVoucherA = changeContainer.value}
-//			totalVoucherValue = changeContainer.value * volounteerVoucher
-//			valoreVoucher.innerHTML = totalVoucherValue + " €"
-//			display_total -= totalVoucherValue
-//			if (display_total < 0) { display_total = 0; volounteerPay = 0; const changeContainer = document.getElementById("change-container");
-//        changeContainer.style.opacity = "0";
-//        setTimeout(() => {
-//          changeContainer.style.height = "0";
-//        }, 200);
-//		paymentType = "free"
-//		const paymentContainer = document.getElementById("checkbox-payment");
-//					paymentContainer.style.height = "0"
-//					paymentContainer.style.opacity = "0";
-//					const posContainer = document.getElementById("pos");
-//		posContainer.checked = false;
-//		const cashContainer = document.getElementById("cash");
-//		cashContainer.checked = false;} 
-//		else { 
-//		paymentType = "default"
-//		const changeContainer = document.getElementById("change-container");
-//		const paymentContainer = document.getElementById("checkbox-payment");
-//					paymentContainer.style.height = ""
-//					paymentContainer.style.opacity = "1";
-//       changeContainer.style.height = "";
-//        setTimeout(() => {
-//          changeContainer.style.opacity = "1";
-//        }, 50);
-//		}
-//			valoreOrder.innerHTML = display_total + " €"
-		  }
-	}
-
     function init() {
       // URL dell'API da cui ottenere i dati JSON
       const apiUrl = "http://" + self.location.host + "/api/menu";
