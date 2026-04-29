@@ -88,17 +88,9 @@ def printCommand(conn, order):
     pizzeriaItemList = []
     for item in order['items']:
         itemClass = resolveItemClassById(conn, item["itemId"])
+        #todo add other class
         if (itemClass == "cucina"):
-            itemCategory = resolveItemCategoryById(conn, item["itemId"])
-            if (itemCategory == "menu birra" or itemCategory == "menu bibita"):
-                # divide menu in panino + fries
-                cucinaItemList.append(
-                    {"name": resolveItemNameById(conn, item['itemId']).split("- ")[1], "itemId": item['itemId'],
-                     "quantity": item['quantity'], "notes": item['notes']})
-                cucinaItemList.append(
-                    {"name": "Patatine fritte", "itemId": item['itemId'], "quantity": item['quantity'], "notes": ""})
-            else:
-                cucinaItemList.append(item)
+            cucinaItemList.append(item)
         elif (itemClass == "pizzeria"):
             pizzeriaItemList.append(item)
     orderId = order['orderId']
@@ -138,13 +130,7 @@ def printCommandType(conn, orderId, printItemList, printername, orderType, custo
       <tbody>
     """
     for item in printItemList:
-        itemCategory = resolveItemCategoryById(conn, item["itemId"])
-        #do not resolve name if item is part of menu because name is already set
-        name = ""
-        if (itemCategory != "menu birra" and itemCategory != "menu bibita"):
-            name = resolveItemNameById(conn, item['itemId'])
-        else:
-            name = item['name']
+        name = resolveItemNameById(conn, item['itemId'])
         html_body += "<tr> <td>" + name + "</td><td>" + str(item['quantity']) + '</td><td style="max-width: 50%;">' + \
                      item['notes'] + "</td></tr>"
     html_body += """
@@ -360,16 +346,7 @@ def requestReprint(conn, orderId, orderType):
     for item in items:
         itemClass = resolveItemClassById(conn, item[0])  #item[0] = itemId
         if (itemClass == orderType):  #cucina or pizzeria
-            itemCategory = resolveItemCategoryById(conn, item[0])
-            if (
-                    itemCategory == "menu birra" or itemCategory == "menu bibita"):  #if item is a menu, the name is the one of panino; add fries
-                printItemList.append(
-                    {"name": resolveItemNameById(conn, item[0]).split("- ")[1], "itemId": item[0],
-                     "quantity": item[1], "notes": item[2]})
-                printItemList.append(
-                    {"name": "Patatine fritte", "itemId": item[0], "quantity": item[1], "notes": ""})
-            else:  #item is not a menu
-                printItemList.append({"name": resolveItemNameById(conn, item[0]), "itemId": item[0],
+            printItemList.append({"name": resolveItemNameById(conn, item[0]), "itemId": item[0],
                                       "quantity": item[1], "notes": item[2]})
     customerType = getOrderInfoById(conn, orderId)[4]
     status = printCommandType(conn, orderId, printItemList, printername, orderType, customerType)

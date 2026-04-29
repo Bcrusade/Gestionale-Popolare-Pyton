@@ -29,7 +29,7 @@ def menu():
 #   build from database
     return jsonify(menu)
 
-#send the menu list
+#send the menu list (not used)
 @app.route("/api/menu-bar")
 def menu_bar():
     #f = open("./data/lista_menu.json", "r")
