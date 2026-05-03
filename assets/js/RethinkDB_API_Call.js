@@ -45,7 +45,7 @@ let grandTotal = 0;
 let orderData = [];
 // variabile per il numero dell'ordine, inizializzata a valore invalido
 let orderNumber = -1;
-//todo: spsotare in config. variabile soglia avviso disponibilità
+//todo: spsotare in config.py variabile soglia avviso disponibilità
 let availabilityWarningThreshold = 10
 
 //pulisce html del carrello
@@ -713,7 +713,7 @@ function initializeApp(data) {
             const inputId = `input_${menuId}`;
             const noteInput = document.getElementById(inputId);
 
-            // Verifica se la quantità è maggiore di 0 prima di procedere con l'aggiunta al carrello
+            // Verifica se la quantità è maggiore di 0 prima di procedere con l'aggiunta al carrello #todo rivedere gestione inventario
             let acceptFlag = true;
             if (parseInt(quantityInput.value, 10) > oggetto.availability && oggetto.inventoryCheck ){
                 acceptFlag = false;

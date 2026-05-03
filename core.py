@@ -39,22 +39,26 @@ def registerOrderToDatabase(conn, order):
         #check if order has pizzeria and/or restaurant (filter out beverages), then put orderStatuses in the db
         hasCucina = False
         hasPizza = False
+        hasPrimo = False
         for item in order["items"]:
             itemClass = resolveItemClassById(conn, item["itemId"])
             #TODO cambiare cucina -> primo
-            if (itemClass == "cucina" or itemClass == "secondo"):
+            if (itemClass == "cucina"):
                 hasCucina = True
             elif (itemClass == "pizzeria"):
                 hasPizza = True
+            elif (itemClass == "primo"):
+                hasPrimo = True
         if (hasCucina):
             insertStatus(conn, orderId, "cucina", 0)
         if (hasPizza):
             insertStatus(conn, orderId, "pizzeria", 0)
-        #time.sleep(10)
+        if (hasPrimo):
+            insertStatus(conn, orderId, "primi", 0)
         for item in order["items"]:
             item["orderId"] = orderId
             insertItem(conn, item)  # insert each item in items table
-            reduceInventoryForItem(conn, item)
+            reduceInventoryForItem(conn, item) #todo cambiare gestione inventario
         conn.commit()
     except (sqlite3.OperationalError, sqlite3.IntegrityError, sqlite3.DatabaseError) as e:
         logger.error("Could not register order %s to db", orderId, exc_info=True)
@@ -69,8 +73,6 @@ def buildMenu(conn):
     data = getMenu(conn)
     print(data)
     menu = { "cucina": [],
-             "menu birra": [],
-             "menu bibita": [],
              "panini": [],
              "pizza": [],
              "bevande": [] }
@@ -86,6 +88,7 @@ def printCommand(conn, order):
     customerType = order["customerType"]
     cucinaItemList = []
     pizzeriaItemList = []
+    primiItemList = []
     for item in order['items']:
         itemClass = resolveItemClassById(conn, item["itemId"])
         #todo add other class
@@ -93,6 +96,8 @@ def printCommand(conn, order):
             cucinaItemList.append(item)
         elif (itemClass == "pizzeria"):
             pizzeriaItemList.append(item)
+        elif (itemClass == "primo"):
+            primiItemList.append(item)
     orderId = order['orderId']
     if len(cucinaItemList) > 0:
         orderType = "cucina"
@@ -100,6 +105,9 @@ def printCommand(conn, order):
     if len(pizzeriaItemList) > 0:
         orderType = "pizzeria"
         printCommandType(conn, orderId, pizzeriaItemList, config.nomeStampantePizzeria, orderType, customerType)
+    if len(primiItemList) > 0:
+        orderType = "primo"
+        printCommandType(conn, orderId, primiItemList, config.nomeStampantePrimi, orderType, customerType)
 
 
 def printCommandType(conn, orderId, printItemList, printername, orderType, customerType):
@@ -117,7 +125,7 @@ def printCommandType(conn, orderId, printItemList, printername, orderType, custo
         </tr>"""
     html_body += """<tr>
                <th colspan="3" style="border-bottom: 0; text-align: left;">
-                 <h2 style="color: #000000;">Volontari/Frati</h2> 
+                 <h2 style="color: #000000;">Volontari/Don</h2> 
                </th>
         </tr>""" if customerType == "Volounteer" else ""
     html_body += """
@@ -341,6 +349,8 @@ def requestReprint(conn, orderId, orderType):
         printername = config.nomeStampanteCucina
     elif (orderType == "pizzeria"):
         printername = config.nomeStampantePizzeria
+    elif (orderType == "primi"):
+        printername = config.nomeStampantePrimi
     printItemList = []
     items = getOrderItemsById(conn, orderId)
     for item in items:

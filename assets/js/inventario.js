@@ -85,8 +85,6 @@ function initializeApp(data) {
   // Your array of categories menu laterale
   const categories = [
     "Cucina",
-    "Menu Birra",
-    "Menu Bibita",
     "Panini Singoli",
     "Pizza",
     "Bar",
@@ -244,7 +242,7 @@ function updateMenu(categoryId) {
 
         // Aggiungi l'elemento del menu al container
         containerMenu.appendChild(menuElement);
-        menuElement.querySelector("#disponibilita_" + menuId).textContent = oggetto.availability
+        menuElement.querySelector("#disponibilita_" + menuId).textContent = oggetto.availability //todo rivedere inventario
         menuElement.querySelector("#enableCheckbox_" + menuId).checked = oggetto.inventoryCheck
         // Aggiungi eventi di click ai pulsanti e all'elemento "add-cart"
         const modifyButton = menuElement.querySelector("#modifica-elemento");
@@ -306,7 +304,7 @@ function openModifyPopup(oggetto){
           // Previeni il comportamento di default del link
           event.preventDefault();
           let disponibilita = parseInt(inputDispo.value);
-          payload = {"itemId": oggetto.productId,
+          payload = {"itemId": oggetto.productId, //todo rivedere inventario
                "availability": disponibilita,
                "inventoryCheck": checkbox.checked ? 1 : 0, }
           updateButton.classList.add("opacity-50");

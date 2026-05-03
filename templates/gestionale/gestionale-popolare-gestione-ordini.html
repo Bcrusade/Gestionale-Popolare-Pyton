@@ -360,6 +360,11 @@
           att.value = "background-color:#F2F2F2; ";
           row.setAttributeNode(att);
         }
+        if (order.orderType == "primi") {
+          const att = document.createAttribute("style");
+          att.value = "background-color:#bbe4f2; ";
+          row.setAttributeNode(att);
+        }
         row.id = `order-row-${order.orderId}-${order.orderType}`;
         let buttonId1 = "1button" + order.orderId + "-" + order.orderType;
         let buttonId2 = "2button" + order.orderId + "-" + order.orderType;
@@ -395,6 +400,7 @@
         let orderTypeDisplay = ""
         if (order.orderType == "cucina") { orderTypeDisplay = "Cucina" }
         else if (order.orderType == "pizzeria") { orderTypeDisplay = "Pizzeria" }
+        else if (order.orderType == "primi") { orderTypeDisplay = "Primi" }
         row.innerHTML = `
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500"><div class="text-default-800 ml-1">${formattedTime}</div></td>
         <td class="px-6 py-4 whitespace-nowrap">${orderIdHighLigthed}</td>
