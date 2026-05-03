@@ -200,3 +200,4 @@ config.py
 /assets/css/toastr.min.css
 /assets/js/toastr.min.js
 /serverPrinter/weasyprint.exe
+.DS_Store
