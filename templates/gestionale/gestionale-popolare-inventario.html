@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Mirrored from coderthemes.com/yum/product-grid.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 13:21:22 GMT -->
+
+<head>
+  <meta charset="utf-8" />
+  <title>Parrocchia SS Nabore e Felice - Festa parrocchiale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta content="" name="description" />
+  <meta content="coderthemes" name="author" />
+  <!-- JQuery -->
+  <script src="assets/js/jquery-3.6.4.min.js"></script>
+  <!-- Aggiungi questo tag nel tuo file HTML per includere la libreria di Font Awesome -->
+  <script defer src="assets/js/all.min.js"></script>
+  <!-- Theme favicon -->
+  <link rel="shortcut icon" href="assets/img/favicon.ico" />
+  <!-- Toaster CDN -->
+  <link rel="stylesheet" href="assets/css/toastr.min.css" />
+  <script src="assets/js/toastr.min.js"></script>
+
+  <!--  Head js -->
+  <script type="module" crossorigin src="assets/js/theme-b118ffc1.js"></script>
+  <!-- <script type="module" crossorigin src="assets/js/chiamata-api.js"></script> -->
+  <script type="text/javascript" src="assets/js/inventario.js"></script>
+  <script src="assets/js/print.min.js"></script>
+  <link rel="stylesheet" href="assets/css/print.css" />
+  <link rel="stylesheet" href="assets/css/theme-c9540983.css" />
+  <link rel="stylesheet" href="assets/css/custom.css" />
+</head>
+
+<body>
+  <!-- Preloader -->
+  <!-- <div id="preloader"
+    class="fixed inset-0 z-70 bg-default-50 transition-all visible opacity-100 h-screen w-screen flex items-center justify-center">
+    <div class="animate-spin inline-block w-10 h-10 border-4 border-t-transparent border-primary rounded-full"
+      role="status" aria-label="loading">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div> -->
+
+  <!-- Offer/Help Menu -->
+
+  <!-- Main Navigation Menu -->
+
+  <!-- Mobile Nav (Bottom Navbar) -->
+
+  <!-- Mobile Menu (Sidebar Menu) -->
+
+  <!-- Topbar Search Modal (Small Screen) -->
+  <section class="lg:py-8 py-6">
+    <div class="flex h-40 justify-center text-center" id="preloader-container">
+      <img src="assets/img/logo2025.png" alt="logo" class="flex dark:hidden" />
+      <img src="assets/img/logo2025.png" alt="logo" class="hidden dark:flex" />
+      <button type="button" id="button-apri-inventario"
+        class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 items-center justify-center px-6 py-3 rounded-full shadow-lg text-center text-sm text-white transition-all w-1/4 z-10"
+        onclick="init()">Apri Inventario</button>
+    </div>
+    <div class="container" id="whole-page" style="display: none">
+      <div id="frontpage" class="lg:flex gap-4">
+        <div
+          class="hs-overlay hs-overlay-open:translate-x-0 hidden max-w-xs lg:w-1/4 w-full -translate-x-full fixed top-0 start-0 transform h-full z-60 lg:z-auto bg-white lg:translate-x-0 lg:block lg:static lg:start-auto dark:bg-default-50"
+          id="filter_Offcanvas" tabindex="-1" style="max-width: 200px">
+          <div class="flex justify-between items-center py-3 px-4 border-b border-default-200 lg:hidden">
+            <button
+              class="inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-default-500 hover:text-default-700 text-sm"
+              data-hs-overlay="#filter_Offcanvas" type="button">
+              <span class="sr-only">Close modal</span>
+              <i class="h-5 w-5" data-lucide="x"></i>
+            </button>
+          </div>
+
+          <div class="h-[calc(100vh-128px)] overflow-y-auto lg:h-auto" data-simplebar>
+            <div class="p-6 lg:p-0 divide-y divide-default-200">
+              <div>
+                <button
+                  class="font-medium gap-2 inline-flex items-center justify-between open py-4 text-default-900 text-lg uppercase w-full"
+                  id="hs-basic-collapse" type="button">
+                  Categorie
+                </button>
+                <div class="hs-collapse w-full overflow-hidden transition-[height] duration-300 open"
+                  id="all_categories">
+                  <div id="category-list" class="relative flex flex-col space-y-4 mb-6">
+                    <!-- Categorie Dinamico -->
+                  </div>
+                </div>
+              </div>
+              <!-- end category -->
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:w-3/4 lg:max-w-full">
+          <div class="md:hidden flex flex-wrap md:flex-nowrap items-center justify-between gap-4 mb-10">
+            <div class="flex flex-wrap md:flex-nowrap items-center gap-4">
+              <button
+                class="inline-flex lg:hidden items-center gap-4 text-sm py-2.5 px-4 xl:px-5 rounded-full text-default-950 border border-default-200 transition-all"
+                data-hs-overlay="#filter_Offcanvas" type="button">
+                Categorie <i class="h-4 w-4" data-lucide="settings-2"></i>
+              </button>
+            </div>
+          </div>
+          <!-- end flex -->
+          <!-- Finestra centrale -->
+          <div id="container-menu" class="grid xl:grid-cols-4 sm:grid-cols-2 gap-5 mb-6">
+            <!-- Menu Dinamico -->
+          </div>
+          <div id="overlay"></div>
+          <!-- Contenitore del pop-up -->
+          <div
+            class="bg-white border border-default-100 dark:bg-default-50 p-5 rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] transition-[opacity,margin] z-70 hover:shadow-xl transition-all duration-300"
+            id="popup-container">
+            <span class="font-semibold text-lg text-primary" id="close-button" onclick="closePopup()">X</span>
+          </div>
+          <!-- end grid -->
+          <!-- end flex -->
+        </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <style>
+    /* Aggiungi stili CSS per il pop-up */
+    #popup-container {
+      display: none;
+      flex-direction: column;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      max-height: 90%;
+      min-width: 500px;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Aggiungi stili CSS per il pulsante di chiusura */
+    #close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
+
+    #button-apri-inventario {
+      flex-direction: column;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1000;
+    }
+
+    #overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 10;
+    }
+  </style>
+
+  <script>
+
+
+    function init() {
+      // URL dell'API da cui ottenere i dati JSON
+      const apiUrl = "http://" + self.location.host + "/api/menu";
+      document.getElementById("button-apri-inventario").style.pointerEvents = "none"
+      // Carica i dati JSON dall'API e avvia l'applicazione
+      loadExternalJsonAndInitialize(apiUrl);
+    };
+
+
+  </script>
+
+  <!-- Back to Top & Light/Dark Toggle -->
+  <div class="fixed lg:bottom-5 end-5 bottom-18 flex flex-col items-center bg-primary/25 rounded-full z-10">
+    <button class="h-0 w-8 opacity-0 flex justify-center items-center transition-all duration-500 translate-y-5 z-10"
+      data-toggle="back-to-top">
+      <i class="h-5 w-5 text-primary-500 mt-1" data-lucide="chevron-up"></i>
+    </button>
+    <button class="rounded-full h-10 w-10 bg-primary text-white flex justify-center items-center z-20">
+      <i class="h-5 w-5" data-lucide="sun" id="light-theme"></i>
+      <i class="h-5 w-5" data-lucide="moon" id="dark-theme"></i>
+    </button>
+  </div>
+</body>
+
+<!-- Mirrored from coderthemes.com/yum/product-grid.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 13:21:25 GMT -->
+
+</html>
