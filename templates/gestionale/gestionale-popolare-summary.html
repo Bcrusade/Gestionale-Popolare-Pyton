@@ -45,6 +45,13 @@
             <div class="grid gap-6">
                 <div class="xl:col-span-9">
                     <div class="space-y-6">
+                        <div>
+                      <label class="text-base text-default-950 me-3 select-none"
+                        for="app-mode-checkbox">Modalità produzione:</label>
+                      <input
+                        class="form-checkbox bg-transparent border-default-500 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer"
+                        id="app-mode-checkbox" type="checkbox" onclick="changeMode()" />
+                    </div>
                             <div class="lg:w-1/4 mb-6">
                             <h2 class="text-xl text-default-800 font-semibold mb-4">Sintesi giornata corrente</h2>
 							</div>
@@ -214,6 +221,7 @@
     <script>
 
         document.addEventListener('DOMContentLoaded', function () {
+            appMode()
             fetchAndDisplaySummary();
             // Aggiorna i valori e la tabella ogni 60 secondi
             setInterval(fetchAndDisplaySummary, 60000);
@@ -264,6 +272,24 @@
             }
         });
 
+    async function appMode() {
+    let mode = ""
+    try {
+            response = await fetch(
+            "http://" + self.location.host + "/api/getAppMode"
+                 );
+                 mode = await response.json();
+     } catch (error) {
+            console.error("Errore nella richiesta API:", error);
+     }
+            const viewCheckbox = document.getElementById(
+             "app-mode-checkbox"
+                 );
+             if ( mode["mode"] == "false") {
+             viewCheckbox.checked = false }
+             else if (mode["mode"] == "true") {
+                viewCheckbox.checked = true }
+    }
     // Funzione per caricare i dati dal server e aggiornare la tabella
     async function fetchAndDisplaySummary() {
       try {
@@ -346,6 +372,7 @@
 			       resetAll(); // Ripristina tutto come all'inizio
 				   fetchAndDisplaySummary()
                    showSuccess("Chiusura cassa avvenuta con successo!");
+                   appMode();
                 }
 				else if (data.status == "orderOpen") {
 				    window.alert("Chiudere gli ordini prima di chiudere la cassa.");
@@ -453,6 +480,25 @@
             }
         });
 
+
+    async function changeMode(){
+    let mode = ""
+    const viewCheckbox = document.getElementById(
+          "app-mode-checkbox"
+        );
+    if(viewCheckbox.checked == false) {
+        mode = "test"
+        }
+    else { mode = "prod"}
+
+    try {
+        response = await fetch(
+            "http://" + self.location.host + "/api/changeMode?mode=" + mode
+          );
+      } catch (error) {
+        console.error("Errore nella richiesta API:", error);
+      }
+        }
 
     </script>
     <!-- Back to Top & Light/Dark Toggle -->
