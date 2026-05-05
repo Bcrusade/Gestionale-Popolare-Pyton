@@ -274,8 +274,7 @@ function initializeApp(data) {
     const orderItems = JSON.parse(transformedDataJson);
     // Ottieni il contenitore del pop-up
     const popupContainer = document.getElementById("popup-container");
-    let volounteerPay = 0;
-    if (GuestTypeSelectedInput === "Volounteer") {
+    if (GuestTypeSelectedInput === "Volounteer" || GuestTypeSelectedInput === "Guest") {
         grandTotal = 0; }
 
     // Creare HTML dinamico con i dati mappati

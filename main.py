@@ -234,6 +234,7 @@ if __name__ == '__main__':
     #open connection to test or production database
     databasePath = "./data/myDatabase.db" if (config.testMode is False) else "./data/testDatabase.db"
     connection = sqlite3.connect(databasePath, timeout=7, check_same_thread=False, isolation_level=None)
+    connectionTest = sqlite3.connect(databasePath, timeout=7, check_same_thread=False, isolation_level=None)
     #set threadsafety to serialized mode to share same db connections across threads and void corruption
     sqlite3.threadsafety = 3
     assert sqlite3.threadsafety == 3, "wrong thread safety (when sharing same connection across threads)"
