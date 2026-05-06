@@ -360,6 +360,11 @@
           att.value = "background-color:#F2F2F2; ";
           row.setAttributeNode(att);
         }
+        if (order.orderType == "primi") {
+          const att = document.createAttribute("style");
+          att.value = "background-color:#bbe4f2; ";
+          row.setAttributeNode(att);
+        }
         row.id = `order-row-${order.orderId}-${order.orderType}`;
         let buttonId1 = "1button" + order.orderId + "-" + order.orderType;
         let buttonId2 = "2button" + order.orderId + "-" + order.orderType;
@@ -395,6 +400,7 @@
         let orderTypeDisplay = ""
         if (order.orderType == "cucina") { orderTypeDisplay = "Cucina" }
         else if (order.orderType == "pizzeria") { orderTypeDisplay = "Pizzeria" }
+        else if (order.orderType == "primo") { orderTypeDisplay = "Primi" }
         row.innerHTML = `
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500"><div class="text-default-800 ml-1">${formattedTime}</div></td>
         <td class="px-6 py-4 whitespace-nowrap">${orderIdHighLigthed}</td>
@@ -404,14 +410,14 @@
         <td class="flex items-center justify-start gap-x-6 px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">
           <a href="javascript:void(0)" id="${buttonId1}" class="inline-flex items-center justify-center group gap-2 border border-primary text-primary text-sm font-medium rounded-full py-1.5 px-3 transition-all duration-300 hover:bg-primary hover:text-white">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="pencil" class="lucide lucide-pencil h-4 w-4 text-primary fill-red-500 group-hover:text-white group-hover:fill-white">
-              <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path><path d="m15 5 4 4"></path></svg> 
+              <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"></path><path d="m15 5 4 4"></path></svg>
               Edit
           </a>
           <button id="${buttonId2}" style="float: right;" class="relative flex text-base transition-all text-default-600 hover:text-primary">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="search" class="lucide lucide-search w-6 h-6"><circle cx="11" cy="11" r="8"></circle>
               <path d="m21 21-4.3-4.3"></path></svg>
             </button>
-        </td> 
+        </td>
          `;
 
         // Aggiungere la riga alla tabella
@@ -486,7 +492,7 @@
           <div class="flex items-center mb-1">
             <label class="text-base text-default-950 me-1 font-semibold" for="tavolo">Tavolo:</label>
             <div class="relative z-10 inline-flex justify-between p-1">
-              <input class="border border-default-300 dark:bg-default-50 px-3 py-1.5 rounded-full text-center w-14" type="text" id="tavoloID" name="tavolo" value=${tavolo}><br>
+              <input class="border border-default-300 dark:bg-default-50 px-3 py-1.5 rounded-full text-center w-14" type="number" id="tavoloID" name="tavolo" value=${tavolo}><br>
             </div>
           </div>
     <hr>
