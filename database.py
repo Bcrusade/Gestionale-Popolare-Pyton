@@ -5,7 +5,7 @@ def test_conn():
     pass
 
 def getMenu(conn):
-    sql = ''' SELECT * FROM itemProp'''
+    sql = ''' SELECT * FROM itemProp ORDER BY itemClass DESC'''
     cur = conn.cursor()
     cur.execute(sql)
     return cur.fetchall()

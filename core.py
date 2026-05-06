@@ -1,5 +1,5 @@
 import logging
-
+import json
 from database import *
 from threading import Lock
 from datetime import datetime
@@ -54,7 +54,7 @@ def registerOrderToDatabase(conn, order):
         if (hasPizza):
             insertStatus(conn, orderId, "pizzeria", 0)
         if (hasPrimo):
-            insertStatus(conn, orderId, "primi", 0)
+            insertStatus(conn, orderId, "primo", 0)
         for item in order["items"]:
             item["orderId"] = orderId
             insertItem(conn, item)  # insert each item in items table
@@ -349,7 +349,7 @@ def requestReprint(conn, orderId, orderType):
         printername = config.nomeStampanteCucina
     elif (orderType == "pizzeria"):
         printername = config.nomeStampantePizzeria
-    elif (orderType == "primi"):
+    elif (orderType == "primo"):
         printername = config.nomeStampantePrimi
     printItemList = []
     items = getOrderItemsById(conn, orderId)
@@ -471,3 +471,5 @@ def printReport(conn, selectedDate, printername):
                      e.args[2])
         return 11
     return 0
+
+

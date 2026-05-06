@@ -12,7 +12,9 @@ import logging
 import config
 
 app = Flask(__name__, static_folder="assets")
-
+global prodConnection
+global testConnection
+connection = ""
 
 @app.route("/")
 def gestionale():
@@ -170,6 +172,17 @@ def summaryData():
         pass
     return jsonify(data)
 
+@app.route("/api/getAppMode")
+def appMode():
+    data = {"mode": 'true' if getAppMode() == "prod" else 'false'}
+    return jsonify(data)
+
+@app.route("/api/changeMode")
+def chnageMode():
+    data = {}
+    mode = request.args.get('mode')
+    setAppMode(mode)
+    return jsonify(data)
 
 #archive order and items
 @app.route("/api/close_archive", methods=['POST'])
@@ -178,6 +191,7 @@ def archive():
     if request.method == 'POST':
         dbStatus = archiveDatabaseData(connection)
         if (dbStatus == 0):
+            setAppMode("test") #mette in modalità test l'applicazione
             responseData["status"] = "success"
         elif (dbStatus == 1):
             responseData["status"] = "orderOpen"
@@ -227,19 +241,38 @@ def fillMenu():
             connection.commit()
     f.close()
 
+def setAppMode(value):
+    data = {'mode': value}
+    global connection
+    json_str = json.dumps(data)
+    with open("config.json", "w") as f:
+        f.write(json_str)
+    if (value == "test"):
+        connection = testConnection
+    elif (value == "prod"):
+        connection = prodConnection
+
+def getAppMode():
+    with open("config.json", "r") as f:
+        data = json.load(f)
+    return data["mode"]
 
 if __name__ == '__main__':
     directory = os.path.dirname(os.path.abspath(__file__))
     print(os.getcwd())
     #open connection to test or production database
-    databasePath = "./data/myDatabase.db" if (config.testMode is False) else "./data/testDatabase.db"
-    connection = sqlite3.connect(databasePath, timeout=7, check_same_thread=False, isolation_level=None)
+    prodConnection = sqlite3.connect("./data/myDatabase.db", timeout=7, check_same_thread=False, isolation_level=None)
+    testConnection = sqlite3.connect("./data/testDatabase.db", timeout=7, check_same_thread=False, isolation_level=None)
+    if (getAppMode() == "test"):
+        connection = testConnection
+    elif (getAppMode() == "prod"):
+        connection = prodConnection
     #set threadsafety to serialized mode to share same db connections across threads and void corruption
     sqlite3.threadsafety = 3
     assert sqlite3.threadsafety == 3, "wrong thread safety (when sharing same connection across threads)"
     #Logger configs
     app.logger.setLevel(logging.DEBUG)
-    log_file_path = './data/logs/server.log' if (config.testMode is False) else "./data/logs/test.log"
+    log_file_path = './data/logs/server.log' if (getAppMode() == "prod") else "./data/logs/test.log"
     stdout = logging.StreamHandler(stream=sys.stdout)
     fileHandler = logging.FileHandler(log_file_path)
     stdout.setLevel(logging.INFO)
@@ -251,7 +284,7 @@ if __name__ == '__main__':
     stdout.setFormatter(fmt)
     app.logger.addHandler(stdout)
     app.logger.addHandler(fileHandler)
-    app.logger.info("Server started in %s mode", "PRODUCTION" if (config.testMode is False) else ">>TEST<<")
+    app.logger.info("Server started in %s mode", "PRODUCTION" if (getAppMode() == "prod") else ">>TEST<<")
 
     #prod server
     from waitress import serve
