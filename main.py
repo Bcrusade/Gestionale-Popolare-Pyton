@@ -288,5 +288,5 @@ if __name__ == '__main__':
 
     #prod server
     from waitress import serve
-    serve(app, host="0.0.0.0", port=5000)
+    serve(app, host="0.0.0.0", port=5000, threads=16)
     #app.run(threaded=True, debug=True, host="0.0.0.0")
