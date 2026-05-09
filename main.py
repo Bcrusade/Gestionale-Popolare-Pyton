@@ -110,7 +110,7 @@ def updateInventoryWeb():
     if request.method == 'POST':
         update = request.get_json()
         print(update)
-        dbStatus = updateInventoryItem(connection, update)
+        dbStatus = updateInventoryItem(prodConnection, update)
         if (dbStatus == 0):
             responseData["status"] = "success"
         else:
@@ -207,7 +207,7 @@ def print_report():
     if request.method == 'POST':
         selectedDate = request.get_json()
         printername = config.nomeStampanteCucina
-        printStatus = printReport(connection, selectedDate, printername)
+        printStatus = printReport(prodConnection, selectedDate, printername)
         if printStatus == 0:
             responseData["status"] = "success"
         else:
@@ -249,8 +249,14 @@ def setAppMode(value):
         f.write(json_str)
     if (value == "test"):
         connection = testConnection
+        app.logger.removeHandler(prodFileHandler)
+        app.logger.addHandler(testFileHandler)
+        app.logger.info("App changed to TEST mode")
     elif (value == "prod"):
         connection = prodConnection
+        app.logger.removeHandler(testFileHandler)
+        app.logger.addHandler(prodFileHandler)
+        app.logger.info("App changed to PRODUCTION mode")
 
 def getAppMode():
     with open("config.json", "r") as f:
@@ -272,18 +278,25 @@ if __name__ == '__main__':
     assert sqlite3.threadsafety == 3, "wrong thread safety (when sharing same connection across threads)"
     #Logger configs
     app.logger.setLevel(logging.DEBUG)
-    log_file_path = './data/logs/server.log' if (getAppMode() == "prod") else "./data/logs/test.log"
+    prod_log_file_path = './data/logs/server.log'
+    test_log_file_path = "./data/logs/test.log"
     stdout = logging.StreamHandler(stream=sys.stdout)
-    fileHandler = logging.FileHandler(log_file_path)
+    prodFileHandler = logging.FileHandler(prod_log_file_path)
+    testFileHandler = logging.FileHandler(test_log_file_path)
     stdout.setLevel(logging.INFO)
-    fileHandler.setLevel(logging.DEBUG)
+    prodFileHandler.setLevel(logging.DEBUG)
+    testFileHandler.setLevel(logging.DEBUG)
     fmt = logging.Formatter(
         "%(name)s: %(asctime)s | %(levelname)s | %(filename)s:%(lineno)s >>> %(message)s"
     )
-    fileHandler.setFormatter(fmt)
+    prodFileHandler.setFormatter(fmt)
+    testFileHandler.setFormatter(fmt)
     stdout.setFormatter(fmt)
     app.logger.addHandler(stdout)
-    app.logger.addHandler(fileHandler)
+    if getAppMode() == "prod":
+        app.logger.addHandler(prodFileHandler)
+    elif getAppMode() == "test":
+        app.logger.addHandler(testFileHandler)
     app.logger.info("Server started in %s mode", "PRODUCTION" if (getAppMode() == "prod") else ">>TEST<<")
 
     #prod server
