@@ -163,6 +163,7 @@ data/
 serverPrinter/tmp/
 
 config.py
+config.json
 /assets/js/all.min.js
 /assets/js/flatpickr
 /assets/css/fonts.css
