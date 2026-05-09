@@ -267,7 +267,7 @@ def updateData(conn, data):
         conn.rollback()
         updateDataMutex.release()
         return 11
-    logger.info("Successfully updated data of order %s %s", data["orderId"], data["orderType"])
+    logger.info("Successfully updated data of order %s %s with orderStatus %s and table %s", data["orderId"], data["orderType"], data["orderStatus"], data["tabledId"])
     return 0
 
 
