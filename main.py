@@ -174,7 +174,7 @@ def summaryData():
 
 @app.route("/api/getAppMode")
 def appMode():
-    data = {"mode": 'true' if getAppMode() == "prod" else 'false'}
+    data = {"mode": getAppMode()}
     return jsonify(data)
 
 @app.route("/api/changeMode")
