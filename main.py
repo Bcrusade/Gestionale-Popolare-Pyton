@@ -27,7 +27,7 @@ def menu():
     #f = open("./data/lista_menu.json", "r")
     #data = f.read()
     #f.close()
-    menu = buildMenu(connection)
+    menu = buildMenu(prodConnection)
 #   build from database
     return jsonify(menu)
 
