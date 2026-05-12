@@ -202,3 +202,4 @@ config.json
 /assets/js/toastr.min.js
 /serverPrinter/weasyprint.exe
 .DS_Store
+config.json
