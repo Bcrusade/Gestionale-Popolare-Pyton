@@ -203,3 +203,4 @@ config.json
 /serverPrinter/weasyprint.exe
 .DS_Store
 config.json
+*.db
