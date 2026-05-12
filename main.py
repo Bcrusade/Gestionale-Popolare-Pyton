@@ -132,6 +132,20 @@ def orderDataUpdate():
             responseData["status"] = "error"
     return jsonify(responseData)
 
+#massive clsoe
+@app.route("/api/orderMassiveClose", methods=['POST'])
+def orderMassiveClose():
+    responseData = {'status': ""}
+    if request.method == 'POST':
+        r = request.get_json()
+        print(r)
+        status = massiveClose(connection, r)
+        if status == 0:
+            responseData["status"] = "success"
+        else:
+            responseData["status"] = "error"
+    return jsonify(responseData)
+
 
 @app.route("/api/orderRequestReprint", methods=['POST'])
 def orderRequestReprint():
@@ -152,6 +166,10 @@ def orderRequestReprint():
 @app.route("/ordini")
 def getOrders():
     return render_template('./gestionale/gestionale-popolare-gestione-ordini.html')
+
+@app.route("/chiusura")
+def getMassiveCLose():
+    return render_template('./gestionale/gestionale-popolare-chiusura-massiva.html')
 
 @app.route("/inventario")
 def getInventarioInterface():

@@ -245,10 +245,6 @@
   </style>
 
   <script>
-    // Dichiarazione delle variabili globali
-    let OrderItemList = [];
-    let orderData = [];
-    let loadedOrderIds = [];
 
     let orderStatusMap = {
       0: "Non Stampato",
@@ -357,12 +353,12 @@
         }
         if (order.orderType == "pizzeria") {
           const att = document.createAttribute("style");
-          att.value = "background-color:#F2F2F2; ";
+          att.value = "background-color:#e6f6f7; ";
           row.setAttributeNode(att);
         }
         if (order.orderType == "primo") {
           const att = document.createAttribute("style");
-          att.value = "background-color:#bbe4f2; ";
+          att.value = "background-color:#ede6f7; ";
           row.setAttributeNode(att);
         }
         row.id = `order-row-${order.orderId}-${order.orderType}`;

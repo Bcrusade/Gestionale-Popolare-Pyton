@@ -270,6 +270,23 @@ def updateData(conn, data):
     logger.info("Successfully updated data of order %s %s with orderStatus %s and table %s", data["orderId"], data["orderType"], data["orderStatus"], data["tableId"])
     return 0
 
+def massiveClose(conn, data):
+    updateDataMutex.acquire()
+    try:
+        for order in data: #per ogni ordine nella lista, evadilo
+            update_struct = {"orderStatus": 3, #ordine evaso
+                             "orderId": order["orderId"],
+                             "orderType": order["orderType"]}
+            updateOrderStatus(conn, update_struct)
+        conn.commit()
+        updateDataMutex.release()
+    except (sqlite3.OperationalError, sqlite3.IntegrityError, sqlite3.DatabaseError) as e:
+        logger.error("Could not massive close", exc_info=True)
+        conn.rollback()
+        updateDataMutex.release()
+        return 11
+    logger.info("Successfully massive closed orders")
+    return 0
 
 def retrieveSummaryData(conn):
     totalOrderNumber = getTotalOrderNumber(conn)

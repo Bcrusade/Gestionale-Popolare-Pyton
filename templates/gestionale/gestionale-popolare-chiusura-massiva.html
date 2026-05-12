@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Mirrored from coderthemes.com/yum/admin-order-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 13:21:49 GMT -->
+
+<head>
+  <meta charset="utf-8" />
+  <title>Parrocchia SS Nabore e Felice - Festa parrocchiale</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta content="" name="description" />
+  <meta content="coderthemes" name="author" />
+
+  <!-- Theme favicon -->
+  <link rel="shortcut icon" href="assets/img/favicon.ico" />
+
+
+  <!-- JQuery -->
+  <script src="assets/js/jquery-3.6.4.min.js"></script>
+  <!--  Head js -->
+  <script type="module" crossorigin src="assets/js/admin-order-list-7159724c.js"></script>
+
+  <link rel="stylesheet" href="assets/css/theme-c9540983.css" />
+  <link rel="stylesheet" href="assets/css/custom.css" />
+
+  <!-- Toaster CDN -->
+  <link rel="stylesheet" href="assets/css/toastr.min.css" />
+  <script src="assets/js/toastr.min.js"></script>
+</head>
+
+<body>
+  <!-- Preloader -->
+  <div id="preloader"
+    class="fixed inset-0 z-70 bg-default-50 transition-all visible opacity-100 h-screen w-screen flex items-center justify-center">
+    <div class="animate-spin inline-block w-10 h-10 border-4 border-t-transparent border-primary rounded-full"
+      role="status" aria-label="loading">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+
+  <!-- End Header -->
+
+  <!-- End Header -->
+  <!-- Start Sidebar -->
+  <!-- End Sidebar -->
+  <!-- Start Content -->
+  <div
+    class="bg-white border border-default-100 dark:bg-default-50 p-5 rounded-lg shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] transition-[opacity,margin] z-20 hover:shadow-xl transition-all duration-300"
+    style="display: none; flex-direction: column; max-height: 90%" id="popup-container">
+    <span style="right: 10px" class="font-semibold text-lg text-primary" id="close-button" onclick="closePopup()">X
+      <button>
+        <i data-lucide="x-circle" class="w-5 h-5 text-default-400"></i>
+      </button></span></span>
+  </div>
+  <div class="w-full container">
+    <div class="p-6 page-content">
+      <div class="grid gap-6">
+        <div class="xl:col-span-9">
+          <div class="space-y-6">
+            <div class="grid grid-cols-1">
+              <div class="border rounded-lg border-default-200">
+                <div class="p-6 overflow-hidden">
+                  <div class="flex flex-wrap md:flex-nowrap items-center justify-between gap-4">
+                    <h2 class="text-xl text-default-800 font-semibold">
+                      Chiusura Ordini Massiva
+                    </h2>
+                    <button type="button" id="button-chiudi-ordini"
+                          class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 items-center justify-center px-6 py-3 rounded-full shadow-lg text-center text-sm text-white transition-all w-1/4 z-10"
+                          onclick="massiveClose()">Evadi Ordini Selezionati</button>
+                    <div class="flex items-center">
+                      <span class="text-base text-default-950 me-3">Sort By :</span>
+                      <div class="hs-dropdown relative inline-flex [--placement:bottom-right]">
+                        <div>
+                          <button id="sort" type="button"
+                            class="hs-dropdown-toggle flex items-center gap-2 font-medium text-default-950 text-sm py-2.5 px-4 xl:px-5 rounded-full border border-default-200 transition-all">
+                            OrdineCresc
+                            <i data-lucide="chevron-down" class="h-4 w-4"></i>
+                          </button>
+                        </div>
+
+                        <!-- end dropdown button -->
+
+                        <div
+                          class="hs-dropdown-menu hs-dropdown-open:opacity-100 min-w-[200px] transition-[opacity,margin] mt-4 opacity-0 hidden z-20 bg-white dark:bg-default-50 shadow-[rgba(17,_17,_26,_0.1)_0px_0px_16px] rounded-lg border border-default-100 p-1.5">
+                          <ul class="flex flex-col gap-1">
+                            <li>
+                              <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
+                                href="javascript:SetSortType('OrdineCresc')">OrdineCresc</a>
+                            </li>
+                            <li>
+                              <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
+                                href="javascript:SetSortType('OrdineDecresc')">OrdineDecresc</a>
+                            </li>
+                            <li>
+                              <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
+                                href="javascript:SetSortType('Tavolo')">Tavolo</a>
+                            </li>
+                            <li>
+                              <a class="flex items-center gap-3 font-normal text-default-600 py-2 px-3 transition-all hover:text-default-700 hover:bg-default-400/20 rounded"
+                                href="javascript:SetSortType('Stato')">Stato</a>
+                            </li>
+                          </ul>
+                          <!-- end dropdown items -->
+                        </div>
+                        <!-- end dropdown menu -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="relative overflow-x-auto">
+                  <div class="min-w-full inline-block align-middle">
+                    <div class="overflow-hidden">
+                      <table class="min-w-full divide-y divide-default-200">
+                        <thead class="bg-default-100">
+                          <tr class="text-start">
+                            <th class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
+                              Selezione
+                            </th>
+                            <th class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
+                              Numero Ordine
+                            </th>
+                            <th class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
+                              Tipologia
+                            </th>
+                            <th class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
+                              Tavolo
+                            </th>
+                            <th class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
+                              Stato
+                            </th>
+                          </tr>
+                          <!-- end table-head-row -->
+                        </thead>
+                        <!-- end t-head -->
+                        <tbody id="orders-table-body" class="divide-y divide-default-200">
+                          <!-- Elenco ordini -->
+                          <!-- end table-row -->
+                        </tbody>
+                        <!-- end t-body -->
+                      </table>
+                      <!-- end table -->
+                    </div>
+                    <!-- end overflo-hidden -->
+                  </div>
+                  <!-- end table-responsive -->
+                </div>
+              </div>
+            </div>
+            <!-- end grid -->
+          </div>
+        </div>
+        <!-- end grid-cols -->
+
+        <!-- end grid-cols -->
+      </div>
+      <!-- end grid -->
+    </div>
+  </div>
+  <!-- End Content -->
+
+  <style>
+    /* Aggiungi stili CSS per il pop-up */
+    #popup-container {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
+
+    /* Aggiungi stili CSS per il pulsante di chiusura */
+    #close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
+
+    #close-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      cursor: pointer;
+    }
+
+    /* Dropdown Button */
+    .dropbtn {
+      background-color: #3498db;
+      color: white;
+      padding: 16px;
+      font-size: 16px;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Dropdown button on hover & focus */
+    .dropbtn:hover,
+    .dropbtn:focus {
+      background-color: #2980b9;
+    }
+
+    /* The container <div> - needed to position the dropdown content */
+    .dropdown {
+      position: relative;
+      display: inline-block;
+    }
+
+    /* Dropdown Content (Hidden by Default) */
+    .dropdown-content {
+      display: none;
+      position: absolute;
+      background-color: #f1f1f1;
+      min-width: 160px;
+      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index: 1;
+    }
+
+    /* Links inside the dropdown */
+    .dropdown-content a {
+      color: black;
+      padding: 12px 16px;
+      text-decoration: none;
+      display: block;
+    }
+
+    /* Change color of dropdown links on hover */
+    .dropdown-content a:hover {
+      background-color: #ddd;
+    }
+
+    /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+    .show {
+      display: block;
+    }
+  </style>
+
+  <script>
+    // Dichiarazione delle variabili globali
+    let orderList = [];
+
+    let orderStatusMap = {
+      0: "Non Stampato",
+      1: "In preparazione",
+      2: "Parzialmente evaso",
+      3: "Evaso",
+    };
+
+    toastr.options = {
+      timeOut: "3500",
+    };
+
+    // Assicurati che questo script venga eseguito dopo il caricamento completo dell'HTML
+    document.addEventListener("DOMContentLoaded", function () {
+      fetchAndDisplayOrders();
+    });
+
+    // Formatta il valore come valuta (ad esempio, aggiungi il simbolo €)
+    function formatCurrency(value) {
+      return new Intl.NumberFormat("it-IT", {
+        style: "currency",
+        currency: "EUR",
+      }).format(value);
+    }
+
+    // Funzione per caricare i dati dal server e aggiornare la tabella
+    async function fetchAndDisplayOrders() {
+      try {
+        let response = "";
+         response = await fetch(
+            "http://" + self.location.host + "/api/ordersList"
+          );
+        const newOrderData = await response.json();
+        orderList = newOrderData //allineo la varibaile globale
+        displayOrdersTable(newOrderData);
+      } catch (error) {
+        console.error("Errore nella richiesta API:", error);
+      }
+    }
+
+    // Funzione per visualizzare gli ordini nella tabella
+    function displayOrdersTable(newOrderData) {
+      switch (SortType) {
+        case "OrdineCresc":
+          newOrderData.sort(
+            (a, b) => new Date(a.orderId) - new Date(b.orderId)
+          );
+          break;
+
+        case "OrdineDecresc":
+          newOrderData.sort(
+            (a, b) => new Date(b.orderId) - new Date(a.orderId)
+          );
+          break;
+
+        case "Tavolo":
+          newOrderData.sort(
+            (a, b) => new Date(a.tableId) - new Date(b.tableId)
+          );
+          break;
+
+        case "Stato":
+          newOrderData.sort(
+            (a, b) => new Date(a.orderStatus) - new Date(b.orderStatus)
+          );
+          break;
+      }
+
+      const tableBody = document.getElementById("orders-table-body");
+      tableBody.innerHTML = "";
+
+      newOrderData.forEach((order) => {
+        // Formattare la data e l'ora dell'ordine
+        const formattedDate = order.datetime.substring(0, 10); // Ottieni i primi 10 caratteri come data (YYYY-MM-DD)
+        const formattedTime = order.datetime.substring(11, 19); // Ottieni i successivi 8 caratteri come ora (HH:mm:ss)
+
+        // Creare la riga della tabella
+        const row = document.createElement("tr");
+        let tableId = "";
+        if (order.tableId) {
+          tableId = order.tableId;
+        }
+        if (order.tableId === 0) {
+          tableId = "---";
+        }
+        if (order.orderType == "pizzeria") {
+          const att = document.createAttribute("style");
+          att.value = "background-color:#e6f6f7; ";
+          row.setAttributeNode(att);
+        }
+        if (order.orderType == "primo") {
+          const att = document.createAttribute("style");
+          att.value = "background-color:#ede6f7; ";
+          row.setAttributeNode(att);
+        }
+        row.id = `order-row-${order.orderId}-${order.orderType}`;
+        let checkboxId = "checkbox" + order.orderId + "-" + order.orderType;
+
+
+        // Create variable to hold the correct span based on the order status
+        let orderStatusContent;
+        let orderIdHighLigthed;
+
+        if (order.customerType == "Volounteer") { orderIdHighLigthed = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full font-medium bg-red-500/20 text-red-500">${order.orderId}</span>` }
+        else { orderIdHighLigthed = `<span class="inline-flex items-center gap-1 py-1 px-4 font-medium ">${order.orderId}</span>` }
+
+        switch (order.orderStatus) {
+          //Non Stampato
+          case 0:
+            orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-red-500/20 text-red-500">${orderStatusMap[order.orderStatus]}</span>`;
+            break;
+          //In Preparazione
+          case 1:
+            orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-yellow-500/20 text-yellow-500">${orderStatusMap[order.orderStatus]}</span>`;
+            break;
+          //Parzialmente Evaso
+          case 2:
+            orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-indigo-600/80 text-white">${orderStatusMap[order.orderStatus]}</span>`;
+            break;
+          //Evaso
+          case 3:
+            orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-green-500/20 text-green-500">${orderStatusMap[order.orderStatus]}</span>`;
+            break;
+          default:
+            orderStatusContent = `<span class="inline-flex items-center gap-1 py-1 px-4 rounded-full text-sm font-medium bg-gray-900 text-white">Stato sconosciuto</span>`;
+            break;
+        }
+        let orderTypeDisplay = ""
+        if (order.orderType == "cucina") { orderTypeDisplay = "Cucina" }
+        else if (order.orderType == "pizzeria") { orderTypeDisplay = "Pizzeria" }
+        else if (order.orderType == "primo") { orderTypeDisplay = "Primi" }
+        row.innerHTML = `
+        <td class="px-6 py-4 whitespace-nowrap"><input
+                        class="form-checkbox bg-transparent border-default-500 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer"
+                        id="${checkboxId}" type="checkbox" /></td>
+        <td class="px-6 py-4 whitespace-nowrap">${orderIdHighLigthed}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${orderTypeDisplay}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${tableId}</td>
+        <td class="px-6 py-4 whitespace-nowrap">${orderStatusContent}</td>
+         `;
+        // Aggiungere la riga alla tabella
+        tableBody.appendChild(row);
+      });
+
+    }
+
+    function showDropdownOrderStatus() {
+      document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    function massiveClose() {
+        let data = []
+        console.log(orderList)
+        orderList.forEach((order) => {
+          let orderId = order.orderId
+          let orderType = order.orderType
+          let checkboxId = "checkbox" + orderId + "-" + orderType;
+          console.log(checkboxId)
+          let orderCheckbox = document.getElementById(checkboxId)
+          if (orderCheckbox.checked) {
+            orderToClose = { "orderId": orderId,
+                             "orderType": orderType
+                            }
+            data.push(orderToClose);
+          }
+        }); //foreach
+        closeOrders(data);
+      }
+
+    async function closeOrders(ordersToClose) {
+
+      const response = await fetch("http://" + self.location.host + "/api/orderMassiveClose", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(ordersToClose),
+      })
+      const data = await response.json(); // Estrai i dati JSON dalla risposta
+      if (data.status == "success") {
+        toastr.success(
+          "<b>Ordini chiusi con successo" );
+        //closePopup();
+        //refresh order data
+        fetchAndDisplayOrders();
+      }
+      else {
+        document.getElementById("chiudi-tutto").style.pointerEvents = "all"
+        document.getElementById("chiudi-tutto").classList.remove("opacity-50");
+        toastr.error("Errore nell'invio dati al server. Riprovare");
+      }
+    }
+
+    // Close the dropdown menu if the user clicks outside of it
+    window.onclick = function (event) {
+      if (!event.target.matches(".dropbtn")) {
+        var dropdowns = document.getElementsByClassName("dropdown-content");
+        var i;
+        for (i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains("show")) {
+            openDropdown.classList.remove("show");
+          }
+        }
+      }
+    };
+
+    let SortType = "OrdineCresc";
+
+    function SetSortType(Type) {
+      SortType = Type;
+      const SortButton = document.getElementById("sort");
+      SortButton.innerHTML = `${SortType} <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-down" class="lucide lucide-chevron-down h-4 w-4"><path d="m6 9 6 6 6-6"></path></svg>
+	                      `;
+      fetchAndDisplayOrders();
+    }
+  </script>
+  <!-- Back to Top & Light/Dark Toggle -->
+  <div class="fixed lg:bottom-5 end-5 bottom-18 flex flex-col items-center bg-primary/25 rounded-full z-10">
+    <button class="h-0 w-8 opacity-0 flex justify-center items-center transition-all duration-500 translate-y-5 z-10"
+      data-toggle="back-to-top">
+      <i class="h-5 w-5 text-primary-500 mt-1" data-lucide="chevron-up"></i>
+    </button>
+    <button class="rounded-full h-10 w-10 bg-primary text-white flex justify-center items-center z-20">
+      <i class="h-5 w-5" data-lucide="sun" id="light-theme"></i>
+      <i class="h-5 w-5" data-lucide="moon" id="dark-theme"></i>
+    </button>
+  </div>
+</body>
+
+<!-- Mirrored from coderthemes.com/yum/admin-order-list.html by HTTrack Website Copier/3.x [XR&CO'2014], Fri, 01 Mar 2024 13:21:50 GMT -->
+
+</html>
