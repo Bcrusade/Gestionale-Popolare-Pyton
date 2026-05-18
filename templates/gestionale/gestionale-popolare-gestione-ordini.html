@@ -394,13 +394,23 @@
             break;
         }
         let orderTypeDisplay = ""
-        if (order.orderType == "cucina") { orderTypeDisplay = "Cucina" }
-        else if (order.orderType == "pizzeria") { orderTypeDisplay = "Pizzeria" }
-        else if (order.orderType == "primo") { orderTypeDisplay = "Primi" }
+        let orderTypeBadgeClass = ""
+        if (order.orderType == "cucina") {
+          orderTypeDisplay = "Cucina"
+          orderTypeBadgeClass = "order-type-cucina"
+        }
+        else if (order.orderType == "pizzeria") {
+          orderTypeDisplay = "Pizzeria"
+          orderTypeBadgeClass = "order-type-pizzeria"
+        }
+        else if (order.orderType == "primo") {
+          orderTypeDisplay = "Primi"
+          orderTypeBadgeClass = "order-type-primi"
+        }
         row.innerHTML = `
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500"><div class="text-default-800 ml-1">${formattedTime}</div></td>
         <td class="px-6 py-4 whitespace-nowrap">${orderIdHighLigthed}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${orderTypeDisplay}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500"><span class="order-type-badge ${orderTypeBadgeClass}">${orderTypeDisplay}</span></td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${tableId}</td>
         <td class="px-6 py-4 whitespace-nowrap">${orderStatusContent}</td>
         <td class="flex items-center justify-start gap-x-6 px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">

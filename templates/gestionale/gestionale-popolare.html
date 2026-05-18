@@ -28,7 +28,7 @@
   <link rel="stylesheet" href="assets/css/custom.css" />
 </head>
 
-<body>
+<body class="cashier-page">
   <!-- Preloader -->
   <!-- <div id="preloader"
     class="fixed inset-0 z-70 bg-default-50 transition-all visible opacity-100 h-screen w-screen flex items-center justify-center">
@@ -47,8 +47,8 @@
   <!-- Mobile Menu (Sidebar Menu) -->
 
   <!-- Topbar Search Modal (Small Screen) -->
-  <section class="lg:py-8 py-6">
-    <div class="flex h-40 justify-center text-center" id="preloader-container">
+  <section class="cashier-shell lg:py-8 py-6">
+    <div class="cashier-start flex h-40 justify-center text-center" id="preloader-container">
       <img src="assets/img/logo-2026.png" alt="logo" class="flex dark:hidden" />
       <img src="assets/img/logo-2026.png" alt="logo" class="hidden dark:flex" />
       <button type="button" id="button-new-order"
@@ -89,7 +89,7 @@
           </div>
         </div>
 
-        <div class="lg:w-3/4 lg:max-w-full">
+        <div class="cashier-menu-panel lg:w-3/4 lg:max-w-full">
           <div class="md:hidden flex flex-wrap md:flex-nowrap items-center justify-between gap-4 mb-10">
             <div class="flex flex-wrap md:flex-nowrap items-center gap-4">
               <button
@@ -114,7 +114,7 @@
           <!-- end grid -->
           <!-- end flex -->
         </div>
-        <div id="right-panel" class="mb-5 lg:w-1/4 w-full">
+        <div id="right-panel" class="cashier-summary-panel mb-5 lg:w-1/4 w-full">
           <div
             class="border border-default-200 duration-300 hover:border-primary hover:shadow-xl order-2 overflow-hidden p-4 rounded-lg transition-all xl:order-1">
             <h4 class="text-lg font-semibold text-default-700 mb-5">
@@ -192,10 +192,8 @@
 
     #button-new-order {
       flex-direction: column;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+      position: static;
+      transform: none;
       z-index: 1000;
     }
 

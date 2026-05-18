@@ -1,6 +1,7 @@
 //config messaggi su interfaccia
 toastr.options = {
   timeOut: "1500",
+  positionClass: "toast-top-center",
 };
 //preseleziona la categoria alla prima
 let categoryId = 1
@@ -87,23 +88,26 @@ function initializeApp(data) {
     const objectDiv = document.createElement("div");
     // Impostare l'ID univoco
     objectDiv.id = objectDetails.ID;
-    objectDiv.className = "flex items-center mb-4";
+    objectDiv.className = "cart-summary-item flex items-center mb-4";
 
     // Verifica se objectDetails.note length è maggiore di 0 prima di aggiungere l'elemento <i>
     const noteHtml =
       objectDetails.note && objectDetails.note.trim().length > 0
-        ? `<i class="text-sm text-default-600 font-bold text-primary">- ${objectDetails.note}</i>`
+        ? `<i class="cart-item-note">- ${objectDetails.note}</i>`
         : "";
 
     objectDiv.innerHTML = `
-    <div>
-        <div style="display: flex; align-items: flex-top">
-          <h4 style="margin:0" class="text-sm text-default-600 mb-2 font-bold">${objectDetails.name}</h4>
-          <button style="margin-left: 1em; margin-bottom: auto" class="text-sm font-bold text-default-950">X</button>
-          </div>
-          ${noteHtml}
-          <h4 class="text-sm text-default-400 font-bold">${objectDetails.quantity} x <span class="text-primary font-semibold">€${objectDetails.price}</span></h4>
+    <div class="cart-summary-content">
+        <div class="cart-summary-row">
+          <h4 class="cart-item-name text-sm text-default-600 font-bold">${objectDetails.name}</h4>
+          <button class="cart-remove-btn text-sm font-bold text-default-950" aria-label="Rimuovi ${objectDetails.name}">X</button>
         </div>
+        ${noteHtml}
+        <div class="cart-item-meta">
+          <span class="cart-item-qty">${objectDetails.quantity} x</span>
+          <span class="cart-item-price">€${objectDetails.price}</span>
+        </div>
+      </div>
       `;
 
     // Aggiungere il listener di evento al pulsante "X"
@@ -574,17 +578,17 @@ function initializeApp(data) {
         const menuId = generateUniqueId(oggetto.name, categoryId); // Aggiunto categoryId come secondo parametro
         menuElement.id = menuId;
         menuElement.className =
-          "xl:order-1 order-2 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300";
+          "cashier-product-card xl:order-1 order-2 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300";
 
         menuElement.innerHTML = `
             
         <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
   
           <div class="pt-2">
-            <div id="obj-desc-container" style="flex-flow: column;" class="flex justify-between mb-4">
+            <div id="obj-desc-container" style="flex-flow: column;" class="cashier-product-content flex justify-between mb-4">
               <span class="text-default-800 text-xl font-semibold line-clamp-3 after:absolute after:inset-0">${oggetto.name}</span>
               <i class="text-m text-default-500">${oggetto.desc}</i>
-              <div class="border border-default-200 inline-flex justify-between mt-2 p-1 relative rounded-full z-10 truncate overflow-auto">
+              <div class="cashier-note-input border border-default-200 inline-flex justify-between mt-2 p-1 relative rounded-full z-10 truncate overflow-auto">
               <input id="input_${menuId}" type="text" placeholder="Inserisci modifiche" class="bg-white border-none dark:bg-default-50 h-3 overflow-auto truncate w-full" />
               </div>
             </div>
@@ -599,7 +603,7 @@ function initializeApp(data) {
 
             </div>
   
-            <button id="add-cart" class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500">Aggiungi al carrello</a>
+            <button id="add-cart" class="cashier-add-button relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500">Aggiungi al carrello</button>
           </div>
         </div>
 
@@ -611,7 +615,7 @@ function initializeApp(data) {
             addToCartBtn.classList.add("opacity-50", "cursor-not-allowed");
 
             menuElement.className = `
-    xl:order-1 order-2
+    cashier-product-card cashier-product-card-empty xl:order-1 order-2
     border border-gray-700
     rounded-lg p-4 overflow-hidden
     hover:border-gray-900 hover:shadow-xl
@@ -638,7 +642,7 @@ function initializeApp(data) {
             else if(oggetto.availability < availabilityWarningThreshold && oggetto.inventoryCheck){
             menuElement.style.backgroundColor = "rgba(255, 165, 0, 0.15)";
               menuElement.className = `
-  xl:order-1 order-2
+  cashier-product-card cashier-product-card-low xl:order-1 order-2
   border border-orange-400
   bg-[rgba(255,165,0,0.2)]
   rounded-lg p-4 overflow-hidden
@@ -791,7 +795,7 @@ function initializeApp(data) {
 
     // Create a new div element
     const categoryDiv = document.createElement("div");
-    categoryDiv.className = "flex items-center";
+    categoryDiv.className = "cashier-category-option flex items-center";
 
     // Create an input element
     const inputElement = document.createElement("input");
