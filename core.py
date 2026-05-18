@@ -182,6 +182,7 @@ def printCommandType(conn, orderId, printItemList, printername, orderType, custo
         #---------------- check if the format is correct------
         properties = win32print.GetPrinter(handle, 2)
         devmode = properties['pDevMode']
+        print(devmode.PaperSize)
         win32print.ClosePrinter(handle)
         #-----------------start printing----------------------
         structureOut = shell.ShellExecuteEx(fMask=256 + 64, lpVerb='printto', lpFile=r"{}".format(printfilename),
