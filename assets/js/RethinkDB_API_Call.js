@@ -282,13 +282,13 @@ function initializeApp(data) {
         grandTotal = 0; }
 
     // Creare HTML dinamico con i dati mappati
-    let htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-5 text-center">Ordine Nr. ${orderNumber}</h4>
-    <div style="overflow:auto;">`;
+    let htmlContent = `<h4 class="popup-order-title text-default-700">Ordine Nr. ${orderNumber}</h4>
+    <div class="popup-order-items">`;
     let noteHtml = `
     </div>
-    <div class="mt-5 mx-5">
-      <div id="grandTotal-container" class="flex flex-shrink-0 gap-3 items-center justify-center mb-5 text-xl">
-        <p class="text-default-700 font-bold">Totale: </p>
+    <div class="popup-payment-area mt-5 mx-5">
+      <div id="grandTotal-container" class="popup-grand-total flex flex-shrink-0 gap-3 items-center justify-center mb-5 text-xl">
+        <p class="text-default-700 font-bold">Totale</p>
         <p class="text-default-700 font-medium">${grandTotal} €</p>
       </div>
 
@@ -353,7 +353,7 @@ function initializeApp(data) {
     }
     htmlContent += `
     <div id="button-order-container" class="flex gap-12 justify-around  mx-5">
-    <button id="send-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full opacity-50" disabled>INVIO A CUCINA</a>
+    <button id="send-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full opacity-50" disabled>INVIO A CUCINA</button>
     <button id="print-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full">STAMPA SCONTRINO</button>
     </div>
     `;
