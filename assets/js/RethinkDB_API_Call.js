@@ -278,6 +278,7 @@ function initializeApp(data) {
     const orderItems = JSON.parse(transformedDataJson);
     // Ottieni il contenitore del pop-up
     const popupContainer = document.getElementById("popup-container");
+    let receiptPrinted = false;
     if (GuestTypeSelectedInput === "Volounteer" || GuestTypeSelectedInput === "Guest") {
         grandTotal = 0; }
 
@@ -353,12 +354,28 @@ function initializeApp(data) {
     }
     htmlContent += `
     <div id="button-order-container" class="flex gap-12 justify-around  mx-5">
-    <button id="send-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full opacity-50" disabled>INVIO A CUCINA</button>
+    <button id="send-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full opacity-50" disabled>
+      <span class="send-snake send-snake-top"></span>
+      <span class="send-snake send-snake-right"></span>
+      <span class="send-snake send-snake-bottom"></span>
+      <span class="send-snake send-snake-left"></span>
+      <span class="send-order-label">INVIO A CUCINA</span>
+    </button>
     <button id="print-order" class="bg-primary border border-primary duration-500 font-medium hover:bg-primary-500 inline-flex items-center justify-center px-6 py-3 relative rounded-full shadow-sm text-center text-sm text-white transition-all w-full">STAMPA SCONTRINO</button>
     </div>
     `;
     // Assegna l'HTML al contenitore del pop-up
-    popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" ><button><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x-circle" class="lucide lucide-x-circle w-5 h-5 text-primary text-default-400"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg></button></span>${htmlContent}`;
+    popupContainer.innerHTML = `<button class="font-semibold text-primary text-xl" id="close-button" type="button" aria-label="Annulla ordine"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x-circle" class="lucide lucide-x-circle w-5 h-5 text-primary text-default-400"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg></button>
+    <div id="cancel-order-confirm" class="cancel-order-confirm hidden" role="alert">
+      <div>
+        <p class="cancel-order-title" id="cancel-order-title">Ricominciare questo ordine?</p>
+        <p class="cancel-order-text" id="cancel-order-text">Stai uscendo dal pagamento: il carrello verra svuotato e potrai ricominciare con lo stesso numero ordine.</p>
+      </div>
+      <div class="cancel-order-actions">
+        <button id="cancel-order-back" type="button">Torna al pagamento</button>
+        <button id="cancel-order-confirm-button" type="button">Ricomincia ordine</button>
+      </div>
+    </div>${htmlContent}`;
 
     // Mostra il pop-up
     popupContainer.style.display = "flex";
@@ -420,13 +437,35 @@ function initializeApp(data) {
       // Chiama la funzione per inviare i dati dell'ordine al database
       let cleanedData = cleanOrderData(orderData);
       inviaDatiOrdine(cleanedData);
+      sendOrderButton.classList.remove("send-order-attention");
       sendOrderButton.classList.add("opacity-50");
       sendOrderButton.style.pointerEvents = "none"
       sendOrderButton.disabled = true
     });
     const closePopupButton = popupContainer.querySelector("#close-button");
+    const cancelOrderConfirm = popupContainer.querySelector("#cancel-order-confirm");
+    const cancelOrderTitle = popupContainer.querySelector("#cancel-order-title");
+    const cancelOrderText = popupContainer.querySelector("#cancel-order-text");
+    const cancelOrderBackButton = popupContainer.querySelector("#cancel-order-back");
+    const cancelOrderConfirmButton = popupContainer.querySelector("#cancel-order-confirm-button");
     closePopupButton.addEventListener("click", function () {
-      // Svuotare le variabili dopo l'invio dell'ordine
+      if (receiptPrinted) {
+        cancelOrderTitle.textContent = "Scontrino gia stampato";
+        cancelOrderText.textContent = "Prima di ricominciare, invia l'ordine alla cucina oppure ritira/butta lo scontrino. Evita di stampare due scontrini diversi senza invio in cucina.";
+        cancelOrderConfirmButton.textContent = "Ricomincia comunque";
+      } else {
+        cancelOrderTitle.textContent = "Ricominciare questo ordine?";
+        cancelOrderText.textContent = "Stai uscendo dal pagamento: il carrello verra svuotato e potrai ricominciare con lo stesso numero ordine.";
+        cancelOrderConfirmButton.textContent = "Ricomincia ordine";
+      }
+      cancelOrderConfirm.classList.remove("hidden");
+      closePopupButton.classList.add("is-confirming");
+    });
+    cancelOrderBackButton.addEventListener("click", function () {
+      cancelOrderConfirm.classList.add("hidden");
+      closePopupButton.classList.remove("is-confirming");
+    });
+    cancelOrderConfirmButton.addEventListener("click", function () {
       closePopup();
       clearDataState();
     });
@@ -438,6 +477,8 @@ function initializeApp(data) {
       else {
         sendOrderButton.classList.remove("opacity-50");
         sendOrderButton.disabled = false;
+        receiptPrinted = true;
+        sendOrderButton.classList.add("send-order-attention");
         printOrderData(transformedDataJson, grandTotal, orderNumber);
       }
     });
