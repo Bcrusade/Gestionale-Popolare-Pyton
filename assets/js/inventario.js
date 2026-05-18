@@ -2,6 +2,7 @@
 document.addEventListener("DOMContentLoaded", function () { });
 toastr.options = {
   timeOut: "1500",
+  positionClass: "toast-top-center",
 };
 
 var categorieMenuMap = {};
@@ -107,7 +108,7 @@ function initializeApp(data) {
 
     // Create a new div element
     const categoryDiv = document.createElement("div");
-    categoryDiv.className = "flex items-center";
+    categoryDiv.className = "inventory-category-option flex items-center";
 
     // Create an input element
     const inputElement = document.createElement("input");
@@ -210,11 +211,11 @@ function updateMenu(categoryId) {
         const menuElement = document.createElement("div");
         const menuId = generateUniqueId(oggetto.name, categoryId); // Aggiunto categoryId come secondo parametro
         menuElement.id = menuId;
-        if (oggetto.inventoryCheck == 0){
-         menuElement.style.backgroundColor = "rgba(211,211,211,0.6)"
-         }
         menuElement.className =
-          "xl:order-1 order-2 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300";
+          "inventory-product-card xl:order-1 order-2 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300";
+        if (oggetto.inventoryCheck == 0){
+         menuElement.classList.add("inventory-product-disabled")
+         }
 
         menuElement.innerHTML = `
 
