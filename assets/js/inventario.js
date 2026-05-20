@@ -219,23 +219,23 @@ function updateMenu(categoryId) {
 
         menuElement.innerHTML = `
 
-        <div class="relative rounded-lg overflow-hidden divide-y divide-default-200 group">
+        <div class="inventory-card-body relative rounded-lg overflow-hidden group">
 
-          <div class="pt-2">
-            <div id="obj-desc-container" style="flex-flow: column;" class="flex justify-between mb-4">
-              <span class="text-default-800 text-xl font-semibold line-clamp-3 after:absolute after:inset-0">${oggetto.name}</span>
+          <div class="inventory-card-content pt-2">
+            <div id="obj-desc-container" class="inventory-title-wrap flex justify-between mb-4">
+              <span class="inventory-card-title text-default-800 text-xl font-semibold line-clamp-3 after:absolute after:inset-0">${oggetto.name}</span>
 
             </div>
             <label for="enableCheckbox_${menuId}">Abilita disponibilità</label>
-            <input type="checkbox" disabled id="enableCheckbox_${menuId}" style="width: 20px; height: 20px; border: 2px solid #333; border-radius: 3px; cursor: pointer; position: relative;">
+            <input class="inventory-card-checkbox" type="checkbox" disabled id="enableCheckbox_${menuId}">
 
             <br>
             <label>Disponibilità: <span id="disponibilita_${menuId}">0</span></label>
-            <div class="flex items-end justify-between mb-4">
+            <div class="inventory-card-price-row flex items-end justify-between mb-4">
               <h4 class="font-semibold text-xl text-default-900">€ ${oggetto.price}</h4>
             </div>
 
-            <a id="modifica-elemento" class="relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="cart.html">Modifica</a>
+            <a id="modifica-elemento" class="inventory-edit-button relative z-10 w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="cart.html">Modifica</a>
           </div>
         </div>
 
@@ -273,22 +273,19 @@ function openModifyPopup(oggetto){
     const popupContainer = document.getElementById("popup-container");
     let enableDefault = oggetto.inventoryCheck
     // Creare HTML dinamico con i dati mappati
-    let htmlContent = `<h4 class="text-xl text-default-700 font-bold mb-5 text-center">${oggetto.name}</h4>
-                        <hr>
-                        <label style="display: flex; align-items: center; gap: 10px; font-size: 18px; margin: 5px 0;">
-  Abilita disponibilità
-  <input type="checkbox" id="modificaCheck"
-         style="width: 20px; height: 20px; cursor: pointer;">
-</label>
-
-<label for="modificaDisponibilita" style="display: flex; align-items: center; font-size: 18px; margin: 5px 0 15px;">
-  Disponibilità
-<input type="number" id="modificaDisponibilita"
-       style="width: 140px; padding: 8px 12px; font-size: 18px; border: 1px solid #ccc; border-radius: 6px; margin: 0 10px 0"
-       placeholder="Inserisci numero">
-</label>`
-    htmlContent += `<a id="update-item" class="relative w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="#">Aggiorna</a>`
-    popupContainer.innerHTML = `<span class="font-semibold text-primary text-xl" id="close-button" ><button><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x-circle" class="lucide lucide-x-circle w-5 h-5 text-primary text-default-400"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg></button></span>${htmlContent}`;
+    let htmlContent = `<h4 class="inventory-popup-title text-xl text-default-700 font-bold mb-5 text-center">${oggetto.name}</h4>
+                        <div class="inventory-popup-fields">
+                          <div class="inventory-popup-row">
+                            <label for="modificaCheck">Abilita disponibilità</label>
+                            <input class="inventory-popup-checkbox" type="checkbox" id="modificaCheck">
+                          </div>
+                          <div class="inventory-popup-row">
+                            <label for="modificaDisponibilita">Disponibilità</label>
+                            <input class="inventory-popup-input" type="number" id="modificaDisponibilita" placeholder="Inserisci numero">
+                          </div>
+                        </div>`
+    htmlContent += `<a id="update-item" class="inventory-popup-action relative w-full inline-flex items-center justify-center rounded-full border border-primary bg-primary px-6 py-3 text-center text-sm font-medium text-white shadow-sm transition-all duration-500 hover:bg-primary-500" href="#">Aggiorna</a>`
+    popupContainer.innerHTML = `<button class="font-semibold text-primary text-xl" id="close-button" type="button" aria-label="Chiudi"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="x-circle" class="lucide lucide-x-circle w-5 h-5 text-primary text-default-400"><circle cx="12" cy="12" r="10"></circle><path d="m15 9-6 6"></path><path d="m9 9 6 6"></path></svg></button>${htmlContent}`;
     const checkbox = document.getElementById("modificaCheck")
     checkbox.checked = enableDefault
     const closePopupButton = popupContainer.querySelector("#close-button");
