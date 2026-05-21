@@ -26,7 +26,7 @@
   <script src="assets/js/toastr.min.js"></script>
 </head>
 
-<body>
+<body class="closure-page">
   <!-- Preloader -->
   <div id="preloader"
     class="fixed inset-0 z-70 bg-default-50 transition-all visible opacity-100 h-screen w-screen flex items-center justify-center">
@@ -56,7 +56,7 @@
         <div class="xl:col-span-9">
           <div class="space-y-6">
             <div class="grid grid-cols-1">
-              <div class="border rounded-lg border-default-200">
+              <div class="closure-table-card border rounded-lg border-default-200">
                 <div class="p-6 overflow-hidden">
                   <div class="flex flex-wrap md:flex-nowrap items-center justify-between gap-4">
                     <h2 class="text-xl text-default-800 font-semibold">
@@ -109,7 +109,7 @@
                 <div class="relative overflow-x-auto">
                   <div class="min-w-full inline-block align-middle">
                     <div class="overflow-hidden">
-                      <table class="min-w-full divide-y divide-default-200">
+                      <table class="closure-orders-table min-w-full divide-y divide-default-200">
                         <thead class="bg-default-100">
                           <tr class="text-start">
                             <th class="px-6 py-3 text-start text-sm whitespace-nowrap font-medium text-default-800">
@@ -236,6 +236,7 @@
   <script>
     // Dichiarazione delle variabili globali
     let orderList = [];
+    let lastSelectedCheckbox = null;
 
     let orderStatusMap = {
       0: "Non Stampato",
@@ -321,16 +322,7 @@
         if (order.tableId === 0) {
           tableId = "---";
         }
-        if (order.orderType == "pizzeria") {
-          const att = document.createAttribute("style");
-          att.value = "background-color:#e6f6f7; ";
-          row.setAttributeNode(att);
-        }
-        if (order.orderType == "primo") {
-          const att = document.createAttribute("style");
-          att.value = "background-color:#ede6f7; ";
-          row.setAttributeNode(att);
-        }
+        row.classList.add("closure-order-row", `closure-order-type-${order.orderType}`);
         row.id = `order-row-${order.orderId}-${order.orderType}`;
         let checkboxId = "checkbox" + order.orderId + "-" + order.orderType;
 
@@ -364,22 +356,51 @@
             break;
         }
         let orderTypeDisplay = ""
-        if (order.orderType == "cucina") { orderTypeDisplay = "Cucina" }
-        else if (order.orderType == "pizzeria") { orderTypeDisplay = "Pizzeria" }
-        else if (order.orderType == "primo") { orderTypeDisplay = "Primi" }
+        let orderTypeBadgeClass = ""
+        if (order.orderType == "cucina") {
+          orderTypeDisplay = "Cucina"
+          orderTypeBadgeClass = "order-type-cucina"
+        }
+        else if (order.orderType == "pizzeria") {
+          orderTypeDisplay = "Pizzeria"
+          orderTypeBadgeClass = "order-type-pizzeria"
+        }
+        else if (order.orderType == "primo") {
+          orderTypeDisplay = "Primi"
+          orderTypeBadgeClass = "order-type-primi"
+        }
         row.innerHTML = `
         <td class="px-6 py-4 whitespace-nowrap"><input
-                        class="form-checkbox bg-transparent border-default-500 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer"
+                        class="closure-order-checkbox form-checkbox bg-transparent border-default-500 rounded text-primary focus:ring-transparent checked:bg-primary h-5 w-5 cursor-pointer"
                         id="${checkboxId}" type="checkbox" /></td>
         <td class="px-6 py-4 whitespace-nowrap">${orderIdHighLigthed}</td>
-        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${orderTypeDisplay}</td>
+        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500"><span class="order-type-badge ${orderTypeBadgeClass}">${orderTypeDisplay}</span></td>
         <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-default-500">${tableId}</td>
         <td class="px-6 py-4 whitespace-nowrap">${orderStatusContent}</td>
          `;
         // Aggiungere la riga alla tabella
         tableBody.appendChild(row);
+        const rowCheckbox = row.querySelector(`#${CSS.escape(checkboxId)}`);
+        rowCheckbox.addEventListener("click", function (event) {
+          handleShiftSelection(event, rowCheckbox);
+        });
       });
 
+    }
+
+    function handleShiftSelection(event, checkbox) {
+      const checkboxes = Array.from(document.querySelectorAll(".closure-order-checkbox"));
+      if (event.shiftKey && lastSelectedCheckbox && lastSelectedCheckbox !== checkbox) {
+        const start = checkboxes.indexOf(lastSelectedCheckbox);
+        const end = checkboxes.indexOf(checkbox);
+        if (start !== -1 && end !== -1) {
+          const [from, to] = start < end ? [start, end] : [end, start];
+          checkboxes.slice(from, to + 1).forEach((item) => {
+            item.checked = checkbox.checked;
+          });
+        }
+      }
+      lastSelectedCheckbox = checkbox;
     }
 
     function showDropdownOrderStatus() {
@@ -402,6 +423,10 @@
             data.push(orderToClose);
           }
         }); //foreach
+        if (data.length === 0) {
+          toastr.error("Selezionare almeno un ordine da evadere", "Attenzione", { timeOut: 3500 });
+          return;
+        }
         closeOrders(data);
       }
 
