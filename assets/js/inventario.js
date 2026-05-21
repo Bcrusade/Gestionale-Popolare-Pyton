@@ -215,6 +215,8 @@ function updateMenu(categoryId) {
           "inventory-product-card xl:order-1 order-2 border border-default-200 rounded-lg p-4 overflow-hidden hover:border-primary hover:shadow-xl transition-all duration-300";
         if (oggetto.inventoryCheck == 0){
          menuElement.classList.add("inventory-product-disabled")
+         } else {
+         menuElement.classList.add("inventory-product-enabled")
          }
 
         menuElement.innerHTML = `
@@ -227,7 +229,7 @@ function updateMenu(categoryId) {
 
             </div>
             <label for="enableCheckbox_${menuId}">Abilita disponibilità</label>
-            <input class="inventory-card-checkbox" type="checkbox" disabled id="enableCheckbox_${menuId}">
+            <input class="inventory-card-checkbox form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0" type="checkbox" disabled id="enableCheckbox_${menuId}">
 
             <br>
             <label>Disponibilità: <span id="disponibilita_${menuId}">0</span></label>
@@ -277,7 +279,7 @@ function openModifyPopup(oggetto){
                         <div class="inventory-popup-fields">
                           <div class="inventory-popup-row">
                             <label for="modificaCheck">Abilita disponibilità</label>
-                            <input class="inventory-popup-checkbox" type="checkbox" id="modificaCheck">
+                            <input class="inventory-popup-checkbox form-checkbox rounded-full text-primary border-default-400 bg-transparent w-5 h-5 focus:ring-0 focus:ring-transparent ring-offset-0 cursor-pointer" type="checkbox" id="modificaCheck">
                           </div>
                           <div class="inventory-popup-row">
                             <label for="modificaDisponibilita">Disponibilità</label>
