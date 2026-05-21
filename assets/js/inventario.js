@@ -243,7 +243,7 @@ function updateMenu(categoryId) {
 
         // Aggiungi l'elemento del menu al container
         containerMenu.appendChild(menuElement);
-        menuElement.querySelector("#disponibilita_" + menuId).textContent = oggetto.availability //todo rivedere inventario
+        menuElement.querySelector("#disponibilita_" + menuId).textContent = oggetto.inventoryCheck ? oggetto.availability : "illimitata" //todo rivedere inventario
         menuElement.querySelector("#enableCheckbox_" + menuId).checked = oggetto.inventoryCheck
         // Aggiungi eventi di click ai pulsanti e all'elemento "add-cart"
         const modifyButton = menuElement.querySelector("#modifica-elemento");

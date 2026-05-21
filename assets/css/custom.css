@@ -195,7 +195,7 @@ input[type=number]::-webkit-outer-spin-button {
 .inventory-product-card {
   display: flex;
   flex-direction: column;
-  min-height: 0;
+  min-height: 15rem;
   height: auto;
   border-radius: 0.75rem;
   padding: 0.75rem !important;
@@ -258,21 +258,20 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .inventory-product-disabled {
-  min-height: 18.35rem;
   border-color: #cbd5e1 !important;
-  background: #f1f5f9 !important;
-  opacity: 0.82;
+  background: #f8fafc !important;
+  opacity: 1;
 }
 
 .inventory-product-disabled::before {
-  content: "Non disponibile";
+  content: "Quantità illimitata";
   display: inline-flex;
   width: fit-content;
   margin-bottom: 0.45rem;
   border-radius: 0.35rem;
-  background-color: #e2e8f0;
-  padding: 0.18rem 0.42rem;
-  color: #475569;
+  background-color: #e0f2fe;
+  padding: 0.18rem 0.5rem;
+  color: #0369a1;
   font-size: 0.72rem;
   font-weight: 800;
 }
@@ -291,12 +290,12 @@ input[type=number]::-webkit-outer-spin-button {
 
 .dark .inventory-product-disabled {
   border-color: #334155 !important;
-  background: #111827 !important;
+  background: #050918 !important;
 }
 
 .dark .inventory-product-disabled::before {
-  background-color: #1f2937;
-  color: #cbd5e1;
+  background-color: rgb(14 165 233 / 0.18);
+  color: #bae6fd;
 }
 
 .inventory-page #popup-container {
@@ -363,7 +362,7 @@ input[type=number]::-webkit-outer-spin-button {
   }
 
   .inventory-product-card {
-    min-height: 0;
+    min-height: 14.25rem;
     padding: 0.65rem !important;
   }
 }
