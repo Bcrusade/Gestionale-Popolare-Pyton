@@ -865,7 +865,21 @@ section:has(#whole-page) {
 }
 
 .cashier-product-card .flex.items-end.justify-between {
+  align-items: center !important;
   margin-bottom: 0.7rem !important;
+}
+
+.cashier-product-card .flex.items-end.justify-between > h4 {
+  min-width: 3.75rem;
+  color: rgb(239 68 68 / 1) !important;
+  font-size: 1.08rem !important;
+  font-weight: 800 !important;
+  line-height: 1;
+  letter-spacing: 0;
+}
+
+.dark .cashier-product-card .flex.items-end.justify-between > h4 {
+  color: #f87171 !important;
 }
 
 .cashier-product-card .text-xl {
