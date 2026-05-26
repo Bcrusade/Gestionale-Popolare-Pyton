@@ -5,7 +5,7 @@ def test_conn():
     pass
 
 def getMenu(conn):
-    sql = ''' SELECT * FROM itemProp ORDER BY itemClass DESC'''
+    sql = ''' SELECT itemProp.name, itemProp.itemId, itemProp.itemClass, itemProp.category, itemProp.unitPrice, itemProp.description, min(itemProp.availability, ingredients.quantity), itemProp.inventoryCheck FROM itemProp INNER JOIN ingredients ON itemProp.ingredientsId = ingredients.ingredientsId '''
     cur = conn.cursor()
     cur.execute(sql)
     return cur.fetchall()
@@ -27,6 +27,8 @@ def insertItem(conn, item):
 def reduceInventoryForItem(conn, item):
     sql = '''UPDATE itemProp SET availability = availability - ? WHERE itemId = ? '''
     cur = conn.cursor()
+    cur.execute(sql, (item["quantity"], item["itemId"], ))
+    sql = '''UPDATE ingredients SET quantity = quantity - ? WHERE ingredientsId IN (SELECT ingredientsId FROM itemProp WHERE itemId = ?) '''
     cur.execute(sql, (item["quantity"], item["itemId"], ))
     return 0
 
